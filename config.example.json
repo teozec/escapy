@@ -1,0 +1,10 @@
+{
+    "images": {
+        "rooms": {
+            "study": "study.png"
+        },
+        "objects": {
+            "door": "door.jpg"
+        }
+    }
+}

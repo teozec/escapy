@@ -4,7 +4,8 @@
             "study": "study.png"
         },
         "objects": {
-            "door": "door.jpg"
+            "door:closed": "door-closed.jpg",
+            "door:open": "door-open.jpg"
         }
     }
 }

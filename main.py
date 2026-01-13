@@ -1,60 +1,68 @@
 import json
-from operator import itemgetter
 from pathlib import Path
 import pygame
-from typing import Protocol
+from typing import Literal, Protocol
 
 # ============================================================
 # GAME LOGIC LAYER
 # ============================================================
 class Object(Protocol):
-    id: str
     width: float
     height: float
 
-    def __init__(self, id: str, width: float, height: float):
-        self.id = id
+    def __init__(self, width: float, height: float):
         self.width = width
         self.height = height
 
-    def interact(self) -> str:
+    def interact(self) -> str | None:
         ...
 
 
 class Door(Object):
-    def __init__(self, id: str, width: float, height: float):
-        super().__init__(id, width, height)
+    def __init__(self, width: float, height: float, state: Literal["open", "closed"]):
+        super().__init__(width, height)
+        self.state = state
 
-    def interact(self) -> str:
-        ...
+    def interact(self) -> str | None:
+        if self.state == "closed":
+            self.state = "open"
+            return "opened"
+        return None
 
 
 class Room:
-    def __init__(self, id: str, objects: list[tuple[Object, tuple[float, float]]]):
+    def __init__(self, id: str, objects: dict[str, tuple[Object, tuple[float, float]]]):
         self.id = id
         self.objects = objects
 
-    def interact(self, object_id: str):
-        for (object, _) in self.objects:
-            if object.id == object_id:
-                return object.interact()
-        return None
+    def interact(self, object_id: str) -> str | None:
+        object = self.objects[object_id]
+        return object[0].interact()
 
 
 class Game:
     def __init__(self):
         self.rooms = [Room(
                 "study",
-                [(Door("door", 0.1, 0.12), (0.8, 0.8))],
+                {"door": (Door(0.15, 0.25, "closed"), (0.7, 0.7))},
             )
         ]
         self.current_room = self.rooms[0]
         self.is_finished = False
 
-    def interact(self, object_id: str):
-        if object_id == "door":
+    def interact(self, object_id: str) -> str | None:
+        if object_id not in self.current_room.objects:
+            return None
+        
+        try:
+            object = self.current_room.objects[object_id]
+        except KeyError:
+            return None
+
+        if object_id == "door" and isinstance(object[0], Door) and object[0].state == "open":
             self.is_finished = True
             return "win"
+
         return self.current_room.interact(object_id)
 
 
@@ -65,6 +73,11 @@ class Game:
 WIDTH = 800
 HEIGHT = 600
 FPS = 60
+
+def get_image_key(object_id: str, object: Object):
+    if isinstance(object, Door):
+        return f"{object_id}:{object.state}"
+    return object_id
 
 def main():
     pygame.init()
@@ -110,9 +123,10 @@ def main():
         game_area_height = game_area.get_height()
 
         objects = {
-            object.id: {
+            id: {
+                "object": object,
                 "rect": pygame.Rect(x * game_area_width, y * game_area_height, object.width * game_area_width, object.height * game_area_height)
-            } for object, (x, y) in game.current_room.objects
+            } for id,  (object, (x, y)) in game.current_room.objects.items()
         }
             
 
@@ -134,11 +148,12 @@ def main():
         # Draw objects
         for object_id, object in objects.items():
             rect = object["rect"]
-            image = pygame.transform.scale(object_images[object_id], (rect.width, rect.height)) # TODO: remove transform from game loop if too slow
+            image = pygame.transform.scale(object_images[get_image_key(object_id, object["object"])], (rect.width, rect.height)) # TODO: remove transform from game loop if too slow
             game_area.blit(image, rect)
 
         # Draw message box
         if message:
+            message_area.fill(pygame.Color(0, 0, 0))
             message_area.blit(font.render(message, True, (255, 255, 255)), (message_area.get_width() * 0.05, message_area.get_height() * 0.4))
 
         pygame.display.flip()

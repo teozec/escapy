@@ -5,7 +5,8 @@
         },
         "objects": {
             "door:closed": "door-closed.jpg",
-            "door:open": "door-open.jpg"
+            "door:open": "door-open.jpg",
+            "key": "key.png"
         }
     }
 }

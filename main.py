@@ -17,6 +17,13 @@ class Object(Protocol):
     def interact(self) -> str | None:
         ...
 
+class PickableObject(Object):
+    def __init__(self, width: float, height: float):
+        super().__init__(width, height)
+
+    def interact(self) -> str | None:
+        pass
+
 
 class Door(Object):
     def __init__(self, width: float, height: float, state: Literal["open", "closed"]):
@@ -44,24 +51,36 @@ class Game:
     def __init__(self):
         self.rooms = [Room(
                 "study",
-                {"door": (Door(0.15, 0.25, "closed"), (0.7, 0.7))},
+                {
+                    "door": (Door(0.15, 0.25, "closed"), (0.7, 0.7)),
+                    "key": (PickableObject(0.05, 0.05), (0.2, 0.2)),
+                },
             )
         ]
         self.current_room = self.rooms[0]
         self.is_finished = False
+        self.inventory: dict[str, Object] = {}
 
-    def interact(self, object_id: str) -> str | None:
-        if object_id not in self.current_room.objects:
-            return None
-        
+    def interact(self, object_id: str, in_hand_object_id: str | None = None) -> str | None:
         try:
-            object = self.current_room.objects[object_id]
+            object, _location = self.current_room.objects[object_id]
         except KeyError:
             return None
 
-        if object_id == "door" and isinstance(object[0], Door) and object[0].state == "open":
-            self.is_finished = True
-            return "win"
+        if in_hand_object_id and in_hand_object_id not in self.inventory:
+            return None
+
+        if isinstance(object, PickableObject):
+            self.current_room.objects.pop(object_id)
+            self.inventory[object_id] = object
+            return
+
+        if object_id == "door" and isinstance(object, Door):
+            if object.state == "open":
+                self.is_finished = True
+                return "win"
+            if "key" not in self.inventory:
+                return "locked"
 
         return self.current_room.interact(object_id)
 
@@ -86,9 +105,14 @@ def main():
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, 28)
     
-    split_line = round(HEIGHT * 0.85)
-    game_area = screen.subsurface((0, 0, WIDTH, split_line))
-    message_area = screen.subsurface((0, split_line, WIDTH, HEIGHT - split_line))
+    horizontal_split_line = round(HEIGHT * 0.85)
+    vertical_split_line = round(WIDTH * 0.85)
+    game_area_rect = pygame.Rect(0, 0, vertical_split_line, horizontal_split_line)
+    message_area_rect = pygame.Rect(0, horizontal_split_line, vertical_split_line, HEIGHT - horizontal_split_line)
+    inventory_area_rect = pygame.Rect(vertical_split_line, 0, WIDTH - vertical_split_line, HEIGHT)
+    game_area = screen.subsurface(game_area_rect)
+    message_area = screen.subsurface(message_area_rect)
+    inventory_area = screen.subsurface(inventory_area_rect)
 
     with open("config.json") as f:
         config = json.load(f)
@@ -128,6 +152,15 @@ def main():
                 "rect": pygame.Rect(x * game_area_width, y * game_area_height, object.width * game_area_width, object.height * game_area_height)
             } for id,  (object, (x, y)) in game.current_room.objects.items()
         }
+
+        inventory_object_size = 0.8 * inventory_area_rect.width
+        inventory_object_spacing = 0.05 * inventory_area_rect.width
+        inventory = {
+            id: {
+                "object": object,
+                "rect": pygame.Rect(0.1 * inventory_area_rect.width, i * (inventory_object_size + inventory_object_spacing) + inventory_object_spacing, inventory_object_size, inventory_object_size)
+            } for i, (id, object) in enumerate(game.inventory.items())
+        }
             
 
         message: str | None = None
@@ -136,9 +169,11 @@ def main():
                 running = False
 
             elif event.type == pygame.MOUSEBUTTONDOWN and not game.is_finished:
-                for object_id, object in objects.items():
-                    if object["rect"].collidepoint(event.pos):
-                        message = game.interact(object_id)
+                if game_area_rect.collidepoint(event.pos):
+                    pos = (event.pos[0] - game_area_rect.top, event.pos[1] - game_area_rect.left)
+                    for object_id, object in objects.items():
+                        if object["rect"].collidepoint(pos):
+                            message = game.interact(object_id)
 
 
         # Draw room
@@ -150,6 +185,12 @@ def main():
             rect = object["rect"]
             image = pygame.transform.scale(object_images[get_image_key(object_id, object["object"])], (rect.width, rect.height)) # TODO: remove transform from game loop if too slow
             game_area.blit(image, rect)
+
+        # Draw inventory
+        for object_id, object in inventory.items():
+            rect = object["rect"]
+            image = pygame.transform.scale(object_images[get_image_key(object_id, object["object"])], (rect.width, rect.height)) # TODO: remove transform from game loop if too slow
+            inventory_area.blit(image, rect)
 
         # Draw message box
         if message:

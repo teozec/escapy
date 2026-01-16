@@ -14,24 +14,27 @@ class Object(Protocol):
         self.width = width
         self.height = height
 
-    def interact(self) -> str | None:
+    def interact(self, in_hand_object_id: str | None = None) -> str | None:
         ...
 
 class PickableObject(Object):
     def __init__(self, width: float, height: float):
         super().__init__(width, height)
 
-    def interact(self) -> str | None:
+    def interact(self, in_hand_object_id: str | None = None) -> str | None:
         pass
 
 
 class Door(Object):
-    def __init__(self, width: float, height: float, state: Literal["open", "closed"]):
+    def __init__(self, width: float, height: float, state: Literal["open", "closed"], key_id: str | None = None):
         super().__init__(width, height)
         self.state = state
+        self.key_id = key_id
 
-    def interact(self) -> str | None:
+    def interact(self, in_hand_object_id: str | None = None) -> str | None:
         if self.state == "closed":
+            if self.key_id and in_hand_object_id != self.key_id:
+                return "locked"
             self.state = "open"
             return "opened"
         return None
@@ -42,9 +45,9 @@ class Room:
         self.id = id
         self.objects = objects
 
-    def interact(self, object_id: str) -> str | None:
+    def interact(self, object_id: str, in_hand_object_id: str | None = None) -> str | None:
         object = self.objects[object_id]
-        return object[0].interact()
+        return object[0].interact(in_hand_object_id)
 
 
 class Game:
@@ -52,7 +55,7 @@ class Game:
         self.rooms = [Room(
                 "study",
                 {
-                    "door": (Door(0.15, 0.25, "closed"), (0.7, 0.7)),
+                    "door": (Door(0.15, 0.25, "closed", "key"), (0.7, 0.7)),
                     "key": (PickableObject(0.05, 0.05), (0.2, 0.2)),
                 },
             )
@@ -79,10 +82,8 @@ class Game:
             if object.state == "open":
                 self.is_finished = True
                 return "win"
-            if "key" not in self.inventory:
-                return "locked"
 
-        return self.current_room.interact(object_id)
+        return self.current_room.interact(object_id, in_hand_object_id)
 
 
 
@@ -141,6 +142,7 @@ def main():
     # MAIN LOOP
     # --------------------------------------------------------
     running = True
+    in_hand_object_id: str | None = None
     while running:
         clock.tick(FPS)
         game_area_width = game_area.get_width()
@@ -153,7 +155,7 @@ def main():
             } for id,  (object, (x, y)) in game.current_room.objects.items()
         }
 
-        inventory_object_size = 0.8 * inventory_area_rect.width
+        inventory_object_size = 0.6 * inventory_area_rect.width
         inventory_object_spacing = 0.05 * inventory_area_rect.width
         inventory = {
             id: {
@@ -170,10 +172,20 @@ def main():
 
             elif event.type == pygame.MOUSEBUTTONDOWN and not game.is_finished:
                 if game_area_rect.collidepoint(event.pos):
-                    pos = (event.pos[0] - game_area_rect.top, event.pos[1] - game_area_rect.left)
+                    pos = (event.pos[0] - game_area_rect.left, event.pos[1] - game_area_rect.top)
                     for object_id, object in objects.items():
                         if object["rect"].collidepoint(pos):
-                            message = game.interact(object_id)
+                            message = game.interact(object_id, in_hand_object_id)
+                            break
+
+                elif inventory_area_rect.collidepoint(event.pos):
+                    pos = (event.pos[0] - inventory_area_rect.left, event.pos[1] - inventory_area_rect.top)
+                    for object_id, object in inventory.items():
+                        if object["rect"].collidepoint(pos):
+                            in_hand_object_id = object_id
+                            break
+                    else:
+                        in_hand_object_id = None
 
 
         # Draw room
@@ -191,6 +203,10 @@ def main():
             rect = object["rect"]
             image = pygame.transform.scale(object_images[get_image_key(object_id, object["object"])], (rect.width, rect.height)) # TODO: remove transform from game loop if too slow
             inventory_area.blit(image, rect)
+            if object_id == in_hand_object_id:
+                pygame.draw.rect(inventory_area, pygame.Color(255, 255, 255), rect, 3)
+            else:
+                pygame.draw.rect(inventory_area, pygame.Color(0, 0, 0), rect, 3)
 
         # Draw message box
         if message:

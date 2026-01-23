@@ -1,0 +1,7 @@
+[project]
+name = "escape-room"
+version = "0.0.1"
+dependencies = ["pygame"]
+
+[project.optional-dependencies]
+dev = ["pip-tools", "ruff", "pre-commit"]

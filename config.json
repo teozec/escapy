@@ -1,12 +1,15 @@
 {
     "images": {
         "rooms": {
-            "study": "study.png"
+            "room1": "study.png"
         },
         "objects": {
-            "door:closed": "door-closed.png",
-            "door:open": "door-open.png",
-            "key": "key.png"
+            "a1-knife": "a1-knife.png",
+            "a2-poster:locked": "door-closed.png",
+            "a2-poster:unlocked": "door-open.png",
+            "a2-key": "a2-key.png",
+            "a3-chest:locked": "a3-chest.png",
+            "a3-chest:unlocked": "a3-chest.png"
         }
     }
 }

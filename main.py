@@ -1,103 +1,37 @@
 import json
 from pathlib import Path
 import pygame
-from typing import Literal, Protocol
 
-# ============================================================
-# GAME LOGIC LAYER
-# ============================================================
-class Object(Protocol):
-    width: float
-    height: float
+from game import Game, Object, Lockable
 
-    def __init__(self, width: float, height: float):
-        self.width = width
-        self.height = height
-
-    def interact(self, in_hand_object_id: str | None = None) -> str | None:
-        ...
-
-class PickableObject(Object):
-    def __init__(self, width: float, height: float):
-        super().__init__(width, height)
-
-    def interact(self, in_hand_object_id: str | None = None) -> str | None:
-        pass
-
-
-class Door(Object):
-    def __init__(self, width: float, height: float, state: Literal["open", "closed"], key_id: str | None = None):
-        super().__init__(width, height)
-        self.state = state
-        self.key_id = key_id
-
-    def interact(self, in_hand_object_id: str | None = None) -> str | None:
-        if self.state == "closed":
-            if self.key_id and in_hand_object_id != self.key_id:
-                return "locked"
-            self.state = "open"
-            return "opened"
-        return None
-
-
-class Room:
-    def __init__(self, id: str, objects: dict[str, tuple[Object, tuple[float, float]]]):
-        self.id = id
-        self.objects = objects
-
-    def interact(self, object_id: str, in_hand_object_id: str | None = None) -> str | None:
-        object = self.objects[object_id]
-        return object[0].interact(in_hand_object_id)
-
-
-class Game:
-    def __init__(self):
-        self.rooms = [Room(
-                "study",
-                {
-                    "door": (Door(0.15, 0.25, "closed", "key"), (0.7, 0.7)),
-                    "key": (PickableObject(0.05, 0.05), (0.2, 0.2)),
-                },
-            )
-        ]
-        self.current_room = self.rooms[0]
-        self.is_finished = False
-        self.inventory: dict[str, Object] = {}
-
-    def interact(self, object_id: str, in_hand_object_id: str | None = None) -> str | None:
-        try:
-            object, _location = self.current_room.objects[object_id]
-        except KeyError:
-            return None
-
-        if in_hand_object_id and in_hand_object_id not in self.inventory:
-            return None
-
-        if isinstance(object, PickableObject):
-            self.current_room.objects.pop(object_id)
-            self.inventory[object_id] = object
-            return
-
-        if object_id == "door" and isinstance(object, Door):
-            if object.state == "open":
-                self.is_finished = True
-                return "win"
-
-        return self.current_room.interact(object_id, in_hand_object_id)
-
-
-
-# ============================================================
-# PRESENTATION LAYER
-# ============================================================
 WIDTH = 800
 HEIGHT = 600
 FPS = 60
 
 def get_image_key(object_id: str, object: Object):
-    if isinstance(object, Door):
+    if isinstance(object, Lockable):
         return f"{object_id}:{object.state}"
     return object_id
+
+def get_config(path: Path) -> dict:
+    with open(path) as f:
+        config = json.load(f)
+
+    assets_dir = Path("assets")
+    room_images = {
+        room: pygame.image.load(assets_dir / image).convert()
+        for room, image in config["images"]["rooms"].items()
+    }
+    object_images = {
+        object: pygame.image.load(assets_dir / image).convert_alpha()
+        for object, image in config["images"]["objects"].items()
+    }
+
+    return {
+        "room_images": room_images,
+        "object_images": object_images,
+    }
+
 
 def main():
     pygame.init()
@@ -115,32 +49,12 @@ def main():
     message_area = screen.subsurface(message_area_rect)
     inventory_area = screen.subsurface(inventory_area_rect)
 
-    with open("config.json") as f:
-        config = json.load(f)
+    config = get_config(Path("config.json"))
+    room_images = config["room_images"]
+    object_images = config["object_images"]
 
-    # --------------------------------------------------------
-    # LOAD ASSETS
-    # --------------------------------------------------------
-    assets_dir = Path("assets")
-    room_images = {
-        room: pygame.image.load(assets_dir / image).convert()
-        for room, image in config["images"]["rooms"].items()
-    }
-    object_images = {
-        object: pygame.image.load(assets_dir / image).convert_alpha()
-        for object, image in config["images"]["objects"].items()
-    }
-
-
-    # --------------------------------------------------------
-    # CREATE GAME
-    # --------------------------------------------------------
     game = Game()
 
-
-    # --------------------------------------------------------
-    # MAIN LOOP
-    # --------------------------------------------------------
     running = True
     in_hand_object_id: str | None = None
     while running:
@@ -176,7 +90,6 @@ def main():
                     for object_id, object in objects.items():
                         if object["rect"].collidepoint(pos):
                             message = game.interact(object_id, in_hand_object_id)
-                            break
 
                 elif inventory_area_rect.collidepoint(event.pos):
                     pos = (event.pos[0] - inventory_area_rect.left, event.pos[1] - inventory_area_rect.top)

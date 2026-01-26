@@ -1,6 +1,7 @@
 from game_events import (
     GameEvent,
     InteractedWithLockedEvent,
+    MovedToRoomEvent,
     PickedUpEvent,
     PutInHandEvent,
     PutOffHandEvent,
@@ -87,4 +88,7 @@ class Game:
                     raise ValueError(f"Object {id} is not unlockable")
             case RevealedEvent(id, room_id, position):
                 self.rooms[room_id][id] = position
+                return []
+            case MovedToRoomEvent(room_id):
+                self.current_room_id = room_id
                 return []

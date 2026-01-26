@@ -2,6 +2,7 @@ from interact import (
     InteractFn,
     combine,
     locked,
+    move_to_room,
     pick,
     put_in_hand,
     key_lock,
@@ -40,5 +41,12 @@ class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
         self.interact = combine(key_lock(id, key_id=key_id), locked(id))
         self.state = "locked"
         self.on_unlock = on_unlock
+        self.width = width
+        self.height = height
+
+
+class MoveToRoom(Interactable, Placeable):
+    def __init__(self, room_id: str, width: float, height: float):
+        self.interact = move_to_room(room_id)
         self.width = width
         self.height = height

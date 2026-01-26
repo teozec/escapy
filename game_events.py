@@ -35,6 +35,11 @@ class RevealedEvent:
     position: Position
 
 
+@dataclass
+class MovedToRoomEvent:
+    room_id: str
+
+
 GameEvent = (
     PickedUpEvent
     | PutInHandEvent
@@ -42,4 +47,5 @@ GameEvent = (
     | InteractedWithLockedEvent
     | UnlockedEvent
     | RevealedEvent
+    | MovedToRoomEvent
 )

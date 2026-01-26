@@ -6,7 +6,7 @@ from game_events import GameEvent
 from game import Game
 from game_types import Position
 from interact import no_op, reveal
-from objects import PickableObject, SelfKeyLock
+from objects import MoveToRoom, PickableObject, SelfKeyLock
 from protocols import Interactable, InventoryInteractable, Placeable, Unlockable
 
 WIDTH = 800
@@ -77,6 +77,8 @@ def main():
         "a3-chest": SelfKeyLock(
             id="a3-chest", key_id="a2-key", on_unlock=no_op(), width=0.2, height=0.15
         ),
+        "calendar-1": MoveToRoom("room2", 0.1, 0.1),
+        "calendar-2": MoveToRoom("room1", 0.1, 0.1),
     }
 
     rooms = {
@@ -84,7 +86,11 @@ def main():
             "a1-knife": Position(x=0.2, y=0.2),
             "a2-poster": Position(x=0.7, y=0.7),
             "a3-chest": Position(x=0.4, y=0.4),
-        }
+            "calendar-1": Position(x=0.85, y=0.05),
+        },
+        "room2": {
+            "calendar-2": Position(x=0.85, y=0.05),
+        },
     }
 
     game = Game(objects, rooms, [], "room1")

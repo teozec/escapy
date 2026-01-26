@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Callable
 from game_events import (
     GameEvent,
     InteractedWithLockedEvent,
+    MovedToRoomEvent,
     PickedUpEvent,
     PutInHandEvent,
     RevealedEvent,
@@ -77,3 +78,7 @@ def reveal(object_id: str, room_id: str, position: Position) -> InteractFn:
     return lambda _game: [
         RevealedEvent(object_id=object_id, room_id=room_id, position=position)
     ]
+
+
+def move_to_room(room_id: str) -> InteractFn:
+    return lambda _game: [MovedToRoomEvent(room_id=room_id)]

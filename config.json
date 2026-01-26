@@ -1,7 +1,8 @@
 {
     "images": {
         "rooms": {
-            "room1": "study.png"
+            "room1": "study.png",
+            "room2": "room-2.jpg"
         },
         "objects": {
             "a1-knife": "a1-knife.png",
@@ -9,7 +10,9 @@
             "a2-poster:unlocked": "door-open.png",
             "a2-key": "a2-key.png",
             "a3-chest:locked": "a3-chest.png",
-            "a3-chest:unlocked": "a3-chest.png"
+            "a3-chest:unlocked": "a3-chest.png",
+            "calendar-1": "calendar.png",
+            "calendar-2": "calendar.png"
         }
     }
 }

@@ -1,5 +1,10 @@
 {
-    "images": {
+    "ui": {
+        "width": 800,
+        "height": 600,
+        "fps": 60,
+        "title": "Escape Room",
+        "assets_dir": "assets",
         "rooms": {
             "room1": "study.png",
             "room2": "room-2.jpg"

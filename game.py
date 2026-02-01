@@ -1,4 +1,6 @@
 from game_events import (
+    AskedForCodeEvent,
+    GameEndedEvent,
     GameEvent,
     InteractedWithLockedEvent,
     MovedToRoomEvent,
@@ -7,8 +9,10 @@ from game_events import (
     PutOffHandEvent,
     RevealedEvent,
     UnlockedEvent,
+    WrongCodeEvent,
 )
 from protocols import (
+    Decodable,
     Interactable,
     InventoryInteractable,
     Unlockable,
@@ -34,6 +38,12 @@ class Game:
         self.inventory = inventory
         self.in_hand_object_id: str | None = None
 
+    def quit(self) -> list[GameEvent]:
+        events: list[GameEvent] = [GameEndedEvent()]
+        for event in events:
+            events.extend(self._handle_event(event))
+        return events
+
     def interact(self, object_id: str) -> list[GameEvent]:
         if object_id not in self.rooms[self.current_room_id]:
             return []
@@ -45,7 +55,7 @@ class Game:
         events = object.interact(self)
 
         for event in events:
-            events.extend(self.handle_event(event))
+            events.extend(self._handle_event(event))
 
         return events
 
@@ -62,33 +72,52 @@ class Game:
             events = object.interact_inventory(self)
 
         for event in events:
-            events.extend(self.handle_event(event))
+            events.extend(self._handle_event(event))
 
         return events
 
-    def handle_event(self, event: GameEvent) -> list[GameEvent]:
+    def insert_code(self, object_id: str, code: str) -> list[GameEvent]:
+        object = self.objects[object_id]
+        if not isinstance(object, Decodable):
+            return []
+
+        events = object.insert_code(code)
+
+        for event in events:
+            events.extend(self._handle_event(event))
+
+        return events
+
+    def _handle_event(self, event: GameEvent) -> list[GameEvent]:
         match event:
             case PickedUpEvent(object_id=picked_id):
                 del self.rooms[self.current_room_id][picked_id]
                 self.inventory.append(picked_id)
                 return []
-            case PutInHandEvent(id):
+            case PutInHandEvent(object_id=id):
                 self.in_hand_object_id = id
                 return []
             case PutOffHandEvent():
                 self.in_hand_object_id = None
                 return []
-            case InteractedWithLockedEvent(id):
+            case InteractedWithLockedEvent(object_id=id):
                 return []
-            case UnlockedEvent(id):
+            case UnlockedEvent(object_id=id):
                 obj = self.objects[id]
                 if isinstance(obj, Unlockable):
                     return obj.unlock(self)
                 else:
                     raise ValueError(f"Object {id} is not unlockable")
-            case RevealedEvent(id, room_id, position):
+            case RevealedEvent(object_id=id, room_id=room_id, position=position):
                 self.rooms[room_id][id] = position
                 return []
-            case MovedToRoomEvent(room_id):
+            case MovedToRoomEvent(room_id=room_id):
                 self.current_room_id = room_id
+                return []
+            case AskedForCodeEvent(object_id=id):
+                return []
+            case WrongCodeEvent():
+                return []
+            case GameEndedEvent():
+                self.is_finished = True
                 return []

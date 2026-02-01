@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Callable
 
 from game_events import (
+    AskedForCodeEvent,
     GameEvent,
     InteractedWithLockedEvent,
     MovedToRoomEvent,
@@ -54,6 +55,10 @@ def key_lock(id: str, key_id: str) -> InteractFn:
     return unlock
 
 
+def ask_for_code(id: str) -> InteractFn:
+    return lambda _game: [AskedForCodeEvent(object_id=id)]
+
+
 def locked(id: str) -> InteractFn:
     def interact(game: Game) -> list[GameEvent]:
         obj = game.objects[id]
@@ -72,6 +77,16 @@ def combine(*fns: InteractFn) -> InteractFn:
         return events
 
     return combined
+
+
+def cond(*clauses: tuple[Callable[[], bool], InteractFn]) -> InteractFn:
+    def conditional(game: Game) -> list[GameEvent]:
+        for condition, fn in clauses:
+            if condition():
+                return fn(game)
+        return []
+
+    return conditional
 
 
 def reveal(object_id: str, room_id: str, position: Position) -> InteractFn:

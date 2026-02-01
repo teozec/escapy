@@ -40,6 +40,21 @@ class MovedToRoomEvent:
     room_id: str
 
 
+@dataclass
+class AskedForCodeEvent:
+    object_id: str
+
+
+@dataclass
+class WrongCodeEvent:
+    ...
+
+
+@dataclass
+class GameEndedEvent:
+    ...
+
+
 GameEvent = (
     PickedUpEvent
     | PutInHandEvent
@@ -48,4 +63,7 @@ GameEvent = (
     | UnlockedEvent
     | RevealedEvent
     | MovedToRoomEvent
+    | AskedForCodeEvent
+    | WrongCodeEvent
+    | GameEndedEvent
 )

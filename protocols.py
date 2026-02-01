@@ -5,6 +5,7 @@ from game_events import GameEvent
 if TYPE_CHECKING:
     from game import Game
     from interact import InteractFn
+    from insert_code import InsertCodeFn
 
 
 @runtime_checkable
@@ -32,4 +33,9 @@ class Unlockable(Protocol):
         ...
 
 
-GameProtocol = Interactable | InventoryInteractable | Placeable | Unlockable
+@runtime_checkable
+class Decodable(Protocol):
+    insert_code: "InsertCodeFn"
+
+
+GameProtocol = Interactable | InventoryInteractable | Placeable | Unlockable | Decodable

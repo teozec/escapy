@@ -1,9 +1,8 @@
 from pathlib import Path
 from typing import Protocol
 import pygame
-# import tkinter as tk
 
-from game_events import GameEndedEvent, GameEvent
+from game_events import AskedForCodeEvent, GameEndedEvent, GameEvent
 from game import Game
 from protocols import InventoryInteractable, Placeable, Unlockable
 
@@ -74,6 +73,10 @@ class PyGameUi(GameUi):
             for object, image in config["objects"].items()
         }
         self.is_running = False
+        self._ask_for_code: str | None = None
+        self._code_prompt_active = False
+        self._code_prompt_text = ""
+        self._code_prompt_object_id: str | None = None
 
     def init(self, game: Game):
         self.game = game
@@ -85,9 +88,35 @@ class PyGameUi(GameUi):
 
     def input(self) -> list[GameEvent]:
         events: list[GameEvent] = []
+
+        if self._ask_for_code is not None and not self._code_prompt_active:
+            self._code_prompt_active = True
+            self._code_prompt_text = ""
+            self._code_prompt_object_id = self._ask_for_code
+            self._ask_for_code = None
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 events = self.game.quit()
+
+            elif self._code_prompt_active:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        if self._code_prompt_object_id is not None:
+                            events = self.game.insert_code(
+                                self._code_prompt_object_id, self._code_prompt_text
+                            )
+                        self._code_prompt_active = False
+                        self._code_prompt_text = ""
+                        self._code_prompt_object_id = None
+                    elif event.key == pygame.K_ESCAPE:
+                        self._code_prompt_active = False
+                        self._code_prompt_text = ""
+                        self._code_prompt_object_id = None
+                    elif event.key == pygame.K_BACKSPACE:
+                        self._code_prompt_text = self._code_prompt_text[:-1]
+                    elif event.unicode and event.unicode.isprintable():
+                        self._code_prompt_text += event.unicode
 
             elif event.type == pygame.MOUSEBUTTONDOWN and not self.game.is_finished:
                 if self.game_area_rect.collidepoint(event.pos):
@@ -153,6 +182,40 @@ class PyGameUi(GameUi):
         # (self.message_area.get_width() * 0.05, self.message_area.get_height() * 0.4),
         # )
 
+        if self._code_prompt_active:
+            overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 180))
+            self.screen.blit(overlay, (0, 0))
+
+            prompt_text = "Inserisci codice:"
+            label = self.font.render(prompt_text, True, (255, 255, 255))
+
+            box_width = int(self.screen.get_width() * 0.6)
+            box_height = 40
+            box_x = (self.screen.get_width() - box_width) // 2
+            box_y = (self.screen.get_height() - box_height) // 2
+
+            label_x = (self.screen.get_width() - label.get_width()) // 2
+            label_y = box_y - 40
+            self.screen.blit(label, (label_x, label_y))
+
+            pygame.draw.rect(
+                self.screen,
+                pygame.Color(255, 255, 255),
+                (box_x, box_y, box_width, box_height),
+            )
+            pygame.draw.rect(
+                self.screen,
+                pygame.Color(0, 0, 0),
+                (box_x, box_y, box_width, box_height),
+                2,
+            )
+
+            text_surface = self.font.render(self._code_prompt_text, True, (0, 0, 0))
+            text_x = box_x + 10
+            text_y = box_y + (box_height - text_surface.get_height()) // 2
+            self.screen.blit(text_surface, (text_x, text_y))
+
         pygame.display.flip()
 
     def handle(self, events: list[GameEvent]) -> None:
@@ -160,6 +223,8 @@ class PyGameUi(GameUi):
             match event:
                 case GameEndedEvent():
                     self.is_running = False
+                case AskedForCodeEvent(object_id=object_id):
+                    self._ask_for_code = object_id
                 case _:
                     pass
 

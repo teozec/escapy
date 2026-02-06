@@ -58,8 +58,12 @@ class PyGameUi(GameUi):
         self.inventory_area = self.screen.subsurface(self.inventory_area_rect)
         self.game_area_width = self.game_area.get_width()
         self.game_area_height = self.game_area.get_height()
-        self.inventory_object_size = 0.6 * self.inventory_area_rect.width
+        self.inventory_columns = 2
         self.inventory_object_spacing = 0.05 * self.inventory_area_rect.width
+        available_width = self.inventory_area_rect.width - (
+            self.inventory_object_spacing * (self.inventory_columns + 1)
+        )
+        self.inventory_object_size = available_width / self.inventory_columns
 
         self.fps = config["fps"]
 
@@ -274,10 +278,18 @@ class PyGameUi(GameUi):
             object = self.game.objects[id]
             if not isinstance(object, InventoryInteractable):
                 raise ValueError("object is not inventory interactable")
+            col = i % self.inventory_columns
+            row = i // self.inventory_columns
+            x = self.inventory_object_spacing + col * (
+                self.inventory_object_size + self.inventory_object_spacing
+            )
+            y = (
+                row * (self.inventory_object_size + self.inventory_object_spacing)
+                + self.inventory_object_spacing
+            )
             self.inventory[id] = pygame.Rect(
-                0.1 * self.inventory_area_rect.width,
-                i * (self.inventory_object_size + self.inventory_object_spacing)
-                + self.inventory_object_spacing,
+                x,
+                y,
                 self.inventory_object_size,
                 self.inventory_object_size,
             )

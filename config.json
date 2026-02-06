@@ -17,7 +17,22 @@
             "a3-chest:locked": "a3-chest.png",
             "a3-chest:unlocked": "a3-chest.png",
             "calendar-1": "calendar.png",
-            "calendar-2": "calendar.png"
+            "calendar-2a": "calendar.png",
+            "calendar-2b": "calendar.png",
+            "calendar-3a": "calendar.png",
+            "calendar-3b": "calendar.png",
+            "calendar-4": "calendar.png",
+            "machine:locked": "door-closed.png",
+            "machine:unlocked": "door-open.png"
         }
+    },
+    "messages": {
+        "PickedUpEvent": "Raccolto",
+        "PickedUpEvent(object_id='a1-knife')": "Hai raccolto un coltello",
+        "PickedUpEvent(object_id='a2-key')": "Hai raccolto una chiave",
+        "InteractedWithLockedEvent": "Bloccato",
+        "UnlockedEvent": "Sbloccato!",
+        "WrongCodeEvent": "Codice errato",
+        "AskedForCodeEvent": "Inserisci codice:"
     }
 }

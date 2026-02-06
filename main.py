@@ -5,26 +5,37 @@ from pathlib import Path
 from game import Game
 from game_types import Position
 from interact import no_op, reveal
-from objects import MoveToRoom, PickableObject, SelfKeyLock
+from messages import dict_message_provider
+from objects import (
+    InspectableObject,
+    MoveToRoom,
+    PickableObject,
+    SelfAskCodeLock,
+    SelfKeyLock,
+    SelfSimpleLock,
+    WinMachine,
+)
 from ui import PyGameUi
 
 
 @dataclass
 class Config:
     ui: dict
+    messages: dict
 
 
 def get_config(path: Path) -> Config:
     with open(path) as f:
         config = json.load(f)
 
-    return Config(ui=config["ui"])
+    return Config(ui=config["ui"], messages=config["messages"])
 
 
 def main():
     config = get_config(Path("config.json"))
 
-    ui = PyGameUi(config.ui)
+    message_provider = dict_message_provider(config.messages)
+    ui = PyGameUi(config.ui, message_provider)
     game = Game(
         objects={
             "a1-knife": PickableObject("a1-knife", 0.05, 0.05),

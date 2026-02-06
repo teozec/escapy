@@ -3,8 +3,14 @@ from pathlib import Path
 from typing import Protocol
 import pygame
 
-from game_events import AskedForCodeEvent, GameEndedEvent, GameEvent, InspectedEvent
+from game_events import (
+    AskedForCodeEvent,
+    GameEndedEvent,
+    GameEvent,
+    InspectedEvent,
+)
 from game import Game
+from messages import MessageProvider
 from protocols import InventoryInteractable, Placeable, Unlockable
 
 
@@ -20,6 +26,7 @@ class _InsertCodeState:
     """State for inserting a code."""
 
     object_id: str
+    prompt: str | None
     text: str = ""
 
 
@@ -36,29 +43,23 @@ type _UIState = _NormalState | _InsertCodeState | _InspectState
 
 
 class GameUi(Protocol):
-    def init(self, game: Game) -> None:
-        ...
+    def init(self, game: Game) -> None: ...
 
-    def tick(self) -> None:
-        ...
+    def tick(self) -> None: ...
 
-    def input(self) -> list[GameEvent]:
-        ...
+    def input(self) -> list[GameEvent]: ...
 
-    def handle(self, events: list[GameEvent]) -> None:
-        ...
+    def handle(self, events: list[GameEvent]) -> None: ...
 
-    def render(self) -> None:
-        ...
+    def render(self) -> None: ...
 
-    def quit(self) -> None:
-        ...
+    def quit(self) -> None: ...
 
     is_running: bool
 
 
 class PyGameUi(GameUi):
-    def __init__(self, config: dict) -> None:
+    def __init__(self, config: dict, message_provider: MessageProvider) -> None:
         pygame.init()
         pygame.display.set_caption(config["title"])
 
@@ -96,6 +97,8 @@ class PyGameUi(GameUi):
 
         self.is_running = False
         self._state: _UIState = _NormalState()
+        self.messages: list[str] = []
+        self._get_event_message = message_provider
 
     def _calculate_layout(self) -> None:
         """Calculate all layout dimensions based on current screen size and fractions."""
@@ -248,7 +251,7 @@ class PyGameUi(GameUi):
                 pygame.draw.rect(self.inventory_area, pygame.Color(0, 0, 0), rect, 3)
 
         # Draw message box
-        self.message_area.fill(pygame.Color(0, 0, 0))
+        self._render_messages()
 
         # Render state-specific overlays
         if isinstance(self._state, _InsertCodeState):
@@ -257,6 +260,29 @@ class PyGameUi(GameUi):
             self._render_inspect_overlay()
 
         pygame.display.flip()
+
+    def _render_messages(self) -> None:
+        """Render the last messages in the message area."""
+        self.message_area.fill(pygame.Color(0, 0, 0))
+
+        if not self.messages:
+            return
+
+        # Calculate how many messages can fit
+        line_height = self.font.get_height()
+        padding = 5
+        available_height = self.message_area.get_height() - (padding * 2)
+        max_lines = max(1, available_height // line_height)
+
+        # Get the last N messages that fit
+        messages_to_display = self.messages[-max_lines:]
+
+        # Render each message
+        y_offset = padding
+        for message in messages_to_display:
+            text_surface = self.font.render(message, True, pygame.Color(255, 255, 255))
+            self.message_area.blit(text_surface, (padding, y_offset))
+            y_offset += line_height
 
     def _render_insert_code_overlay(self) -> None:
         """Render the code insertion overlay."""
@@ -267,8 +293,7 @@ class PyGameUi(GameUi):
         overlay.fill((0, 0, 0, 180))
         self.screen.blit(overlay, (0, 0))
 
-        prompt_text = "Inserisci codice:"
-        label = self.font.render(prompt_text, True, (255, 255, 255))
+        label = self.font.render(self._state.prompt, True, (255, 255, 255))
 
         box_width = int(self.screen.get_size()[0] * 0.6)
         box_height = 40
@@ -308,11 +333,18 @@ class PyGameUi(GameUi):
 
     def handle(self, events: list[GameEvent]) -> None:
         for event in events:
+            # Get configured message for this event
+            message = self._get_event_message(event)
+            if message:
+                self.add_message(message)
+
+            # Handle state changes
             match event:
                 case GameEndedEvent():
                     self.is_running = False
                 case AskedForCodeEvent(object_id=object_id):
-                    self._state = _InsertCodeState(object_id=object_id)
+                    prompt = message
+                    self._state = _InsertCodeState(object_id=object_id, prompt=prompt)
                 case InspectedEvent(object_id=id):
                     self._show_inspect(id)
                 case _:
@@ -320,6 +352,10 @@ class PyGameUi(GameUi):
 
     def quit(self) -> None:
         pygame.quit()
+
+    def add_message(self, message: str) -> None:
+        """Add a message to the message list."""
+        self.messages.append(message)
 
     def _get_repr(self, object_id: str) -> str:
         object = self.game.objects[object_id]

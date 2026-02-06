@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Protocol
 import pygame
@@ -5,6 +6,33 @@ import pygame
 from game_events import AskedForCodeEvent, GameEndedEvent, GameEvent, InspectedEvent
 from game import Game
 from protocols import InventoryInteractable, Placeable, Unlockable
+
+
+@dataclass
+class _NormalState:
+    """Normal gameplay state."""
+
+    pass
+
+
+@dataclass
+class _InsertCodeState:
+    """State for inserting a code."""
+
+    object_id: str
+    text: str = ""
+
+
+@dataclass
+class _InspectState:
+    """State for inspecting an object."""
+
+    object_id: str
+    surface: pygame.Surface
+    rect: pygame.Rect
+
+
+type _UIState = _NormalState | _InsertCodeState | _InspectState
 
 
 class GameUi(Protocol):
@@ -77,14 +105,8 @@ class PyGameUi(GameUi):
             for object, image in config["objects"].items()
         }
         self.is_running = False
-        self._ask_for_code: str | None = None
-        self._code_prompt_active = False
-        self._code_prompt_text = ""
-        self._code_prompt_object_id: str | None = None
-        self._inspect_active = False
-        self._inspect_object_id: str | None = None
-        self._inspect_surface: pygame.Surface | None = None
-        self._inspect_rect: pygame.Rect | None = None
+
+        self._state: _UIState = _NormalState()
 
     def init(self, game: Game):
         self.game = game
@@ -97,65 +119,72 @@ class PyGameUi(GameUi):
     def input(self) -> list[GameEvent]:
         events: list[GameEvent] = []
 
-        if self._ask_for_code is not None and not self._code_prompt_active:
-            self._code_prompt_active = True
-            self._code_prompt_text = ""
-            self._code_prompt_object_id = self._ask_for_code
-            self._ask_for_code = None
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 events = self.game.quit()
-
-            elif self._inspect_active:
-                if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-                    self._inspect_active = False
-                    self._inspect_object_id = None
-                    self._inspect_surface = None
-                    self._inspect_rect = None
-
-            elif self._code_prompt_active:
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        if self._code_prompt_object_id is not None:
-                            events = self.game.insert_code(
-                                self._code_prompt_object_id, self._code_prompt_text
-                            )
-                        self._code_prompt_active = False
-                        self._code_prompt_text = ""
-                        self._code_prompt_object_id = None
-                    elif event.key == pygame.K_ESCAPE:
-                        self._code_prompt_active = False
-                        self._code_prompt_text = ""
-                        self._code_prompt_object_id = None
-                    elif event.key == pygame.K_BACKSPACE:
-                        self._code_prompt_text = self._code_prompt_text[:-1]
-                    elif event.unicode and event.unicode.isprintable():
-                        self._code_prompt_text += event.unicode
-
-            elif event.type == pygame.MOUSEBUTTONDOWN and not self.game.is_finished:
-                if self.game_area_rect.collidepoint(event.pos):
-                    pos = (
-                        event.pos[0] - self.game_area_rect.left,
-                        event.pos[1] - self.game_area_rect.top,
-                    )
-                    for object_id, object in self.objects.items():
-                        if object.collidepoint(pos):
-                            events = self.game.interact(object_id)
-
-                elif self.inventory_area_rect.collidepoint(event.pos):
-                    pos = (
-                        event.pos[0] - self.inventory_area_rect.left,
-                        event.pos[1] - self.inventory_area_rect.top,
-                    )
-                    for object_id, object in self.inventory.items():
-                        if object.collidepoint(pos):
-                            events = self.game.interact_inventory(object_id)
-                            break
-                    else:
-                        events = self.game.interact_inventory(None)
+            elif isinstance(self._state, _InspectState):
+                events.extend(self._handle_inspect_input(event))
+            elif isinstance(self._state, _InsertCodeState):
+                events.extend(self._handle_insert_code_input(event))
+            else:  # NormalState
+                events.extend(self._handle_normal_input(event))
 
         return events
+
+    def _handle_normal_input(self, event: pygame.event.Event) -> list[GameEvent]:
+        """Handle input when in NORMAL state."""
+        events: list[GameEvent] = []
+
+        if event.type == pygame.MOUSEBUTTONDOWN and not self.game.is_finished:
+            if self.game_area_rect.collidepoint(event.pos):
+                pos = (
+                    event.pos[0] - self.game_area_rect.left,
+                    event.pos[1] - self.game_area_rect.top,
+                )
+                for object_id, object in self.objects.items():
+                    if object.collidepoint(pos):
+                        events = self.game.interact(object_id)
+
+            elif self.inventory_area_rect.collidepoint(event.pos):
+                pos = (
+                    event.pos[0] - self.inventory_area_rect.left,
+                    event.pos[1] - self.inventory_area_rect.top,
+                )
+                for object_id, object in self.inventory.items():
+                    if object.collidepoint(pos):
+                        events = self.game.interact_inventory(object_id)
+                        break
+                else:
+                    events = self.game.interact_inventory(None)
+
+        return events
+
+    def _handle_insert_code_input(self, event: pygame.event.Event) -> list[GameEvent]:
+        """Handle input when in INSERT_CODE state."""
+        if not isinstance(self._state, _InsertCodeState):
+            return []
+
+        events: list[GameEvent] = []
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                events = self.game.insert_code(self._state.object_id, self._state.text)
+                self._state = _NormalState()
+            elif event.key == pygame.K_ESCAPE:
+                self._state = _NormalState()
+            elif event.key == pygame.K_BACKSPACE:
+                self._state.text = self._state.text[:-1]
+            elif event.unicode and event.unicode.isprintable():
+                self._state.text += event.unicode
+
+        return events
+
+    def _handle_inspect_input(self, event: pygame.event.Event) -> list[GameEvent]:
+        """Handle input when in INSPECT state."""
+        if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
+            self._state = _NormalState()
+
+        return []
 
     def render(self):
         self._update_objects()
@@ -190,54 +219,63 @@ class PyGameUi(GameUi):
                 pygame.draw.rect(self.inventory_area, pygame.Color(0, 0, 0), rect, 3)
 
         # Draw message box
-        # if events:
         self.message_area.fill(pygame.Color(0, 0, 0))
-        # self.message_area.blit(
-        # self.font.render(str(events), True, (255, 255, 255)),
-        # (self.message_area.get_width() * 0.05, self.message_area.get_height() * 0.4),
-        # )
 
-        if self._code_prompt_active:
-            overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
-            overlay.fill((0, 0, 0, 180))
-            self.screen.blit(overlay, (0, 0))
-
-            prompt_text = "Inserisci codice:"
-            label = self.font.render(prompt_text, True, (255, 255, 255))
-
-            box_width = int(self.screen.get_width() * 0.6)
-            box_height = 40
-            box_x = (self.screen.get_width() - box_width) // 2
-            box_y = (self.screen.get_height() - box_height) // 2
-
-            label_x = (self.screen.get_width() - label.get_width()) // 2
-            label_y = box_y - 40
-            self.screen.blit(label, (label_x, label_y))
-
-            pygame.draw.rect(
-                self.screen,
-                pygame.Color(255, 255, 255),
-                (box_x, box_y, box_width, box_height),
-            )
-            pygame.draw.rect(
-                self.screen,
-                pygame.Color(0, 0, 0),
-                (box_x, box_y, box_width, box_height),
-                2,
-            )
-
-            text_surface = self.font.render(self._code_prompt_text, True, (0, 0, 0))
-            text_x = box_x + 10
-            text_y = box_y + (box_height - text_surface.get_height()) // 2
-            self.screen.blit(text_surface, (text_x, text_y))
-
-        if self._inspect_active and self._inspect_surface and self._inspect_rect:
-            overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
-            overlay.fill((0, 0, 0, 180))
-            self.screen.blit(overlay, (0, 0))
-            self.screen.blit(self._inspect_surface, self._inspect_rect)
+        # Render state-specific overlays
+        if isinstance(self._state, _InsertCodeState):
+            self._render_insert_code_overlay()
+        elif isinstance(self._state, _InspectState):
+            self._render_inspect_overlay()
 
         pygame.display.flip()
+
+    def _render_insert_code_overlay(self) -> None:
+        """Render the code insertion overlay."""
+        if not isinstance(self._state, _InsertCodeState):
+            return
+
+        overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        self.screen.blit(overlay, (0, 0))
+
+        prompt_text = "Inserisci codice:"
+        label = self.font.render(prompt_text, True, (255, 255, 255))
+
+        box_width = int(self.screen.get_size()[0] * 0.6)
+        box_height = 40
+        box_x = (self.screen.get_size()[0] - box_width) // 2
+        box_y = (self.screen.get_size()[1] - box_height) // 2
+
+        label_x = (self.screen.get_size()[0] - label.get_width()) // 2
+        label_y = box_y - 40
+        self.screen.blit(label, (label_x, label_y))
+
+        pygame.draw.rect(
+            self.screen,
+            pygame.Color(255, 255, 255),
+            (box_x, box_y, box_width, box_height),
+        )
+        pygame.draw.rect(
+            self.screen,
+            pygame.Color(0, 0, 0),
+            (box_x, box_y, box_width, box_height),
+            2,
+        )
+
+        text_surface = self.font.render(self._state.text, True, (0, 0, 0))
+        text_x = box_x + 10
+        text_y = box_y + (box_height - text_surface.get_height()) // 2
+        self.screen.blit(text_surface, (text_x, text_y))
+
+    def _render_inspect_overlay(self) -> None:
+        """Render the inspect overlay."""
+        if not isinstance(self._state, _InspectState):
+            return
+
+        overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
+        self.screen.blit(overlay, (0, 0))
+        self.screen.blit(self._state.surface, self._state.rect)
 
     def handle(self, events: list[GameEvent]) -> None:
         for event in events:
@@ -245,7 +283,7 @@ class PyGameUi(GameUi):
                 case GameEndedEvent():
                     self.is_running = False
                 case AskedForCodeEvent(object_id=object_id):
-                    self._ask_for_code = object_id
+                    self._state = _InsertCodeState(object_id=object_id)
                 case InspectedEvent(object_id=id):
                     self._show_inspect(id)
                 case _:
@@ -308,7 +346,4 @@ class PyGameUi(GameUi):
         surface = pygame.transform.smoothscale(image, (target_w, target_h))
         rect = surface.get_rect(center=(screen_w // 2, screen_h // 2))
 
-        self._inspect_active = True
-        self._inspect_object_id = object_id
-        self._inspect_surface = surface
-        self._inspect_rect = rect
+        self._state = _InspectState(object_id=object_id, surface=surface, rect=rect)

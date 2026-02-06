@@ -4,6 +4,7 @@ from interact import (
     ask_for_code,
     combine,
     cond,
+    inspect,
     locked,
     move_to_room,
     pick,
@@ -69,5 +70,24 @@ class SelfAskCodeLock(UnlockableMixin, Interactable, Unlockable, Decodable, Plac
 class MoveToRoom(Interactable, Placeable):
     def __init__(self, room_id: str, width: float, height: float):
         self.interact = move_to_room(room_id)
+        self.width = width
+        self.height = height
+
+
+class WinMachine(UnlockableMixin, InventoryInteractable, Decodable, Placeable):
+    def __init__(
+        self, id: str, code: str, win_room_id: str, width: float, height: float
+    ):
+        self.interact_inventory = ask_for_code(id)
+        self.insert_code = code_lock(id, expected_code=code)
+        self.on_unlock = move_to_room(win_room_id)
+        self.state = "locked"
+        self.width = width
+        self.height = height
+
+
+class InspectableObject(Interactable, Placeable):
+    def __init__(self, id: str, width: float, height: float):
+        self.interact = inspect(id)
         self.width = width
         self.height = height

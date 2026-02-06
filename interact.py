@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Callable
 from game_events import (
     AskedForCodeEvent,
     GameEvent,
+    InspectedEvent,
     InteractedWithLockedEvent,
     MovedToRoomEvent,
     PickedUpEvent,
@@ -67,6 +68,10 @@ def locked(id: str) -> InteractFn:
         return []
 
     return interact
+
+
+def inspect(id: str) -> InteractFn:
+    return lambda _game: [InspectedEvent(object_id=id)]
 
 
 def combine(*fns: InteractFn) -> InteractFn:

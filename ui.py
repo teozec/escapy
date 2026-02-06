@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Protocol
 import pygame
 
-from game_events import AskedForCodeEvent, GameEndedEvent, GameEvent
+from game_events import AskedForCodeEvent, GameEndedEvent, GameEvent, InspectedEvent
 from game import Game
 from protocols import InventoryInteractable, Placeable, Unlockable
 
@@ -77,6 +77,10 @@ class PyGameUi(GameUi):
         self._code_prompt_active = False
         self._code_prompt_text = ""
         self._code_prompt_object_id: str | None = None
+        self._inspect_active = False
+        self._inspect_object_id: str | None = None
+        self._inspect_surface: pygame.Surface | None = None
+        self._inspect_rect: pygame.Rect | None = None
 
     def init(self, game: Game):
         self.game = game
@@ -98,6 +102,13 @@ class PyGameUi(GameUi):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 events = self.game.quit()
+
+            elif self._inspect_active:
+                if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
+                    self._inspect_active = False
+                    self._inspect_object_id = None
+                    self._inspect_surface = None
+                    self._inspect_rect = None
 
             elif self._code_prompt_active:
                 if event.type == pygame.KEYDOWN:
@@ -176,7 +187,7 @@ class PyGameUi(GameUi):
 
         # Draw message box
         # if events:
-        # self.message_area.fill(pygame.Color(0, 0, 0))
+        self.message_area.fill(pygame.Color(0, 0, 0))
         # self.message_area.blit(
         # self.font.render(str(events), True, (255, 255, 255)),
         # (self.message_area.get_width() * 0.05, self.message_area.get_height() * 0.4),
@@ -216,6 +227,12 @@ class PyGameUi(GameUi):
             text_y = box_y + (box_height - text_surface.get_height()) // 2
             self.screen.blit(text_surface, (text_x, text_y))
 
+        if self._inspect_active and self._inspect_surface and self._inspect_rect:
+            overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 180))
+            self.screen.blit(overlay, (0, 0))
+            self.screen.blit(self._inspect_surface, self._inspect_rect)
+
         pygame.display.flip()
 
     def handle(self, events: list[GameEvent]) -> None:
@@ -225,6 +242,8 @@ class PyGameUi(GameUi):
                     self.is_running = False
                 case AskedForCodeEvent(object_id=object_id):
                     self._ask_for_code = object_id
+                case InspectedEvent(object_id=id):
+                    self._show_inspect(id)
                 case _:
                     pass
 
@@ -262,3 +281,22 @@ class PyGameUi(GameUi):
                 self.inventory_object_size,
                 self.inventory_object_size,
             )
+
+    def _show_inspect(self, object_id: str) -> None:
+        image = self.object_images[self._get_repr(object_id)]
+        screen_w, screen_h = self.screen.get_size()
+        max_w = int(screen_w * 0.8)
+        max_h = int(screen_h * 0.8)
+        img_w, img_h = image.get_size()
+        if img_w == 0 or img_h == 0:
+            return
+        scale = min(max_w / img_w, max_h / img_h)
+        target_w = max(1, int(img_w * scale))
+        target_h = max(1, int(img_h * scale))
+        surface = pygame.transform.smoothscale(image, (target_w, target_h))
+        rect = surface.get_rect(center=(screen_w // 2, screen_h // 2))
+
+        self._inspect_active = True
+        self._inspect_object_id = object_id
+        self._inspect_surface = surface
+        self._inspect_rect = rect

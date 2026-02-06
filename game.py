@@ -2,6 +2,7 @@ from game_events import (
     AskedForCodeEvent,
     GameEndedEvent,
     GameEvent,
+    InspectedEvent,
     InteractedWithLockedEvent,
     MovedToRoomEvent,
     PickedUpEvent,
@@ -117,6 +118,8 @@ class Game:
             case AskedForCodeEvent(object_id=id):
                 return []
             case WrongCodeEvent():
+                return []
+            case InspectedEvent(object_id=id):
                 return []
             case GameEndedEvent():
                 self.is_finished = True

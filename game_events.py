@@ -51,6 +51,11 @@ class WrongCodeEvent:
 
 
 @dataclass
+class InspectedEvent:
+    object_id: str
+
+
+@dataclass
 class GameEndedEvent:
     ...
 
@@ -65,5 +70,6 @@ GameEvent = (
     | MovedToRoomEvent
     | AskedForCodeEvent
     | WrongCodeEvent
+    | InspectedEvent
     | GameEndedEvent
 )

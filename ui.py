@@ -62,39 +62,28 @@ class PyGameUi(GameUi):
         pygame.init()
         pygame.display.set_caption(config["title"])
 
+        # Initialize display
         width = config["width"]
         height = config["height"]
         self.screen = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont(None, 28)
-        self.horizontal_split_line = round(height * 0.85)
-        self.vertical_split_line = round(width * 0.85)
-        self.game_area_rect = pygame.Rect(
-            0, 0, self.vertical_split_line, self.horizontal_split_line
-        )
-        self.message_area_rect = pygame.Rect(
-            0,
-            self.horizontal_split_line,
-            self.vertical_split_line,
-            height - self.horizontal_split_line,
-        )
-        self.inventory_area_rect = pygame.Rect(
-            self.vertical_split_line, 0, width - self.vertical_split_line, height
-        )
-        self.game_area = self.screen.subsurface(self.game_area_rect)
-        self.message_area = self.screen.subsurface(self.message_area_rect)
-        self.inventory_area = self.screen.subsurface(self.inventory_area_rect)
-        self.game_area_width = self.game_area.get_width()
-        self.game_area_height = self.game_area.get_height()
-        self.inventory_columns = 2
-        self.inventory_object_spacing = 0.05 * self.inventory_area_rect.width
-        available_width = self.inventory_area_rect.width - (
-            self.inventory_object_spacing * (self.inventory_columns + 1)
-        )
-        self.inventory_object_size = available_width / self.inventory_columns
-
         self.fps = config["fps"]
 
+        # Layout configuration (fractions of screen)
+        self.game_area_horizontal_fraction = config.get(
+            "game_area_horizontal_fraction", 0.85
+        )
+        self.game_area_vertical_fraction = config.get(
+            "game_area_vertical_fraction", 0.85
+        )
+        self.inventory_columns = config.get("inventory_columns", 2)
+        self.inventory_spacing_fraction = config.get("inventory_spacing_fraction", 0.05)
+
+        # Calculate initial layout
+        self._calculate_layout()
+
+        # Load assets
         assets_dir = Path(config["assets_dir"])
         self.room_images = {
             room: pygame.image.load(assets_dir / image).convert()
@@ -104,9 +93,40 @@ class PyGameUi(GameUi):
             object: pygame.image.load(assets_dir / image).convert_alpha()
             for object, image in config["objects"].items()
         }
-        self.is_running = False
 
+        self.is_running = False
         self._state: _UIState = _NormalState()
+
+    def _calculate_layout(self) -> None:
+        """Calculate all layout dimensions based on current screen size and fractions."""
+        screen_width, screen_height = self.screen.get_size()
+
+        # Calculate split lines based on fractions
+        horizontal_split = round(screen_height * self.game_area_vertical_fraction)
+        vertical_split = round(screen_width * self.game_area_horizontal_fraction)
+
+        # Create subsurfaces (subsurface constructor takes a Rect)
+        self.game_area = self.screen.subsurface(
+            pygame.Rect(0, 0, vertical_split, horizontal_split)
+        )
+        self.message_area = self.screen.subsurface(
+            pygame.Rect(
+                0, horizontal_split, vertical_split, screen_height - horizontal_split
+            )
+        )
+        self.inventory_area = self.screen.subsurface(
+            pygame.Rect(vertical_split, 0, screen_width - vertical_split, screen_height)
+        )
+
+        # Calculate inventory layout
+        inventory_width = self.inventory_area.get_width()
+        self.inventory_object_spacing = (
+            self.inventory_spacing_fraction * inventory_width
+        )
+        available_width = inventory_width - (
+            self.inventory_object_spacing * (self.inventory_columns + 1)
+        )
+        self.inventory_object_size = available_width / self.inventory_columns
 
     def init(self, game: Game):
         self.game = game
@@ -136,26 +156,34 @@ class PyGameUi(GameUi):
         events: list[GameEvent] = []
 
         if event.type == pygame.MOUSEBUTTONDOWN and not self.game.is_finished:
-            if self.game_area_rect.collidepoint(event.pos):
-                pos = (
-                    event.pos[0] - self.game_area_rect.left,
-                    event.pos[1] - self.game_area_rect.top,
-                )
-                for object_id, object in self.objects.items():
-                    if object.collidepoint(pos):
+            click_pos = event.pos
+
+            # Determine which area was clicked
+            game_area_offset = self.game_area.get_abs_offset()
+            game_area_abs_rect = self.game_area.get_rect(topleft=game_area_offset)
+
+            inventory_offset = self.inventory_area.get_abs_offset()
+            inventory_abs_rect = self.inventory_area.get_rect(topleft=inventory_offset)
+
+            if game_area_abs_rect.collidepoint(click_pos):
+                # Click in game area - check objects
+                for object_id, object_rect in self.objects.items():
+                    abs_rect = object_rect.move(game_area_offset)
+                    if abs_rect.collidepoint(click_pos):
                         events = self.game.interact(object_id)
 
-            elif self.inventory_area_rect.collidepoint(event.pos):
-                pos = (
-                    event.pos[0] - self.inventory_area_rect.left,
-                    event.pos[1] - self.inventory_area_rect.top,
-                )
-                for object_id, object in self.inventory.items():
-                    if object.collidepoint(pos):
+            elif inventory_abs_rect.collidepoint(click_pos):
+                # Click in inventory area - check inventory objects
+                for object_id, object_rect in self.inventory.items():
+                    abs_rect = object_rect.move(inventory_offset)
+                    if abs_rect.collidepoint(click_pos):
                         events = self.game.interact_inventory(object_id)
                         break
                 else:
+                    # Clicked in inventory area but not on any object
                     events = self.game.interact_inventory(None)
+
+            # Clicks in message area are ignored
 
         return events
 
@@ -190,9 +218,10 @@ class PyGameUi(GameUi):
         self._update_objects()
 
         # Draw room
+        game_area_size = (self.game_area.get_width(), self.game_area.get_height())
         room_image = pygame.transform.scale(
             self.room_images[self.game.current_room_id],
-            (self.game_area_width, self.game_area_height),
+            game_area_size,
         )  # TODO: remove transform from game loop if too slow
         self.game_area.blit(room_image, (0, 0))
 
@@ -300,15 +329,18 @@ class PyGameUi(GameUi):
 
     def _update_objects(self):
         self.objects: dict[str, pygame.Rect] = {}
+        game_area_width = self.game_area.get_width()
+        game_area_height = self.game_area.get_height()
+
         for id, position in self.game.rooms[self.game.current_room_id].items():
             object = self.game.objects[id]
             if not isinstance(object, Placeable):
                 raise ValueError("object is not placeable")
             self.objects[id] = pygame.Rect(
-                position.x * self.game_area_width,
-                position.y * self.game_area_height,
-                object.width * self.game_area_width,
-                object.height * self.game_area_height,
+                position.x * game_area_width,
+                position.y * game_area_height,
+                object.width * game_area_width,
+                object.height * game_area_height,
             )
 
         self.inventory: dict[str, pygame.Rect] = {}

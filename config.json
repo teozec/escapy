@@ -27,12 +27,12 @@
         }
     },
     "messages": {
-        "PickedUpEvent": "Raccolto",
-        "PickedUpEvent(object_id='a1-knife')": "Hai raccolto un coltello",
-        "PickedUpEvent(object_id='a2-key')": "Hai raccolto una chiave",
-        "InteractedWithLockedEvent": "Bloccato",
-        "UnlockedEvent": "Sbloccato!",
-        "WrongCodeEvent": "Codice errato",
-        "AskedForCodeEvent": "Inserisci codice:"
+        "AskedForCodeEvent(object_id='c2-alarm')": "Inserisci un orario",
+        "AskedForCodeEvent(object_id='d2-safe')": "Inserisci il codice della cassaforte",
+        "InteractedWithLockedEvent(object_id='a3-chest')": "Il forziere è chiuso a chiave",
+        "InteractedWithLockedEvent(object_id='b2-safe')": "La cassaforte è chiusa a chiave",
+        "InteractedWithLockedEvent(object_id='b3-chest')": "Il forziere è chiuso a chiave",
+        "InteractedWithLockedEvent(object_id='c3-chest')": "Il forziere è chiuso a chiave",
+        "InteractedWithLockedEvent(object_id='d3-chest')": "Il forziere è chiuso a chiave"
     }
 }

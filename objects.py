@@ -2,7 +2,7 @@ from insert_code import code_lock
 from interact import (
     InteractFn,
     ask_for_code,
-    combine,
+    chain,
     cond,
     inspect,
     locked,
@@ -37,7 +37,18 @@ class PickableObject(Interactable, InventoryInteractable, Placeable):
 
 class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
     def __init__(self, id: str, on_unlock: InteractFn, width: float, height: float):
-        self.interact = combine(simple_lock(id), locked(id))
+        from game_events import UnlockedEvent
+
+        self.interact = chain(
+            (lambda _events: True, simple_lock(id)),
+            (
+                lambda events: self.state == "locked"
+                and not any(
+                    isinstance(e, UnlockedEvent) and e.object_id == id for e in events
+                ),
+                locked(id),
+            ),
+        )
         self.state = "locked"
         self.on_unlock = on_unlock
         self.width = width
@@ -48,7 +59,18 @@ class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
     def __init__(
         self, id: str, key_id: str, on_unlock: InteractFn, width: float, height: float
     ):
-        self.interact = combine(key_lock(id, key_id=key_id), locked(id))
+        from game_events import UnlockedEvent
+
+        self.interact = chain(
+            (lambda _events: True, key_lock(id, key_id=key_id)),
+            (
+                lambda events: self.state == "locked"
+                and not any(
+                    isinstance(e, UnlockedEvent) and e.object_id == id for e in events
+                ),
+                locked(id),
+            ),
+        )
         self.state = "locked"
         self.on_unlock = on_unlock
         self.width = width

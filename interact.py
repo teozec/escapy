@@ -61,13 +61,7 @@ def ask_for_code(id: str) -> InteractFn:
 
 
 def locked(id: str) -> InteractFn:
-    def interact(game: Game) -> list[GameEvent]:
-        obj = game.objects[id]
-        if isinstance(obj, Unlockable) and obj.state == "locked":
-            return [InteractedWithLockedEvent(object_id=id)]
-        return []
-
-    return interact
+    return lambda _game: [InteractedWithLockedEvent(object_id=id)]
 
 
 def inspect(id: str) -> InteractFn:
@@ -92,6 +86,30 @@ def cond(*clauses: tuple[Callable[[], bool], InteractFn]) -> InteractFn:
         return []
 
     return conditional
+
+
+def chain(*clauses: tuple[Callable[[list[GameEvent]], bool], InteractFn]) -> InteractFn:
+    """Like combine, but allows conditional execution based on previously emitted events.
+
+    Args:
+        *clauses: Tuple of (condition, InteractFn) where condition receives the list of events emitted so far.
+
+    Example:
+        chain(
+            (lambda _: True, key_lock(id, key_id)),
+            (lambda events: not any(isinstance(e, UnlockedEvent) for e in events), locked(id))
+        )
+    """
+
+    def chained(game: Game) -> list[GameEvent]:
+        events: list[GameEvent] = []
+        for clause in clauses:
+            condition, fn = clause
+            if condition(events):
+                events.extend(fn(game))
+        return events
+
+    return chained
 
 
 def reveal(object_id: str, room_id: str, position: Position) -> InteractFn:

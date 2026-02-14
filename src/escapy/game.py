@@ -1,4 +1,5 @@
-from game_events import (
+from .game_events import (
+    AddedToInventoryEvent,
     AskedForCodeEvent,
     GameEndedEvent,
     GameEvent,
@@ -12,14 +13,13 @@ from game_events import (
     UnlockedEvent,
     WrongCodeEvent,
 )
-from protocols import (
+from .game_types import Position
+from .protocols import (
     Decodable,
     Interactable,
     InventoryInteractable,
     Unlockable,
 )
-from game_types import Position
-
 
 Room = dict[str, Position]
 
@@ -123,4 +123,7 @@ class Game:
                 return []
             case GameEndedEvent():
                 self.is_finished = True
+                return []
+            case AddedToInventoryEvent(object_id=id):
+                self.inventory.append(id)
                 return []

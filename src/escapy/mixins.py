@@ -1,6 +1,6 @@
-from game import Game
-from game_events import GameEvent
-from protocols import Unlockable
+from .game import Game
+from .game_events import GameEvent
+from .protocols import Unlockable
 
 
 class UnlockableMixin:

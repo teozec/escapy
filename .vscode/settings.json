@@ -1,7 +1,0 @@
-{
-    "python.analysis.typeCheckingMode": "standard",
-    "python.defaultInterpreterPath": ".venv/bin/python",
-    "[python]": {
-        "editor.defaultFormatter": "charliermarsh.ruff"
-    }
-}

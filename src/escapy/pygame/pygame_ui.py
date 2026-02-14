@@ -1,17 +1,18 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Protocol
+
 import pygame
 
-from game_events import (
+from ..game import Game
+from ..game_events import (
     AskedForCodeEvent,
     GameEndedEvent,
     GameEvent,
     InspectedEvent,
 )
-from game import Game
-from messages import MessageProvider
-from protocols import InventoryInteractable, Placeable, Unlockable
+from ..messages import MessageProvider
+from ..protocols import InventoryInteractable, Placeable, Unlockable
+from ..ui import GameUi
 
 
 @dataclass
@@ -42,22 +43,6 @@ class _InspectState:
 type _UIState = _NormalState | _InsertCodeState | _InspectState
 
 
-class GameUi(Protocol):
-    def init(self, game: Game) -> None: ...
-
-    def tick(self) -> None: ...
-
-    def input(self) -> list[GameEvent]: ...
-
-    def handle(self, events: list[GameEvent]) -> None: ...
-
-    def render(self) -> None: ...
-
-    def quit(self) -> None: ...
-
-    is_running: bool
-
-
 class PyGameUi(GameUi):
     def __init__(self, config: dict, message_provider: MessageProvider) -> None:
         pygame.init()
@@ -72,12 +57,8 @@ class PyGameUi(GameUi):
         self.fps = config["fps"]
 
         # Layout configuration (fractions of screen)
-        self.game_area_horizontal_fraction = config.get(
-            "game_area_horizontal_fraction", 0.85
-        )
-        self.game_area_vertical_fraction = config.get(
-            "game_area_vertical_fraction", 0.85
-        )
+        self.game_area_horizontal_fraction = config.get("game_area_horizontal_fraction", 0.85)
+        self.game_area_vertical_fraction = config.get("game_area_vertical_fraction", 0.85)
         self.inventory_columns = config.get("inventory_columns", 2)
         self.inventory_spacing_fraction = config.get("inventory_spacing_fraction", 0.05)
 
@@ -87,12 +68,10 @@ class PyGameUi(GameUi):
         # Load assets
         assets_dir = Path(config["assets_dir"])
         self.room_images = {
-            room: pygame.image.load(assets_dir / image).convert()
-            for room, image in config["rooms"].items()
+            room: pygame.image.load(assets_dir / image).convert() for room, image in config["rooms"].items()
         }
         self.object_images = {
-            object: pygame.image.load(assets_dir / image).convert_alpha()
-            for object, image in config["objects"].items()
+            object: pygame.image.load(assets_dir / image).convert_alpha() for object, image in config["objects"].items()
         }
 
         self.is_running = False
@@ -109,13 +88,9 @@ class PyGameUi(GameUi):
         vertical_split = round(screen_width * self.game_area_horizontal_fraction)
 
         # Create subsurfaces (subsurface constructor takes a Rect)
-        self.game_area = self.screen.subsurface(
-            pygame.Rect(0, 0, vertical_split, horizontal_split)
-        )
+        self.game_area = self.screen.subsurface(pygame.Rect(0, 0, vertical_split, horizontal_split))
         self.message_area = self.screen.subsurface(
-            pygame.Rect(
-                0, horizontal_split, vertical_split, screen_height - horizontal_split
-            )
+            pygame.Rect(0, horizontal_split, vertical_split, screen_height - horizontal_split)
         )
         self.inventory_area = self.screen.subsurface(
             pygame.Rect(vertical_split, 0, screen_width - vertical_split, screen_height)
@@ -123,12 +98,8 @@ class PyGameUi(GameUi):
 
         # Calculate inventory layout
         inventory_width = self.inventory_area.get_width()
-        self.inventory_object_spacing = (
-            self.inventory_spacing_fraction * inventory_width
-        )
-        available_width = inventory_width - (
-            self.inventory_object_spacing * (self.inventory_columns + 1)
-        )
+        self.inventory_object_spacing = self.inventory_spacing_fraction * inventory_width
+        available_width = inventory_width - (self.inventory_object_spacing * (self.inventory_columns + 1))
         self.inventory_object_size = available_width / self.inventory_columns
 
     def init(self, game: Game):
@@ -237,6 +208,7 @@ class PyGameUi(GameUi):
             self.game_area.blit(image, rect)
 
         # Draw inventory
+        self.inventory_area.fill(pygame.Color(0, 0, 0))
         for object_id, rect in self.inventory.items():
             image = pygame.transform.scale(
                 self.object_images[self._get_repr(object_id)],
@@ -244,9 +216,7 @@ class PyGameUi(GameUi):
             )  # TODO: remove transform from game loop if too slow
             self.inventory_area.blit(image, rect)
             if object_id == self.game.in_hand_object_id:
-                pygame.draw.rect(
-                    self.inventory_area, pygame.Color(255, 255, 255), rect, 3
-                )
+                pygame.draw.rect(self.inventory_area, pygame.Color(255, 255, 255), rect, 3)
             else:
                 pygame.draw.rect(self.inventory_area, pygame.Color(0, 0, 0), rect, 3)
 
@@ -386,13 +356,8 @@ class PyGameUi(GameUi):
                 raise ValueError("object is not inventory interactable")
             col = i % self.inventory_columns
             row = i // self.inventory_columns
-            x = self.inventory_object_spacing + col * (
-                self.inventory_object_size + self.inventory_object_spacing
-            )
-            y = (
-                row * (self.inventory_object_size + self.inventory_object_spacing)
-                + self.inventory_object_spacing
-            )
+            x = self.inventory_object_spacing + col * (self.inventory_object_size + self.inventory_object_spacing)
+            y = row * (self.inventory_object_size + self.inventory_object_spacing) + self.inventory_object_spacing
             self.inventory[id] = pygame.Rect(
                 x,
                 y,

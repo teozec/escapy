@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from game_types import Position
+from .game_types import Position
 
 
 @dataclass
@@ -14,8 +14,7 @@ class PutInHandEvent:
 
 
 @dataclass
-class PutOffHandEvent:
-    ...
+class PutOffHandEvent: ...
 
 
 @dataclass
@@ -46,8 +45,7 @@ class AskedForCodeEvent:
 
 
 @dataclass
-class WrongCodeEvent:
-    ...
+class WrongCodeEvent: ...
 
 
 @dataclass
@@ -56,8 +54,12 @@ class InspectedEvent:
 
 
 @dataclass
-class GameEndedEvent:
-    ...
+class GameEndedEvent: ...
+
+
+@dataclass
+class AddedToInventoryEvent:
+    object_id: str
 
 
 GameEvent = (
@@ -72,4 +74,5 @@ GameEvent = (
     | WrongCodeEvent
     | InspectedEvent
     | GameEndedEvent
+    | AddedToInventoryEvent
 )

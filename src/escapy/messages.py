@@ -1,7 +1,6 @@
 from typing import Callable
 
-from game_events import GameEvent
-
+from .game_events import GameEvent
 
 MessageProvider = Callable[[GameEvent], str | None]
 

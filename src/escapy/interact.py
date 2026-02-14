@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, Callable
 
-from game_events import (
+from .game_events import (
+    AddedToInventoryEvent,
     AskedForCodeEvent,
     GameEvent,
     InspectedEvent,
@@ -11,11 +12,11 @@ from game_events import (
     RevealedEvent,
     UnlockedEvent,
 )
-from game_types import Position
-from mixins import Unlockable
+from .game_types import Position
+from .mixins import Unlockable
 
 if TYPE_CHECKING:
-    from game import Game
+    from .game import Game
 
 InteractFn = Callable[["Game"], list[GameEvent]]
 
@@ -45,11 +46,7 @@ def simple_lock(id: str) -> InteractFn:
 def key_lock(id: str, key_id: str) -> InteractFn:
     def unlock(game: Game) -> list[GameEvent]:
         obj = game.objects[id]
-        if (
-            isinstance(obj, Unlockable)
-            and obj.state == "locked"
-            and game.in_hand_object_id == key_id
-        ):
+        if isinstance(obj, Unlockable) and obj.state == "locked" and game.in_hand_object_id == key_id:
             return [UnlockedEvent(object_id=id)]
         return []
 
@@ -113,10 +110,12 @@ def chain(*clauses: tuple[Callable[[list[GameEvent]], bool], InteractFn]) -> Int
 
 
 def reveal(object_id: str, room_id: str, position: Position) -> InteractFn:
-    return lambda _game: [
-        RevealedEvent(object_id=object_id, room_id=room_id, position=position)
-    ]
+    return lambda _game: [RevealedEvent(object_id=object_id, room_id=room_id, position=position)]
 
 
 def move_to_room(room_id: str) -> InteractFn:
     return lambda _game: [MovedToRoomEvent(room_id=room_id)]
+
+
+def add_to_inventory(object_id: str) -> InteractFn:
+    return lambda _game: [AddedToInventoryEvent(object_id=object_id)]

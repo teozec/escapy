@@ -1,4 +1,29 @@
+# Virtual environments
 .venv
-__pycache__/
+venv/
+env/
+ENV/
 
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Project specific
 assets/

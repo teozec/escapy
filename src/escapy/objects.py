@@ -1,19 +1,21 @@
-from insert_code import code_lock
-from interact import (
+from .insert_code import code_lock
+from .interact import (
     InteractFn,
+    add_to_inventory,
     ask_for_code,
     chain,
+    combine,
     cond,
     inspect,
+    key_lock,
     locked,
     move_to_room,
     pick,
     put_in_hand,
-    key_lock,
     simple_lock,
 )
-from mixins import UnlockableMixin
-from protocols import (
+from .mixins import UnlockableMixin
+from .protocols import (
     Decodable,
     Interactable,
     InventoryInteractable,
@@ -42,9 +44,9 @@ class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
         self.interact = chain(
             (lambda _events: True, simple_lock(id)),
             (
-                lambda events: self.state == "locked"
-                and not any(
-                    isinstance(e, UnlockedEvent) and e.object_id == id for e in events
+                lambda events: (
+                    self.state == "locked"
+                    and not any(isinstance(e, UnlockedEvent) and e.object_id == id for e in events)
                 ),
                 locked(id),
             ),
@@ -56,17 +58,15 @@ class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
 
 
 class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
-    def __init__(
-        self, id: str, key_id: str, on_unlock: InteractFn, width: float, height: float
-    ):
+    def __init__(self, id: str, key_id: str, on_unlock: InteractFn, width: float, height: float):
         from game_events import UnlockedEvent
 
         self.interact = chain(
             (lambda _events: True, key_lock(id, key_id=key_id)),
             (
-                lambda events: self.state == "locked"
-                and not any(
-                    isinstance(e, UnlockedEvent) and e.object_id == id for e in events
+                lambda events: (
+                    self.state == "locked"
+                    and not any(isinstance(e, UnlockedEvent) and e.object_id == id for e in events)
                 ),
                 locked(id),
             ),
@@ -78,9 +78,7 @@ class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
 
 
 class SelfAskCodeLock(UnlockableMixin, Interactable, Unlockable, Decodable, Placeable):
-    def __init__(
-        self, id: str, on_unlock: InteractFn, code: str, width: float, height: float
-    ):
+    def __init__(self, id: str, on_unlock: InteractFn, code: str, width: float, height: float):
         self.interact = cond((lambda: self.state == "locked", ask_for_code(id)))
         self.state = "locked"
         self.on_unlock = on_unlock
@@ -97,9 +95,7 @@ class MoveToRoom(Interactable, Placeable):
 
 
 class WinMachine(UnlockableMixin, InventoryInteractable, Decodable, Placeable):
-    def __init__(
-        self, id: str, code: str, win_room_id: str, width: float, height: float
-    ):
+    def __init__(self, id: str, code: str, win_room_id: str, width: float, height: float):
         self.interact_inventory = ask_for_code(id)
         self.insert_code = code_lock(id, expected_code=code)
         self.on_unlock = move_to_room(win_room_id)
@@ -111,5 +107,20 @@ class WinMachine(UnlockableMixin, InventoryInteractable, Decodable, Placeable):
 class InspectableObject(Interactable, Placeable):
     def __init__(self, id: str, width: float, height: float):
         self.interact = inspect(id)
+        self.width = width
+        self.height = height
+
+
+class PickableInspectableObject(Interactable, InventoryInteractable, Placeable):
+    def __init__(self, id: str, width: float, height: float):
+        self.interact = pick(id)
+        self.interact_inventory = inspect(id)
+        self.width = width
+        self.height = height
+
+
+class MoveToRoomAndAddToInventoryObject(Interactable, Placeable):
+    def __init__(self, room_id: str, object_id: str, width: float, height: float):
+        self.interact = combine(move_to_room(room_id), add_to_inventory(object_id))
         self.width = width
         self.height = height

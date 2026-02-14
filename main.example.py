@@ -1,21 +1,23 @@
-from dataclasses import dataclass
+"""Example runner showing how to use the escapy library.
+
+Copy this file and adapt `config.json` to run your own game.
+"""
+
 import json
+from dataclasses import dataclass
 from pathlib import Path
 
-from game import Game
-from game_types import Position
-from interact import no_op, reveal
-from messages import dict_message_provider
-from objects import (
-    InspectableObject,
+from escapy import (
+    Game,
     MoveToRoom,
     PickableObject,
-    SelfAskCodeLock,
+    Position,
     SelfKeyLock,
-    SelfSimpleLock,
-    WinMachine,
+    dict_message_provider,
+    no_op,
+    reveal,
 )
-from ui import PyGameUi
+from escapy.pygame import PyGameUi
 
 
 @dataclass
@@ -72,12 +74,14 @@ def main():
         first_room_id="room1",
     )
 
+    debug = False
+
     ui.init(game)
 
     while ui.is_running:
         ui.tick()
         events = ui.input()
-        if len(events) > 0:
+        if debug and len(events) > 0:
             print(events)
         ui.handle(events)
         ui.render()

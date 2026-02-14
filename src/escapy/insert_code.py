@@ -1,11 +1,10 @@
 from typing import Callable
 
-from game_events import (
+from .game_events import (
     GameEvent,
     UnlockedEvent,
     WrongCodeEvent,
 )
-
 
 InsertCodeFn = Callable[[str], list[GameEvent]]
 

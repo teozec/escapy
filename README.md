@@ -50,3 +50,9 @@ source .venv/bin/activate
 pip install -r requirements-dev.txt
 pre-commit install
 ```
+
+## License
+
+This project is licensed under the GNU Lesser General Public License v3.0 or later (LGPL-3.0-or-later). See the [COPYING](COPYING) and [COPYING.LESSER](COPYING.LESSER) files for details.
+
+Copyright (C) 2026

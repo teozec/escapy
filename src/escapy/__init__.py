@@ -38,10 +38,7 @@ Example usage:
         ui.render()
 """
 
-from .game import Game
-from .game_types import Position
-from .insert_code import code_lock
-from .interact import (
+from .commands import (
     add_to_inventory,
     ask_for_code,
     chain,
@@ -57,6 +54,8 @@ from .interact import (
     reveal,
     simple_lock,
 )
+from .game import Game
+from .game_types import Position
 from .messages import dict_message_provider
 from .objects import (
     InspectableObject,
@@ -75,7 +74,6 @@ __all__ = [
     "Game",
     "Position",
     "dict_message_provider",
-    # objects
     "PickableObject",
     "SelfSimpleLock",
     "SelfKeyLock",
@@ -85,7 +83,6 @@ __all__ = [
     "InspectableObject",
     "PickableInspectableObject",
     "MoveToRoomAndAddToInventoryObject",
-    # interact helpers
     "no_op",
     "pick",
     "put_in_hand",
@@ -100,7 +97,5 @@ __all__ = [
     "reveal",
     "move_to_room",
     "add_to_inventory",
-    # code lock
-    "code_lock",
     "GameUi",
 ]

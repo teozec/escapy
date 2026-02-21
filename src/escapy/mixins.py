@@ -16,8 +16,8 @@
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
 from .game import Game
-from .game_events import GameEvent
-from .protocols import Unlockable
+from .game_events import GameEvent, WrongCodeEvent
+from .protocols import Decodable, Unlockable
 
 
 class UnlockableMixin:
@@ -26,4 +26,12 @@ class UnlockableMixin:
         return self.on_unlock(game)
 
 
-GameMixins = UnlockableMixin
+class DecodableMixin:
+    def insert_code(self: Decodable, code: str, game: Game) -> list[GameEvent]:
+        if code == self.code:
+            return self.on_decode(game)
+        else:
+            return [WrongCodeEvent()]
+
+
+GameMixins = UnlockableMixin | DecodableMixin

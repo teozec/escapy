@@ -20,19 +20,18 @@ from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
 from .game_events import GameEvent
 
 if TYPE_CHECKING:
+    from .commands import Command
     from .game import Game
-    from .insert_code import InsertCodeFn
-    from .interact import InteractFn
 
 
 @runtime_checkable
 class Interactable(Protocol):
-    interact: InteractFn
+    interact: Command
 
 
 @runtime_checkable
 class InventoryInteractable(Protocol):
-    interact_inventory: InteractFn
+    interact_inventory: Command
 
 
 @runtime_checkable
@@ -44,14 +43,17 @@ class Placeable(Protocol):
 @runtime_checkable
 class Unlockable(Protocol):
     state: Literal["locked", "unlocked"] = "locked"
-    on_unlock: "InteractFn"
+    on_unlock: "Command"
 
     def unlock(self, game: "Game") -> list[GameEvent]: ...
 
 
 @runtime_checkable
 class Decodable(Protocol):
-    insert_code: "InsertCodeFn"
+    code: str
+    on_decode: "Command"
+
+    def insert_code(self, code: str, game: "Game") -> list[GameEvent]: ...
 
 
 GameProtocol = Interactable | InventoryInteractable | Placeable | Unlockable | Decodable

@@ -15,9 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
-from .insert_code import code_lock
-from .interact import (
-    InteractFn,
+from .commands import (
+    Command,
     add_to_inventory,
     ask_for_code,
     chain,
@@ -31,7 +30,8 @@ from .interact import (
     put_in_hand,
     simple_lock,
 )
-from .mixins import UnlockableMixin
+from .game_events import UnlockedEvent
+from .mixins import DecodableMixin, UnlockableMixin
 from .protocols import (
     Decodable,
     Interactable,
@@ -55,9 +55,7 @@ class PickableObject(Interactable, InventoryInteractable, Placeable):
 
 
 class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
-    def __init__(self, id: str, on_unlock: InteractFn, width: float, height: float):
-        from game_events import UnlockedEvent
-
+    def __init__(self, id: str, on_unlock: Command, width: float, height: float):
         self.interact = chain(
             (lambda _events: True, simple_lock(id)),
             (
@@ -75,9 +73,7 @@ class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
 
 
 class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
-    def __init__(self, id: str, key_id: str, on_unlock: InteractFn, width: float, height: float):
-        from game_events import UnlockedEvent
-
+    def __init__(self, id: str, key_id: str, on_unlock: Command, width: float, height: float):
         self.interact = chain(
             (lambda _events: True, key_lock(id, key_id=key_id)),
             (
@@ -94,12 +90,13 @@ class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
         self.height = height
 
 
-class SelfAskCodeLock(UnlockableMixin, Interactable, Unlockable, Decodable, Placeable):
-    def __init__(self, id: str, on_unlock: InteractFn, code: str, width: float, height: float):
+class SelfAskCodeLock(UnlockableMixin, DecodableMixin, Interactable, Unlockable, Decodable, Placeable):
+    def __init__(self, id: str, on_unlock: Command, code: str, width: float, height: float):
         self.interact = cond((lambda: self.state == "locked", ask_for_code(id)))
         self.state = "locked"
         self.on_unlock = on_unlock
-        self.insert_code = code_lock(id, expected_code=code)
+        self.code = code
+        self.on_decode = self.unlock
         self.width = width
         self.height = height
 
@@ -111,12 +108,11 @@ class MoveToRoom(Interactable, Placeable):
         self.height = height
 
 
-class WinMachine(UnlockableMixin, InventoryInteractable, Decodable, Placeable):
+class WinMachine(DecodableMixin, InventoryInteractable, Decodable, Placeable):
     def __init__(self, id: str, code: str, win_room_id: str, width: float, height: float):
         self.interact_inventory = ask_for_code(id)
-        self.insert_code = code_lock(id, expected_code=code)
-        self.on_unlock = move_to_room(win_room_id)
-        self.state = "locked"
+        self.code = code
+        self.on_decode = move_to_room(win_room_id)
         self.width = width
         self.height = height
 

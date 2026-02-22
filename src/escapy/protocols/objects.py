@@ -15,24 +15,38 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
+from typing import Literal, Protocol, runtime_checkable
 
-from .events import WrongCodeEvent
-from .protocols import Command, Decodable, Unlockable
-
-
-class UnlockableMixin:
-    def unlock(self: Unlockable) -> Command:
-        self.state = "unlocked"
-
-        return self.on_unlock
+from .game import Command
 
 
-class DecodableMixin:
-    def insert_code(self: Decodable, code: str) -> Command:
-        if code == self.code:
-            return self.on_decode
-        else:
-            return lambda game: [WrongCodeEvent()]
+@runtime_checkable
+class Interactable(Protocol):
+    interact: Command
 
 
-type GameMixins = UnlockableMixin | DecodableMixin
+@runtime_checkable
+class InventoryInteractable(Protocol):
+    interact_inventory: Command
+
+
+@runtime_checkable
+class Placeable(Protocol):
+    width: float
+    height: float
+
+
+@runtime_checkable
+class Unlockable(Protocol):
+    state: Literal["locked", "unlocked"] = "locked"
+    on_unlock: Command
+
+    def unlock(self) -> Command: ...
+
+
+@runtime_checkable
+class Decodable(Protocol):
+    code: str
+    on_decode: Command
+
+    def insert_code(self, code: str) -> Command: ...

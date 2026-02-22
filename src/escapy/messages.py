@@ -19,7 +19,7 @@ from typing import Callable
 
 from .events import Event
 
-MessageProvider = Callable[[Event], str | None]
+type MessageProvider = Callable[[Event], str | None]
 
 
 def dict_message_provider(messages: dict[str, str]) -> MessageProvider:

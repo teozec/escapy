@@ -32,13 +32,7 @@ from .commands import (
 )
 from .events import UnlockedEvent
 from .mixins import DecodableMixin, UnlockableMixin
-from .protocols import (
-    Decodable,
-    Interactable,
-    InventoryInteractable,
-    Placeable,
-    Unlockable,
-)
+from .protocols import Decodable, Interactable, InventoryInteractable, Placeable, Unlockable
 
 
 class PickableObject(Interactable, InventoryInteractable, Placeable):

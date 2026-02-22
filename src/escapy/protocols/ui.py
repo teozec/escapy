@@ -17,12 +17,12 @@
 
 from typing import Protocol
 
-from .events import Event
-from .game import Game
+from ..events import Event
+from .game import GameProtocol
 
 
-class GameUi(Protocol):
-    def init(self, game: Game) -> None: ...
+class GameUiProtocol(Protocol):
+    def init(self, game: GameProtocol) -> None: ...
 
     def tick(self) -> None: ...
 

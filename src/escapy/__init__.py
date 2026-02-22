@@ -67,8 +67,8 @@ from .objects import (
     SelfSimpleLock,
     WinMachine,
 )
+from .protocols import GameProtocol, GameUiProtocol
 from .types import Position
-from .ui import GameUi
 
 __all__ = [
     "Game",
@@ -97,5 +97,6 @@ __all__ = [
     "reveal",
     "move_to_room",
     "add_to_inventory",
-    "GameUi",
+    "GameUiProtocol",
+    "GameProtocol",
 ]

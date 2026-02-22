@@ -20,17 +20,11 @@ from .events import (
     GameEndedEvent,
     PutOffHandEvent,
 )
-from .protocols import (
-    Decodable,
-    Interactable,
-    InventoryInteractable,
-)
-from .types import Position
-
-Room = dict[str, Position]
+from .protocols import Decodable, GameProtocol, Interactable, InventoryInteractable
+from .types import Room
 
 
-class Game:
+class Game(GameProtocol):
     def __init__(
         self,
         objects: dict[str, object],

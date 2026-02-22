@@ -16,11 +16,6 @@
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Callable
-
-if TYPE_CHECKING:
-    from .events import Event
-    from .game import Game
 
 
 @dataclass
@@ -29,4 +24,4 @@ class Position:
     y: float
 
 
-type Command = Callable[["Game"], list["Event"]]
+type Room = dict[str, Position]

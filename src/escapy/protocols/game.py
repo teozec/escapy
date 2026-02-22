@@ -15,41 +15,27 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
-from typing import Literal, Protocol, runtime_checkable
+from typing import Callable, Protocol
 
-from .types import Command
-
-
-@runtime_checkable
-class Interactable(Protocol):
-    interact: Command
+from ..events import Event
+from ..types import Room
 
 
-@runtime_checkable
-class InventoryInteractable(Protocol):
-    interact_inventory: Command
+class GameProtocol(Protocol):
+    objects: dict[str, object]
+    rooms: dict[str, Room]
+    current_room_id: str
+    is_finished: bool
+    inventory: list[str]
+    in_hand_object_id: str | None
+
+    def quit(self) -> list[Event]: ...
+
+    def interact(self, object_id: str) -> list[Event]: ...
+
+    def interact_inventory(self, object_id: str | None) -> list[Event]: ...
+
+    def insert_code(self, object_id: str, code: str) -> list[Event]: ...
 
 
-@runtime_checkable
-class Placeable(Protocol):
-    width: float
-    height: float
-
-
-@runtime_checkable
-class Unlockable(Protocol):
-    state: Literal["locked", "unlocked"] = "locked"
-    on_unlock: Command
-
-    def unlock(self) -> Command: ...
-
-
-@runtime_checkable
-class Decodable(Protocol):
-    code: str
-    on_decode: Command
-
-    def insert_code(self, code: str) -> Command: ...
-
-
-type GameProtocol = Interactable | InventoryInteractable | Placeable | Unlockable | Decodable
+type Command = Callable[[GameProtocol], list[Event]]

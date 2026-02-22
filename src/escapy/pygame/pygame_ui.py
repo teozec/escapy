@@ -26,10 +26,8 @@ from ..events import (
     GameEndedEvent,
     InspectedEvent,
 )
-from ..game import Game
 from ..messages import MessageProvider
-from ..protocols import InventoryInteractable, Placeable, Unlockable
-from ..ui import GameUi
+from ..protocols import GameProtocol, GameUiProtocol, InventoryInteractable, Placeable, Unlockable
 
 
 @dataclass
@@ -60,7 +58,7 @@ class _InspectState:
 type _UIState = _NormalState | _InsertCodeState | _InspectState
 
 
-class PyGameUi(GameUi):
+class PyGameUi(GameUiProtocol):
     def __init__(self, config: dict, message_provider: MessageProvider) -> None:
         pygame.init()
         pygame.display.set_caption(config["title"])
@@ -119,7 +117,7 @@ class PyGameUi(GameUi):
         available_width = inventory_width - (self.inventory_object_spacing * (self.inventory_columns + 1))
         self.inventory_object_size = available_width / self.inventory_columns
 
-    def init(self, game: Game):
+    def init(self, game: GameProtocol):
         self.game = game
         self._update_objects()
         self.is_running = True

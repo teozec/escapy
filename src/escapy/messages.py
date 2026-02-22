@@ -17,9 +17,9 @@
 
 from typing import Callable
 
-from .game_events import GameEvent
+from .events import Event
 
-MessageProvider = Callable[[GameEvent], str | None]
+MessageProvider = Callable[[Event], str | None]
 
 
 def dict_message_provider(messages: dict[str, str]) -> MessageProvider:

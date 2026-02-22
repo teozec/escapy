@@ -20,13 +20,13 @@ from pathlib import Path
 
 import pygame
 
-from ..game import Game
-from ..game_events import (
+from ..events import (
     AskedForCodeEvent,
+    Event,
     GameEndedEvent,
-    GameEvent,
     InspectedEvent,
 )
+from ..game import Game
 from ..messages import MessageProvider
 from ..protocols import InventoryInteractable, Placeable, Unlockable
 from ..ui import GameUi
@@ -127,8 +127,8 @@ class PyGameUi(GameUi):
     def tick(self):
         self.clock.tick(self.fps)
 
-    def input(self) -> list[GameEvent]:
-        events: list[GameEvent] = []
+    def input(self) -> list[Event]:
+        events: list[Event] = []
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -142,9 +142,9 @@ class PyGameUi(GameUi):
 
         return events
 
-    def _handle_normal_input(self, event: pygame.event.Event) -> list[GameEvent]:
+    def _handle_normal_input(self, event: pygame.event.Event) -> list[Event]:
         """Handle input when in NORMAL state."""
-        events: list[GameEvent] = []
+        events: list[Event] = []
 
         if event.type == pygame.MOUSEBUTTONDOWN and not self.game.is_finished:
             click_pos = event.pos
@@ -178,12 +178,12 @@ class PyGameUi(GameUi):
 
         return events
 
-    def _handle_insert_code_input(self, event: pygame.event.Event) -> list[GameEvent]:
+    def _handle_insert_code_input(self, event: pygame.event.Event) -> list[Event]:
         """Handle input when in INSERT_CODE state."""
         if not isinstance(self._state, _InsertCodeState):
             return []
 
-        events: list[GameEvent] = []
+        events: list[Event] = []
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
@@ -198,7 +198,7 @@ class PyGameUi(GameUi):
 
         return events
 
-    def _handle_inspect_input(self, event: pygame.event.Event) -> list[GameEvent]:
+    def _handle_inspect_input(self, event: pygame.event.Event) -> list[Event]:
         """Handle input when in INSPECT state."""
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
             self._state = _NormalState()
@@ -318,7 +318,7 @@ class PyGameUi(GameUi):
         self.screen.blit(overlay, (0, 0))
         self.screen.blit(self._state.surface, self._state.rect)
 
-    def handle(self, events: list[GameEvent]) -> None:
+    def handle(self, events: list[Event]) -> None:
         for event in events:
             # Get configured message for this event
             message = self._get_event_message(event)

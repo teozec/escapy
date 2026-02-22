@@ -30,7 +30,7 @@ from .commands import (
     put_in_hand,
     simple_lock,
 )
-from .game_events import UnlockedEvent
+from .events import UnlockedEvent
 from .mixins import DecodableMixin, UnlockableMixin
 from .protocols import (
     Decodable,
@@ -96,7 +96,7 @@ class SelfAskCodeLock(UnlockableMixin, DecodableMixin, Interactable, Unlockable,
         self.state = "locked"
         self.on_unlock = on_unlock
         self.code = code
-        self.on_decode = self.unlock
+        self.on_decode = lambda game: self.unlock()(game)
         self.width = width
         self.height = height
 

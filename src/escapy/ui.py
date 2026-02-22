@@ -17,8 +17,8 @@
 
 from typing import Protocol
 
+from .events import Event
 from .game import Game
-from .game_events import GameEvent
 
 
 class GameUi(Protocol):
@@ -26,9 +26,9 @@ class GameUi(Protocol):
 
     def tick(self) -> None: ...
 
-    def input(self) -> list[GameEvent]: ...
+    def input(self) -> list[Event]: ...
 
-    def handle(self, events: list[GameEvent]) -> None: ...
+    def handle(self, events: list[Event]) -> None: ...
 
     def render(self) -> None: ...
 

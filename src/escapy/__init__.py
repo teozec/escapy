@@ -55,7 +55,6 @@ from .commands import (
     simple_lock,
 )
 from .game import Game
-from .game_types import Position
 from .messages import dict_message_provider
 from .objects import (
     InspectableObject,
@@ -68,6 +67,7 @@ from .objects import (
     SelfSimpleLock,
     WinMachine,
 )
+from .types import Position
 from .ui import GameUi
 
 __all__ = [

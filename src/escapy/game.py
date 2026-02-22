@@ -15,17 +15,17 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
-from .game_events import (
+from .events import (
+    Event,
     GameEndedEvent,
-    GameEvent,
     PutOffHandEvent,
 )
-from .game_types import Position
 from .protocols import (
     Decodable,
     Interactable,
     InventoryInteractable,
 )
+from .types import Position
 
 Room = dict[str, Position]
 
@@ -45,11 +45,11 @@ class Game:
         self.inventory = inventory
         self.in_hand_object_id: str | None = None
 
-    def quit(self) -> list[GameEvent]:
+    def quit(self) -> list[Event]:
         self.is_finished = True
         return [GameEndedEvent()]
 
-    def interact(self, object_id: str) -> list[GameEvent]:
+    def interact(self, object_id: str) -> list[Event]:
         if object_id not in self.rooms[self.current_room_id]:
             return []
 
@@ -59,7 +59,7 @@ class Game:
             return []
         return object.interact(self)
 
-    def interact_inventory(self, object_id: str | None) -> list[GameEvent]:
+    def interact_inventory(self, object_id: str | None) -> list[Event]:
         if object_id is None:
             self.in_hand_object_id = None
             return [PutOffHandEvent()]
@@ -71,9 +71,9 @@ class Game:
                 return []
             return object.interact_inventory(self)
 
-    def insert_code(self, object_id: str, code: str) -> list[GameEvent]:
+    def insert_code(self, object_id: str, code: str) -> list[Event]:
         object = self.objects[object_id]
         if not isinstance(object, Decodable):
             return []
 
-        return object.insert_code(code, self)
+        return object.insert_code(code)(self)

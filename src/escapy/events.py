@@ -17,7 +17,7 @@
 
 from dataclasses import dataclass
 
-from .game_types import Position
+from .types import Position
 
 
 @dataclass
@@ -79,7 +79,7 @@ class AddedToInventoryEvent:
     object_id: str
 
 
-GameEvent = (
+type Event = (
     PickedUpEvent
     | PutInHandEvent
     | PutOffHandEvent

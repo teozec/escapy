@@ -15,13 +15,9 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
-from typing import TYPE_CHECKING, Literal, Protocol, runtime_checkable
+from typing import Literal, Protocol, runtime_checkable
 
-from .game_events import GameEvent
-
-if TYPE_CHECKING:
-    from .commands import Command
-    from .game import Game
+from .types import Command
 
 
 @runtime_checkable
@@ -43,17 +39,17 @@ class Placeable(Protocol):
 @runtime_checkable
 class Unlockable(Protocol):
     state: Literal["locked", "unlocked"] = "locked"
-    on_unlock: "Command"
+    on_unlock: Command
 
-    def unlock(self, game: "Game") -> list[GameEvent]: ...
+    def unlock(self) -> Command: ...
 
 
 @runtime_checkable
 class Decodable(Protocol):
     code: str
-    on_decode: "Command"
+    on_decode: Command
 
-    def insert_code(self, code: str, game: "Game") -> list[GameEvent]: ...
+    def insert_code(self, code: str) -> Command: ...
 
 
-GameProtocol = Interactable | InventoryInteractable | Placeable | Unlockable | Decodable
+type GameProtocol = Interactable | InventoryInteractable | Placeable | Unlockable | Decodable

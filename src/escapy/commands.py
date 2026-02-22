@@ -17,11 +17,10 @@
 
 from typing import Callable
 
-from .game import Game
-from .game_events import (
+from .events import (
     AddedToInventoryEvent,
     AskedForCodeEvent,
-    GameEvent,
+    Event,
     InspectedEvent,
     InteractedWithLockedEvent,
     MovedToRoomEvent,
@@ -30,10 +29,9 @@ from .game_events import (
     RevealedEvent,
     UnlockedEvent,
 )
-from .game_types import Position
+from .game import Game
 from .mixins import Unlockable
-
-Command = Callable[[Game], list[GameEvent]]
+from .types import Command, Position
 
 
 def no_op() -> Command:
@@ -41,7 +39,7 @@ def no_op() -> Command:
 
 
 def pick(id: str) -> Command:
-    def f(game: Game) -> list[GameEvent]:
+    def f(game: Game) -> list[Event]:
         del game.rooms[game.current_room_id][id]
         game.inventory.append(id)
         return [PickedUpEvent(object_id=id)]
@@ -50,7 +48,7 @@ def pick(id: str) -> Command:
 
 
 def put_in_hand(id: str) -> Command:
-    def f(game: Game) -> list[GameEvent]:
+    def f(game: Game) -> list[Event]:
         game.in_hand_object_id = id
         return [PutInHandEvent(object_id=id)]
 
@@ -58,20 +56,20 @@ def put_in_hand(id: str) -> Command:
 
 
 def simple_lock(id: str) -> Command:
-    def unlock(game: Game) -> list[GameEvent]:
+    def unlock(game: Game) -> list[Event]:
         obj = game.objects[id]
         if isinstance(obj, Unlockable) and obj.state == "locked":
-            return [UnlockedEvent(object_id=id)] + obj.unlock(game)
+            return [UnlockedEvent(object_id=id)] + obj.unlock()(game)
         return []
 
     return unlock
 
 
 def key_lock(id: str, key_id: str) -> Command:
-    def unlock(game: Game) -> list[GameEvent]:
+    def unlock(game: Game) -> list[Event]:
         obj = game.objects[id]
         if isinstance(obj, Unlockable) and obj.state == "locked" and game.in_hand_object_id == key_id:
-            return [UnlockedEvent(object_id=id)] + obj.unlock(game)
+            return [UnlockedEvent(object_id=id)] + obj.unlock()(game)
         return []
 
     return unlock
@@ -90,7 +88,7 @@ def inspect(id: str) -> Command:
 
 
 def reveal(object_id: str, room_id: str, position: Position) -> Command:
-    def f(game: Game) -> list[GameEvent]:
+    def f(game: Game) -> list[Event]:
         game.rooms[room_id][object_id] = position
         return [RevealedEvent(object_id=object_id, room_id=room_id, position=position)]
 
@@ -98,7 +96,7 @@ def reveal(object_id: str, room_id: str, position: Position) -> Command:
 
 
 def move_to_room(room_id: str) -> Command:
-    def f(game: Game) -> list[GameEvent]:
+    def f(game: Game) -> list[Event]:
         game.current_room_id = room_id
         return [MovedToRoomEvent(room_id=room_id)]
 
@@ -106,7 +104,7 @@ def move_to_room(room_id: str) -> Command:
 
 
 def add_to_inventory(object_id: str) -> Command:
-    def f(game: Game) -> list[GameEvent]:
+    def f(game: Game) -> list[Event]:
         game.inventory.append(object_id)
         return [AddedToInventoryEvent(object_id=object_id)]
 
@@ -114,8 +112,8 @@ def add_to_inventory(object_id: str) -> Command:
 
 
 def combine(*fns: Command) -> Command:
-    def combined(game: Game) -> list[GameEvent]:
-        events: list[GameEvent] = []
+    def combined(game: Game) -> list[Event]:
+        events: list[Event] = []
         for fn in fns:
             events.extend(fn(game))
         return events
@@ -124,7 +122,7 @@ def combine(*fns: Command) -> Command:
 
 
 def cond(*clauses: tuple[Callable[[], bool], Command]) -> Command:
-    def conditional(game: Game) -> list[GameEvent]:
+    def conditional(game: Game) -> list[Event]:
         for condition, fn in clauses:
             if condition():
                 return fn(game)
@@ -133,7 +131,7 @@ def cond(*clauses: tuple[Callable[[], bool], Command]) -> Command:
     return conditional
 
 
-def chain(*clauses: tuple[Callable[[list[GameEvent]], bool], Command]) -> Command:
+def chain(*clauses: tuple[Callable[[list[Event]], bool], Command]) -> Command:
     """Like combine, but allows conditional execution based on previously emitted events.
 
     Args:
@@ -146,8 +144,8 @@ def chain(*clauses: tuple[Callable[[list[GameEvent]], bool], Command]) -> Comman
         )
     """
 
-    def chained(game: Game) -> list[GameEvent]:
-        events: list[GameEvent] = []
+    def chained(game: Game) -> list[Event]:
+        events: list[Event] = []
         for clause in clauses:
             condition, fn = clause
             if condition(events):

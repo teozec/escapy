@@ -1,0 +1,511 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started &mdash; escapy 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Architecture" href="architecture.html" />
+    <link rel="prev" title="escapy Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            escapy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#from-source-development">From source (development)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#as-a-dependency">As a dependency</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#project-layout">Project layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#your-first-game">Your first game</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-tests">Running tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#key-design-decisions">Key design decisions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#commands-are-first-class-values">Commands are first-class values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#protocols-over-base-classes">Protocols over base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#events-decouple-logic-from-presentation">Events decouple logic from presentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#mixins-for-shared-behaviour">Mixins for shared behaviour</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#game-loop">Game loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#module-dependency-graph">Module dependency graph</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="game-objects.html">Game Objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#common-parameters">Common parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#pickableobject">PickableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#selfsimplelock">SelfSimpleLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#selfkeylock">SelfKeyLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#selfaskcodelock">SelfAskCodeLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#movetoroom">MoveToRoom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#winmachine">WinMachine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#inspectableobject">InspectableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#pickableinspectableobject">PickableInspectableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#movetoroomandaddtoinventoryobject">MoveToRoomAndAddToInventoryObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game-objects.html#creating-custom-objects">Creating custom objects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#basic-commands">Basic commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#no-op-command"><code class="docutils literal notranslate"><span class="pre">no_op()</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#pick-id-command"><code class="docutils literal notranslate"><span class="pre">pick(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#put-in-hand-id-command"><code class="docutils literal notranslate"><span class="pre">put_in_hand(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#inspect-id-command"><code class="docutils literal notranslate"><span class="pre">inspect(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#reveal-object-id-room-id-position-command"><code class="docutils literal notranslate"><span class="pre">reveal(object_id,</span> <span class="pre">room_id,</span> <span class="pre">position)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#move-to-room-room-id-command"><code class="docutils literal notranslate"><span class="pre">move_to_room(room_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#add-to-inventory-object-id-command"><code class="docutils literal notranslate"><span class="pre">add_to_inventory(object_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#lock-commands">Lock commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#simple-lock-id-command"><code class="docutils literal notranslate"><span class="pre">simple_lock(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#key-lock-id-key-id-command"><code class="docutils literal notranslate"><span class="pre">key_lock(id,</span> <span class="pre">key_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#ask-for-code-id-command"><code class="docutils literal notranslate"><span class="pre">ask_for_code(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#locked-id-command"><code class="docutils literal notranslate"><span class="pre">locked(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#combinators">Combinators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#combine-commands-command"><code class="docutils literal notranslate"><span class="pre">combine(*commands)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#cond-clauses-command"><code class="docutils literal notranslate"><span class="pre">cond(*clauses)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.html#chain-clauses-command"><code class="docutils literal notranslate"><span class="pre">chain(*clauses)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="events.html">Events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="events.html#event-union-type">Event union type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="events.html#event-reference">Event reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="events.html#pickedupevent"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#putinhandevent"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#putoffhandevent"><code class="docutils literal notranslate"><span class="pre">PutOffHandEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#interactedwithlockedevent"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#unlockedevent"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#revealedevent"><code class="docutils literal notranslate"><span class="pre">RevealedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#movedtoroomevent"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#askedforcodeevent"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#wrongcodeevent"><code class="docutils literal notranslate"><span class="pre">WrongCodeEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#inspectedevent"><code class="docutils literal notranslate"><span class="pre">InspectedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#gameendedevent"><code class="docutils literal notranslate"><span class="pre">GameEndedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="events.html#addedtoinventoryevent"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="events.html#using-events-with-messages">Using events with messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="protocols.html">Protocols</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="protocols.html#gameprotocol">GameProtocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protocols.html#command">Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="protocols.html#interactable">Interactable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols.html#inventoryinteractable">InventoryInteractable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols.html#placeable">Placeable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols.html#unlockable">Unlockable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="protocols.html#decodable">Decodable</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="protocols.html#gameuiprotocol">GameUiProtocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protocols.html#runtime-checking">Runtime checking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pygame-ui.html">Pygame UI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pygame-ui.html#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pygame-ui.html#required-keys">Required keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pygame-ui.html#optional-keys">Optional keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pygame-ui.html#object-image-keys">Object image keys</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pygame-ui.html#screen-layout">Screen layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pygame-ui.html#ui-states">UI states</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pygame-ui.html#normal">Normal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pygame-ui.html#insertcode">InsertCode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pygame-ui.html#inspect">Inspect</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pygame-ui.html#messages">Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pygame-ui.html#game-loop">Game loop</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/escapy.html">escapy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.protocols.html">escapy.protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.protocols.html#escapy-protocols-game">escapy.protocols.game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.protocols.html#escapy-protocols-objects">escapy.protocols.objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.protocols.html#escapy-protocols-ui">escapy.protocols.ui</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.pygame.html">escapy.pygame</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.pygame.html#escapy.pygame.PyGameUi"><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/escapy.pygame.html#escapy.pygame.PyGameUi.init"><code class="docutils literal notranslate"><span class="pre">PyGameUi.init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/escapy.pygame.html#escapy.pygame.PyGameUi.tick"><code class="docutils literal notranslate"><span class="pre">PyGameUi.tick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/escapy.pygame.html#escapy.pygame.PyGameUi.input"><code class="docutils literal notranslate"><span class="pre">PyGameUi.input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/escapy.pygame.html#escapy.pygame.PyGameUi.render"><code class="docutils literal notranslate"><span class="pre">PyGameUi.render()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/escapy.pygame.html#escapy.pygame.PyGameUi.handle"><code class="docutils literal notranslate"><span class="pre">PyGameUi.handle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/escapy.pygame.html#escapy.pygame.PyGameUi.quit"><code class="docutils literal notranslate"><span class="pre">PyGameUi.quit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/escapy.pygame.html#escapy.pygame.PyGameUi.add_message"><code class="docutils literal notranslate"><span class="pre">PyGameUi.add_message()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.pygame.html#module-escapy.pygame.pygame_ui">escapy.pygame.pygame_ui</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/escapy.pygame.html#escapy.pygame.pygame_ui.PyGameUi"><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/escapy.types.html">escapy.types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.types.html#escapy.types.Position"><code class="docutils literal notranslate"><span class="pre">Position</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.types.html#escapy.types.Position.x"><code class="docutils literal notranslate"><span class="pre">Position.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.types.html#escapy.types.Position.y"><code class="docutils literal notranslate"><span class="pre">Position.y</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.types.html#escapy.types.Room"><code class="docutils literal notranslate"><span class="pre">Room</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/escapy.events.html">escapy.events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.PickedUpEvent"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.PickedUpEvent.object_id"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.PutInHandEvent"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.PutInHandEvent.object_id"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.PutOffHandEvent"><code class="docutils literal notranslate"><span class="pre">PutOffHandEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.InteractedWithLockedEvent"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.InteractedWithLockedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.UnlockedEvent"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.UnlockedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.RevealedEvent"><code class="docutils literal notranslate"><span class="pre">RevealedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.RevealedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.object_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.RevealedEvent.room_id"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.room_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.RevealedEvent.position"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.position</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.MovedToRoomEvent"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.MovedToRoomEvent.room_id"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent.room_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.AskedForCodeEvent"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.AskedForCodeEvent.object_id"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.WrongCodeEvent"><code class="docutils literal notranslate"><span class="pre">WrongCodeEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.InspectedEvent"><code class="docutils literal notranslate"><span class="pre">InspectedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.InspectedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">InspectedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.GameEndedEvent"><code class="docutils literal notranslate"><span class="pre">GameEndedEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.AddedToInventoryEvent"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.events.html#escapy.events.AddedToInventoryEvent.object_id"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.events.html#escapy.events.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/escapy.commands.html">escapy.commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.no_op"><code class="docutils literal notranslate"><span class="pre">no_op()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.pick"><code class="docutils literal notranslate"><span class="pre">pick()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.put_in_hand"><code class="docutils literal notranslate"><span class="pre">put_in_hand()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.simple_lock"><code class="docutils literal notranslate"><span class="pre">simple_lock()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.key_lock"><code class="docutils literal notranslate"><span class="pre">key_lock()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.ask_for_code"><code class="docutils literal notranslate"><span class="pre">ask_for_code()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.locked"><code class="docutils literal notranslate"><span class="pre">locked()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.inspect"><code class="docutils literal notranslate"><span class="pre">inspect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.reveal"><code class="docutils literal notranslate"><span class="pre">reveal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.move_to_room"><code class="docutils literal notranslate"><span class="pre">move_to_room()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.add_to_inventory"><code class="docutils literal notranslate"><span class="pre">add_to_inventory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.combine"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.cond"><code class="docutils literal notranslate"><span class="pre">cond()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.commands.html#escapy.commands.chain"><code class="docutils literal notranslate"><span class="pre">chain()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/escapy.game.html">escapy.game</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.game.html#escapy.game.Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.game.html#escapy.game.Game.quit"><code class="docutils literal notranslate"><span class="pre">Game.quit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.game.html#escapy.game.Game.interact"><code class="docutils literal notranslate"><span class="pre">Game.interact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.game.html#escapy.game.Game.interact_inventory"><code class="docutils literal notranslate"><span class="pre">Game.interact_inventory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.game.html#escapy.game.Game.insert_code"><code class="docutils literal notranslate"><span class="pre">Game.insert_code()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/escapy.objects.html">escapy.objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.PickableObject"><code class="docutils literal notranslate"><span class="pre">PickableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.SelfSimpleLock"><code class="docutils literal notranslate"><span class="pre">SelfSimpleLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.SelfKeyLock"><code class="docutils literal notranslate"><span class="pre">SelfKeyLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.SelfAskCodeLock"><code class="docutils literal notranslate"><span class="pre">SelfAskCodeLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.MoveToRoom"><code class="docutils literal notranslate"><span class="pre">MoveToRoom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.WinMachine"><code class="docutils literal notranslate"><span class="pre">WinMachine</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.InspectableObject"><code class="docutils literal notranslate"><span class="pre">InspectableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.PickableInspectableObject"><code class="docutils literal notranslate"><span class="pre">PickableInspectableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.MoveToRoomAndAddToInventoryObject"><code class="docutils literal notranslate"><span class="pre">MoveToRoomAndAddToInventoryObject</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/escapy.mixins.html">escapy.mixins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.mixins.html#escapy.mixins.UnlockableMixin"><code class="docutils literal notranslate"><span class="pre">UnlockableMixin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.mixins.html#escapy.mixins.UnlockableMixin.unlock"><code class="docutils literal notranslate"><span class="pre">UnlockableMixin.unlock()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.mixins.html#escapy.mixins.DecodableMixin"><code class="docutils literal notranslate"><span class="pre">DecodableMixin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/escapy.mixins.html#escapy.mixins.DecodableMixin.insert_code"><code class="docutils literal notranslate"><span class="pre">DecodableMixin.insert_code()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/escapy.messages.html">escapy.messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.messages.html#escapy.messages.MessageProvider"><code class="docutils literal notranslate"><span class="pre">MessageProvider</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.messages.html#escapy.messages.dict_message_provider"><code class="docutils literal notranslate"><span class="pre">dict_message_provider()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">escapy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/getting-started.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h1>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Python 3.14+</strong> (uses <code class="docutils literal notranslate"><span class="pre">type</span></code> statement syntax)</p></li>
+<li><p><strong>pygame 2.0+</strong> (optional — only needed if you use <code class="docutils literal notranslate"><span class="pre">escapy.pygame</span></code>)</p></li>
+</ul>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<section id="from-source-development">
+<h3>From source (development)<a class="headerlink" href="#from-source-development" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pyenv<span class="w"> </span>install<span class="w">         </span><span class="c1"># or any other way to install Python 3.14</span>
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+
+pip<span class="w"> </span>install<span class="w"> </span>.<span class="w">                        </span><span class="c1"># runtime deps</span>
+<span class="c1"># or, for development:</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev<span class="o">]</span><span class="w">                   </span><span class="c1"># includes ruff, pytest, pre-commit</span>
+pre-commit<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="as-a-dependency">
+<h3>As a dependency<a class="headerlink" href="#as-a-dependency" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>escapy<span class="w">                      </span><span class="c1"># core only</span>
+pip<span class="w"> </span>install<span class="w"> </span>escapy<span class="o">[</span>pygame<span class="o">]</span><span class="w">              </span><span class="c1"># core + pygame UI</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="project-layout">
+<h2>Project layout<a class="headerlink" href="#project-layout" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>src/escapy/
+├── __init__.py          # Public re-exports
+├── types.py             # Position, Room
+├── events.py            # All event dataclasses
+├── commands.py          # Command factory functions
+├── game.py              # Game engine (state + dispatch)
+├── messages.py          # MessageProvider utilities
+├── mixins.py            # UnlockableMixin, DecodableMixin
+├── objects.py           # Ready-made game-object classes
+├── protocols/
+│   ├── __init__.py      # Protocol re-exports
+│   ├── game.py          # GameProtocol, Command type
+│   ├── objects.py       # Interactable, Placeable, Unlockable, Decodable
+│   └── ui.py            # GameUiProtocol
+└── pygame/
+    ├── __init__.py      # Re-exports PyGameUi
+    └── pygame_ui.py     # Pygame-based UI implementation
+</pre></div>
+</div>
+</section>
+<section id="your-first-game">
+<h2>Your first game<a class="headerlink" href="#your-first-game" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Define objects</strong> — choose from the built-in classes or create your own:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy</span><span class="w"> </span><span class="kn">import</span> <span class="n">PickableObject</span><span class="p">,</span> <span class="n">SelfKeyLock</span><span class="p">,</span> <span class="n">MoveToRoom</span><span class="p">,</span> <span class="n">Position</span><span class="p">,</span> <span class="n">no_op</span><span class="p">,</span> <span class="n">reveal</span>
+
+<span class="n">objects</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;knife&quot;</span><span class="p">:</span> <span class="n">PickableObject</span><span class="p">(</span><span class="s2">&quot;knife&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.05</span><span class="p">),</span>
+    <span class="s2">&quot;poster&quot;</span><span class="p">:</span> <span class="n">SelfKeyLock</span><span class="p">(</span>
+        <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;poster&quot;</span><span class="p">,</span>
+        <span class="n">key_id</span><span class="o">=</span><span class="s2">&quot;knife&quot;</span><span class="p">,</span>
+        <span class="n">on_unlock</span><span class="o">=</span><span class="n">reveal</span><span class="p">(</span><span class="s2">&quot;hidden-key&quot;</span><span class="p">,</span> <span class="s2">&quot;room1&quot;</span><span class="p">,</span> <span class="n">Position</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)),</span>
+        <span class="n">width</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;hidden-key&quot;</span><span class="p">:</span> <span class="n">PickableObject</span><span class="p">(</span><span class="s2">&quot;hidden-key&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.03</span><span class="p">),</span>
+    <span class="s2">&quot;door&quot;</span><span class="p">:</span> <span class="n">MoveToRoom</span><span class="p">(</span><span class="n">room_id</span><span class="o">=</span><span class="s2">&quot;room2&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Define rooms</strong> — a room maps object IDs to positions:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rooms</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;room1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;knife&quot;</span><span class="p">:</span> <span class="n">Position</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+        <span class="s2">&quot;poster&quot;</span><span class="p">:</span> <span class="n">Position</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+        <span class="s2">&quot;door&quot;</span><span class="p">:</span> <span class="n">Position</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.4</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;room2&quot;</span><span class="p">:</span> <span class="p">{},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Create the game</strong>:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Game</span>
+
+<span class="n">game</span> <span class="o">=</span> <span class="n">Game</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="n">objects</span><span class="p">,</span> <span class="n">rooms</span><span class="o">=</span><span class="n">rooms</span><span class="p">,</span> <span class="n">inventory</span><span class="o">=</span><span class="p">[],</span> <span class="n">first_room_id</span><span class="o">=</span><span class="s2">&quot;room1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><strong>Set up messages</strong> (optional — maps events to display text):</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_message_provider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">escapy.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">PickedUpEvent</span><span class="p">,</span> <span class="n">InteractedWithLockedEvent</span>
+
+<span class="n">messages</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nb">repr</span><span class="p">(</span><span class="n">PickedUpEvent</span><span class="p">(</span><span class="s2">&quot;knife&quot;</span><span class="p">)):</span> <span class="s2">&quot;You picked up the knife.&quot;</span><span class="p">,</span>
+    <span class="nb">repr</span><span class="p">(</span><span class="n">InteractedWithLockedEvent</span><span class="p">(</span><span class="s2">&quot;poster&quot;</span><span class="p">)):</span> <span class="s2">&quot;It won&#39;t budge without a sharp edge.&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">message_provider</span> <span class="o">=</span> <span class="n">dict_message_provider</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p><strong>Run with the pygame UI</strong>:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy.pygame</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyGameUi</span>
+
+<span class="n">config_ui</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;My Escape Room&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
+    <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="mi">768</span><span class="p">,</span>
+    <span class="s2">&quot;fps&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="s2">&quot;assets_dir&quot;</span><span class="p">:</span> <span class="s2">&quot;assets&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rooms&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;room1&quot;</span><span class="p">:</span> <span class="s2">&quot;room1.png&quot;</span><span class="p">,</span> <span class="s2">&quot;room2&quot;</span><span class="p">:</span> <span class="s2">&quot;room2.png&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;objects&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;knife&quot;</span><span class="p">:</span> <span class="s2">&quot;knife.png&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;poster:locked&quot;</span><span class="p">:</span> <span class="s2">&quot;poster-locked.png&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;poster:unlocked&quot;</span><span class="p">:</span> <span class="s2">&quot;poster-unlocked.png&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hidden-key&quot;</span><span class="p">:</span> <span class="s2">&quot;key.png&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;door&quot;</span><span class="p">:</span> <span class="s2">&quot;door.png&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">ui</span> <span class="o">=</span> <span class="n">PyGameUi</span><span class="p">(</span><span class="n">config_ui</span><span class="p">,</span> <span class="n">message_provider</span><span class="p">)</span>
+<span class="n">ui</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="n">ui</span><span class="o">.</span><span class="n">is_running</span><span class="p">:</span>
+    <span class="n">ui</span><span class="o">.</span><span class="n">tick</span><span class="p">()</span>
+    <span class="n">events</span> <span class="o">=</span> <span class="n">ui</span><span class="o">.</span><span class="n">input</span><span class="p">()</span>
+    <span class="n">ui</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+    <span class="n">ui</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+
+<span class="n">ui</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="running-tests">
+<h2>Running tests<a class="headerlink" href="#running-tests" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest<span class="w"> </span>-q
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="escapy Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="architecture.html" class="btn btn-neutral float-right" title="Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Matteo Zeccoli Marazzini.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

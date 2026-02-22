@@ -1,0 +1,580 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>escapy.events &mdash; escapy 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="escapy.commands" href="escapy.commands.html" />
+    <link rel="prev" title="escapy.types" href="escapy.types.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            escapy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#from-source-development">From source (development)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#as-a-dependency">As a dependency</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#project-layout">Project layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#your-first-game">Your first game</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#running-tests">Running tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html#key-design-decisions">Key design decisions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html#commands-are-first-class-values">Commands are first-class values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html#protocols-over-base-classes">Protocols over base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html#events-decouple-logic-from-presentation">Events decouple logic from presentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html#mixins-for-shared-behaviour">Mixins for shared behaviour</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html#game-loop">Game loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html#module-dependency-graph">Module dependency graph</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../game-objects.html">Game Objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#common-parameters">Common parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#pickableobject">PickableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#selfsimplelock">SelfSimpleLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#selfkeylock">SelfKeyLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#selfaskcodelock">SelfAskCodeLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#movetoroom">MoveToRoom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#winmachine">WinMachine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#inspectableobject">InspectableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#pickableinspectableobject">PickableInspectableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#movetoroomandaddtoinventoryobject">MoveToRoomAndAddToInventoryObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#creating-custom-objects">Creating custom objects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#basic-commands">Basic commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#no-op-command"><code class="docutils literal notranslate"><span class="pre">no_op()</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#pick-id-command"><code class="docutils literal notranslate"><span class="pre">pick(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#put-in-hand-id-command"><code class="docutils literal notranslate"><span class="pre">put_in_hand(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#inspect-id-command"><code class="docutils literal notranslate"><span class="pre">inspect(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#reveal-object-id-room-id-position-command"><code class="docutils literal notranslate"><span class="pre">reveal(object_id,</span> <span class="pre">room_id,</span> <span class="pre">position)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#move-to-room-room-id-command"><code class="docutils literal notranslate"><span class="pre">move_to_room(room_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#add-to-inventory-object-id-command"><code class="docutils literal notranslate"><span class="pre">add_to_inventory(object_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#lock-commands">Lock commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#simple-lock-id-command"><code class="docutils literal notranslate"><span class="pre">simple_lock(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#key-lock-id-key-id-command"><code class="docutils literal notranslate"><span class="pre">key_lock(id,</span> <span class="pre">key_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#ask-for-code-id-command"><code class="docutils literal notranslate"><span class="pre">ask_for_code(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#locked-id-command"><code class="docutils literal notranslate"><span class="pre">locked(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#combinators">Combinators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#combine-commands-command"><code class="docutils literal notranslate"><span class="pre">combine(*commands)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#cond-clauses-command"><code class="docutils literal notranslate"><span class="pre">cond(*clauses)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#chain-clauses-command"><code class="docutils literal notranslate"><span class="pre">chain(*clauses)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../events.html">Events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../events.html#event-union-type">Event union type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../events.html#event-reference">Event reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#pickedupevent"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#putinhandevent"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#putoffhandevent"><code class="docutils literal notranslate"><span class="pre">PutOffHandEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#interactedwithlockedevent"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#unlockedevent"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#revealedevent"><code class="docutils literal notranslate"><span class="pre">RevealedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#movedtoroomevent"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#askedforcodeevent"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#wrongcodeevent"><code class="docutils literal notranslate"><span class="pre">WrongCodeEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#inspectedevent"><code class="docutils literal notranslate"><span class="pre">InspectedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#gameendedevent"><code class="docutils literal notranslate"><span class="pre">GameEndedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#addedtoinventoryevent"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../events.html#using-events-with-messages">Using events with messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../protocols.html">Protocols</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../protocols.html#gameprotocol">GameProtocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols.html#command">Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#interactable">Interactable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#placeable">Placeable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#unlockable">Unlockable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#decodable">Decodable</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols.html#gameuiprotocol">GameUiProtocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols.html#runtime-checking">Runtime checking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pygame-ui.html">Pygame UI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pygame-ui.html#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#required-keys">Required keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#optional-keys">Optional keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#object-image-keys">Object image keys</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pygame-ui.html#screen-layout">Screen layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pygame-ui.html#ui-states">UI states</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#normal">Normal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#insertcode">InsertCode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#inspect">Inspect</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pygame-ui.html#messages">Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pygame-ui.html#game-loop">Game loop</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="escapy.html">escapy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.protocols.html">escapy.protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.protocols.html#escapy-protocols-game">escapy.protocols.game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.protocols.html#escapy-protocols-objects">escapy.protocols.objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.protocols.html#escapy-protocols-ui">escapy.protocols.ui</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.pygame.html">escapy.pygame</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi"><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.init"><code class="docutils literal notranslate"><span class="pre">PyGameUi.init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.tick"><code class="docutils literal notranslate"><span class="pre">PyGameUi.tick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.input"><code class="docutils literal notranslate"><span class="pre">PyGameUi.input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.render"><code class="docutils literal notranslate"><span class="pre">PyGameUi.render()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.handle"><code class="docutils literal notranslate"><span class="pre">PyGameUi.handle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.quit"><code class="docutils literal notranslate"><span class="pre">PyGameUi.quit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.add_message"><code class="docutils literal notranslate"><span class="pre">PyGameUi.add_message()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.pygame.html#module-escapy.pygame.pygame_ui">escapy.pygame.pygame_ui</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.pygame_ui.PyGameUi"><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.types.html">escapy.types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.types.html#escapy.types.Position"><code class="docutils literal notranslate"><span class="pre">Position</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.types.html#escapy.types.Position.x"><code class="docutils literal notranslate"><span class="pre">Position.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.types.html#escapy.types.Position.y"><code class="docutils literal notranslate"><span class="pre">Position.y</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.types.html#escapy.types.Room"><code class="docutils literal notranslate"><span class="pre">Room</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">escapy.events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.PickedUpEvent"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.PickedUpEvent.object_id"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.PutInHandEvent"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.PutInHandEvent.object_id"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.PutOffHandEvent"><code class="docutils literal notranslate"><span class="pre">PutOffHandEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.InteractedWithLockedEvent"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.InteractedWithLockedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.UnlockedEvent"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.UnlockedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.RevealedEvent"><code class="docutils literal notranslate"><span class="pre">RevealedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.RevealedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.object_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.RevealedEvent.room_id"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.room_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.RevealedEvent.position"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.position</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.MovedToRoomEvent"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.MovedToRoomEvent.room_id"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent.room_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.AskedForCodeEvent"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.AskedForCodeEvent.object_id"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.WrongCodeEvent"><code class="docutils literal notranslate"><span class="pre">WrongCodeEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.InspectedEvent"><code class="docutils literal notranslate"><span class="pre">InspectedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.InspectedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">InspectedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.GameEndedEvent"><code class="docutils literal notranslate"><span class="pre">GameEndedEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.AddedToInventoryEvent"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#escapy.events.AddedToInventoryEvent.object_id"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.events.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.commands.html">escapy.commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.no_op"><code class="docutils literal notranslate"><span class="pre">no_op()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.pick"><code class="docutils literal notranslate"><span class="pre">pick()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.put_in_hand"><code class="docutils literal notranslate"><span class="pre">put_in_hand()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.simple_lock"><code class="docutils literal notranslate"><span class="pre">simple_lock()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.key_lock"><code class="docutils literal notranslate"><span class="pre">key_lock()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.ask_for_code"><code class="docutils literal notranslate"><span class="pre">ask_for_code()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.locked"><code class="docutils literal notranslate"><span class="pre">locked()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.inspect"><code class="docutils literal notranslate"><span class="pre">inspect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.reveal"><code class="docutils literal notranslate"><span class="pre">reveal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.move_to_room"><code class="docutils literal notranslate"><span class="pre">move_to_room()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.add_to_inventory"><code class="docutils literal notranslate"><span class="pre">add_to_inventory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.combine"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.cond"><code class="docutils literal notranslate"><span class="pre">cond()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.commands.html#escapy.commands.chain"><code class="docutils literal notranslate"><span class="pre">chain()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.game.html">escapy.game</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.game.html#escapy.game.Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.game.html#escapy.game.Game.quit"><code class="docutils literal notranslate"><span class="pre">Game.quit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.game.html#escapy.game.Game.interact"><code class="docutils literal notranslate"><span class="pre">Game.interact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.game.html#escapy.game.Game.interact_inventory"><code class="docutils literal notranslate"><span class="pre">Game.interact_inventory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.game.html#escapy.game.Game.insert_code"><code class="docutils literal notranslate"><span class="pre">Game.insert_code()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.objects.html">escapy.objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.PickableObject"><code class="docutils literal notranslate"><span class="pre">PickableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.SelfSimpleLock"><code class="docutils literal notranslate"><span class="pre">SelfSimpleLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.SelfKeyLock"><code class="docutils literal notranslate"><span class="pre">SelfKeyLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.SelfAskCodeLock"><code class="docutils literal notranslate"><span class="pre">SelfAskCodeLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.MoveToRoom"><code class="docutils literal notranslate"><span class="pre">MoveToRoom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.WinMachine"><code class="docutils literal notranslate"><span class="pre">WinMachine</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.InspectableObject"><code class="docutils literal notranslate"><span class="pre">InspectableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.PickableInspectableObject"><code class="docutils literal notranslate"><span class="pre">PickableInspectableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.MoveToRoomAndAddToInventoryObject"><code class="docutils literal notranslate"><span class="pre">MoveToRoomAndAddToInventoryObject</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.mixins.html">escapy.mixins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.mixins.html#escapy.mixins.UnlockableMixin"><code class="docutils literal notranslate"><span class="pre">UnlockableMixin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.mixins.html#escapy.mixins.UnlockableMixin.unlock"><code class="docutils literal notranslate"><span class="pre">UnlockableMixin.unlock()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.mixins.html#escapy.mixins.DecodableMixin"><code class="docutils literal notranslate"><span class="pre">DecodableMixin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.mixins.html#escapy.mixins.DecodableMixin.insert_code"><code class="docutils literal notranslate"><span class="pre">DecodableMixin.insert_code()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.messages.html">escapy.messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.messages.html#escapy.messages.MessageProvider"><code class="docutils literal notranslate"><span class="pre">MessageProvider</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.messages.html#escapy.messages.dict_message_provider"><code class="docutils literal notranslate"><span class="pre">dict_message_provider()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">escapy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">escapy.events</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/escapy.events.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-escapy.events">
+<span id="escapy-events"></span><h1>escapy.events<a class="headerlink" href="#module-escapy.events" title="Link to this heading"></a></h1>
+<p>Event types emitted by commands and consumed by the UI layer.</p>
+<p>Every player action or game state change is represented as an immutable
+event dataclass.  Commands return lists of events, and the UI layer
+reacts to them (e.g. showing a message, switching to code-input mode,
+or ending the game).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.PickedUpEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">PickedUpEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#PickedUpEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.PickedUpEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object was removed from the room and added to the inventory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.PickedUpEvent.object_id">
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.PickedUpEvent.object_id" title="Link to this definition"></a></dt>
+<dd><p>Identifier of the picked-up object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.PutInHandEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">PutInHandEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#PutInHandEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.PutInHandEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The player selected an inventory object as the active hand item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.PutInHandEvent.object_id">
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.PutInHandEvent.object_id" title="Link to this definition"></a></dt>
+<dd><p>Identifier of the object now held in-hand.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.PutOffHandEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">PutOffHandEvent</span></span><a class="reference internal" href="../_modules/escapy/events.html#PutOffHandEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.PutOffHandEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The player deselected the active hand item (hand is now empty).</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.InteractedWithLockedEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">InteractedWithLockedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#InteractedWithLockedEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.InteractedWithLockedEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The player tried to interact with a locked object without the right key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.InteractedWithLockedEvent.object_id">
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.InteractedWithLockedEvent.object_id" title="Link to this definition"></a></dt>
+<dd><p>Identifier of the locked object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.UnlockedEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">UnlockedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#UnlockedEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.UnlockedEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A locked object was successfully unlocked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.UnlockedEvent.object_id">
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.UnlockedEvent.object_id" title="Link to this definition"></a></dt>
+<dd><p>Identifier of the now-unlocked object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.RevealedEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">RevealedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">room_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#RevealedEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.RevealedEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A hidden object was revealed and placed into a room.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>position</strong> (<a class="reference internal" href="escapy.types.html#escapy.types.Position" title="escapy.types.Position"><em>Position</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.RevealedEvent.object_id">
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.RevealedEvent.object_id" title="Link to this definition"></a></dt>
+<dd><p>Identifier of the revealed object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.RevealedEvent.room_id">
+<span class="sig-name descname"><span class="pre">room_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.RevealedEvent.room_id" title="Link to this definition"></a></dt>
+<dd><p>Room where the object was placed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.RevealedEvent.position">
+<span class="sig-name descname"><span class="pre">position</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="escapy.types.html#escapy.types.Position" title="escapy.types.Position"><span class="pre">Position</span></a></span><a class="headerlink" href="#escapy.events.RevealedEvent.position" title="Link to this definition"></a></dt>
+<dd><p>Position of the newly placed object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.MovedToRoomEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">MovedToRoomEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#MovedToRoomEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.MovedToRoomEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The active room changed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.MovedToRoomEvent.room_id">
+<span class="sig-name descname"><span class="pre">room_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.MovedToRoomEvent.room_id" title="Link to this definition"></a></dt>
+<dd><p>Identifier of the new current room.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.AskedForCodeEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">AskedForCodeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#AskedForCodeEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.AskedForCodeEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The UI should prompt the player to enter a code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.AskedForCodeEvent.object_id">
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.AskedForCodeEvent.object_id" title="Link to this definition"></a></dt>
+<dd><p>Identifier of the object awaiting the code.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.WrongCodeEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">WrongCodeEvent</span></span><a class="reference internal" href="../_modules/escapy/events.html#WrongCodeEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.WrongCodeEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The player entered an incorrect code.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.InspectedEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">InspectedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#InspectedEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.InspectedEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The player inspected an object (e.g. zoomed in on it).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.InspectedEvent.object_id">
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.InspectedEvent.object_id" title="Link to this definition"></a></dt>
+<dd><p>Identifier of the inspected object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.GameEndedEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">GameEndedEvent</span></span><a class="reference internal" href="../_modules/escapy/events.html#GameEndedEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.GameEndedEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The game has ended (player quit or won).</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.events.AddedToInventoryEvent">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">AddedToInventoryEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#AddedToInventoryEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.AddedToInventoryEvent" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object was added to the player’s inventory without being picked up from the room.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="escapy.events.AddedToInventoryEvent.object_id">
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.AddedToInventoryEvent.object_id" title="Link to this definition"></a></dt>
+<dd><p>Identifier of the added object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py type">
+<dt class="sig sig-object py" id="escapy.events.Event">
+<span class="property"><span class="k"><span class="pre">type</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.PickedUpEvent" title="escapy.events.PickedUpEvent"><span class="pre">PickedUpEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.PutInHandEvent" title="escapy.events.PutInHandEvent"><span class="pre">PutInHandEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.PutOffHandEvent" title="escapy.events.PutOffHandEvent"><span class="pre">PutOffHandEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.InteractedWithLockedEvent" title="escapy.events.InteractedWithLockedEvent"><span class="pre">InteractedWithLockedEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.UnlockedEvent" title="escapy.events.UnlockedEvent"><span class="pre">UnlockedEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.RevealedEvent" title="escapy.events.RevealedEvent"><span class="pre">RevealedEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.MovedToRoomEvent" title="escapy.events.MovedToRoomEvent"><span class="pre">MovedToRoomEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.AskedForCodeEvent" title="escapy.events.AskedForCodeEvent"><span class="pre">AskedForCodeEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.WrongCodeEvent" title="escapy.events.WrongCodeEvent"><span class="pre">WrongCodeEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.InspectedEvent" title="escapy.events.InspectedEvent"><span class="pre">InspectedEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.GameEndedEvent" title="escapy.events.GameEndedEvent"><span class="pre">GameEndedEvent</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#escapy.events.AddedToInventoryEvent" title="escapy.events.AddedToInventoryEvent"><span class="pre">AddedToInventoryEvent</span></a></span><a class="headerlink" href="#escapy.events.Event" title="Link to this definition"></a></dt>
+<dd><p>Union of all event types that can be emitted during gameplay.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="escapy.types.html" class="btn btn-neutral float-left" title="escapy.types" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="escapy.commands.html" class="btn btn-neutral float-right" title="escapy.commands" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Matteo Zeccoli Marazzini.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

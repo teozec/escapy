@@ -10,7 +10,7 @@ Install from source (development):
 pyenv install   # or alternative way to install python 3.14
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ## Quick start
@@ -41,13 +41,13 @@ making it easier to implement alternative UI backends if needed.
 
 ## Development
 
-Run tests and linters using the dev requirements.
+Run tests and linters using the editable dev extras.
 
 ```bash
 pyenv install   # or alternative way to install python 3.14
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements-dev.txt
+pip install -e .[dev]
 pre-commit install
 ```
 

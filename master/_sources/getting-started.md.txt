@@ -14,9 +14,9 @@ pyenv install         # or any other way to install Python 3.14
 python -m venv .venv
 source .venv/bin/activate
 
-pip install -r requirements.txt        # runtime deps
+pip install .                        # runtime deps
 # or, for development:
-pip install -r requirements-dev.txt    # includes ruff, pytest, pre-commit
+pip install -e .[dev]                   # includes ruff, pytest, pre-commit
 pre-commit install
 ```
 

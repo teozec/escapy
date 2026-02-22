@@ -1,0 +1,16 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-docs:
+    uses: ./.github/workflows/_deploy-docs.yml
+    with:
+      version: master
+    permissions:
+      contents: write

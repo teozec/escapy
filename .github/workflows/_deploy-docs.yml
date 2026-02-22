@@ -1,0 +1,143 @@
+name: Build & Deploy Docs
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: >
+          Subdirectory name on gh-pages (e.g. "master" or "v0.1.0").
+        required: true
+        type: string
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: gh-pages
+      cancel-in-progress: false
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: pip install .[docs]
+
+      - name: Build Sphinx docs
+        run: sphinx-build -b html docs docs/_build/html
+
+      - name: Deploy to gh-pages
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+
+          DOCS_DIR="$(pwd)/docs/_build/html"
+          DEPLOY_DIR="${RUNNER_TEMP}/gh-pages"
+          rm -rf "$DEPLOY_DIR"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Check out existing gh-pages branch, or create an orphan
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+              git fetch origin gh-pages
+              git worktree add "$DEPLOY_DIR" origin/gh-pages
+              cd "$DEPLOY_DIR"
+              git checkout -B gh-pages origin/gh-pages
+          else
+              git worktree add --detach "$DEPLOY_DIR"
+              cd "$DEPLOY_DIR"
+              git checkout --orphan gh-pages
+              git rm -rf . 2>/dev/null || true
+          fi
+
+          # Place built docs in the version sub-directory
+          rm -rf "${VERSION:?}"
+          cp -r "$DOCS_DIR" "$VERSION"
+
+          # Prevent GitHub Pages from running Jekyll
+          touch .nojekyll
+
+          # ── Generate top-level version picker ──
+          python3 << 'PYEOF'
+          import os, re
+
+          dirs = [
+              d for d in os.listdir(".")
+              if os.path.isdir(d) and not d.startswith(".")
+          ]
+
+          master = "master" if "master" in dirs else None
+          versions = sorted(
+              (d for d in dirs if d != "master"),
+              reverse=True,
+          )
+
+          def is_prerelease(v):
+              return bool(re.search(r"(alpha|beta|rc|dev|pre|\.dev)", v, re.I) or "-" in v)
+
+          latest_stable = next((v for v in versions if not is_prerelease(v)), None)
+          redirect = latest_stable or master or (versions[0] if versions else "")
+
+          items = []
+          if master:
+              items.append(("master", "master (development)"))
+          for v in versions:
+              if v == latest_stable:
+                  label = f"{v} (latest)"
+              elif is_prerelease(v):
+                  label = f"{v} (pre-release)"
+              else:
+                  label = v
+              items.append((v, label))
+
+          links = "\n".join(
+              f'    <li><a href="{href}/">{label}</a></li>' for href, label in items
+          )
+
+          html = f"""\
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <title>escapy docs</title>
+            <meta http-equiv="refresh" content="0; url={redirect}/">
+            <style>
+              body {{ font-family: system-ui, sans-serif; max-width: 600px; margin: 60px auto; padding: 0 1rem; }}
+              a {{ color: #2980b9; text-decoration: none; }}
+              a:hover {{ text-decoration: underline; }}
+              li {{ margin: .4rem 0; }}
+              ul {{ list-style: none; padding: 0; }}
+            </style>
+          </head>
+          <body>
+            <h1>escapy documentation</h1>
+            <p>Redirecting to <a href="{redirect}/">{redirect}</a>&hellip;</p>
+            <h2>All versions</h2>
+            <ul>
+          {links}
+            </ul>
+          </body>
+          </html>"""
+
+          with open("index.html", "w") as f:
+              f.write(html)
+          PYEOF
+
+          # Commit and push
+          git add --all
+          if git diff --cached --quiet; then
+              echo "No changes to deploy."
+          else
+              git commit -m "docs: deploy $VERSION"
+              git push origin gh-pages
+          fi

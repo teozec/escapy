@@ -50,16 +50,7 @@ class PickableObject(Interactable, InventoryInteractable, Placeable):
 
 class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
     def __init__(self, id: str, on_unlock: Command, width: float, height: float):
-        self.interact = chain(
-            (lambda _events: True, simple_lock(id)),
-            (
-                lambda events: (
-                    self.state == "locked"
-                    and not any(isinstance(e, UnlockedEvent) and e.object_id == id for e in events)
-                ),
-                locked(id),
-            ),
-        )
+        self.interact = simple_lock(id)
         self.state = "locked"
         self.on_unlock = on_unlock
         self.width = width

@@ -27,3 +27,6 @@ dist/
 
 # Project specific
 assets/
+
+# Sphinx documentation build output
+docs/_build/

@@ -18,12 +18,13 @@
 """escapy - A lightweight escape-room game library built on pygame.
 
 This is the main package containing all the core game logic, events, objects,
-and interaction systems. The PyGameUi implementation is available as a separate
-submodule in escapy.ui.
+and interaction systems.  The ``PyGameUi`` implementation is available as a
+separate submodule in ``escapy.pygame``.
 
-Example usage:
+Example usage::
+
     from escapy import Game, Position, dict_message_provider
-    from escapy.ui import PyGameUi
+    from escapy.pygame import PyGameUi
 
     # create your game data (objects, rooms, inventory, first_room_id)
     # then:
@@ -33,7 +34,6 @@ Example usage:
     while ui.is_running:
         ui.tick()
         events = ui.input()
-        events = game.process_events(events)
         ui.handle(events)
         ui.render()
 """

@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
+"""Game-engine protocol and the Command type alias."""
+
 from typing import Callable, Protocol
 
 from ..events import Event
@@ -22,6 +24,17 @@ from ..types import Room
 
 
 class GameProtocol(Protocol):
+    """Structural interface that every game-engine implementation must satisfy.
+
+    Attributes:
+        objects: Mapping of object IDs to their game-object instances.
+        rooms: Mapping of room IDs to :data:`~escapy.types.Room` dicts.
+        current_room_id: ID of the room currently displayed.
+        is_finished: ``True`` after the game has ended.
+        inventory: Ordered list of object IDs the player is carrying.
+        in_hand_object_id: ID of the object currently held, or ``None``.
+    """
+
     objects: dict[str, object]
     rooms: dict[str, Room]
     current_room_id: str
@@ -29,13 +42,22 @@ class GameProtocol(Protocol):
     inventory: list[str]
     in_hand_object_id: str | None
 
-    def quit(self) -> list[Event]: ...
+    def quit(self) -> list[Event]:
+        """End the game."""
+        ...
 
-    def interact(self, object_id: str) -> list[Event]: ...
+    def interact(self, object_id: str) -> list[Event]:
+        """Interact with an object in the current room."""
+        ...
 
-    def interact_inventory(self, object_id: str | None) -> list[Event]: ...
+    def interact_inventory(self, object_id: str | None) -> list[Event]:
+        """Interact with an inventory object or clear the hand."""
+        ...
 
-    def insert_code(self, object_id: str, code: str) -> list[Event]: ...
+    def insert_code(self, object_id: str, code: str) -> list[Event]:
+        """Submit a code to a decodable object."""
+        ...
 
 
 type Command = Callable[[GameProtocol], list[Event]]
+"""A callable that mutates game state and returns the resulting events."""

@@ -15,6 +15,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
+"""Protocol (structural typing) interfaces for escapy.
+
+This subpackage defines the abstract contracts that the game engine,
+game objects, and UI implementations must satisfy.  Using
+:class:`typing.Protocol` allows duck-typed interoperability without
+forcing concrete inheritance.
+"""
+
 from .game import Command, GameProtocol
 from .objects import Decodable, Interactable, InventoryInteractable, Placeable, Unlockable
 from .ui import GameUiProtocol

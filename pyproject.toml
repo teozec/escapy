@@ -14,6 +14,7 @@ dependencies = []
 [project.optional-dependencies]
 pygame = ["pygame>=2.0"]
 dev = ["pip-tools", "ruff", "pre-commit", "pytest>=8.0"]
+docs = ["sphinx>=9.0", "sphinx-rtd-theme>=3.0", "myst-parser>=5.0"]
 
 [tool.pytest.ini_options]
 testpaths = ["src/escapy/__tests__"]

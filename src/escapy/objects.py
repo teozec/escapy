@@ -15,6 +15,13 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
+"""Ready-made game-object classes for common escape-room mechanics.
+
+Each class composes protocol implementations and mixin behaviour to
+provide a complete, reusable game object that can be placed in rooms,
+interacted with, and managed by the inventory system.
+"""
+
 from .commands import (
     Command,
     add_to_inventory,
@@ -36,6 +43,18 @@ from .protocols import Decodable, Interactable, InventoryInteractable, Placeable
 
 
 class PickableObject(Interactable, InventoryInteractable, Placeable):
+    """An object that can be picked up from a room and held in-hand.
+
+    Clicking the object in the room picks it up (removes it from the room
+    and adds it to inventory).  Clicking it in the inventory puts it
+    in-hand.
+
+    Args:
+        id: Unique object identifier.
+        width: Normalised width (fraction of the game area).
+        height: Normalised height (fraction of the game area).
+    """
+
     def __init__(
         self,
         id: str,
@@ -49,6 +68,15 @@ class PickableObject(Interactable, InventoryInteractable, Placeable):
 
 
 class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
+    """A lock that can be opened with a simple click (no key required).
+
+    Args:
+        id: Unique object identifier.
+        on_unlock: Command to execute when the lock is opened.
+        width: Normalised width.
+        height: Normalised height.
+    """
+
     def __init__(self, id: str, on_unlock: Command, width: float, height: float):
         self.interact = simple_lock(id)
         self.state = "locked"
@@ -58,6 +86,19 @@ class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
 
 
 class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
+    """A lock that requires a specific key held in-hand to open.
+
+    If the player interacts without the correct key, an
+    :class:`~escapy.events.InteractedWithLockedEvent` is emitted instead.
+
+    Args:
+        id: Unique object identifier.
+        key_id: Identifier of the key object that opens this lock.
+        on_unlock: Command to execute when the lock is opened.
+        width: Normalised width.
+        height: Normalised height.
+    """
+
     def __init__(self, id: str, key_id: str, on_unlock: Command, width: float, height: float):
         self.interact = chain(
             (lambda _events: True, key_lock(id, key_id=key_id)),
@@ -76,6 +117,20 @@ class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
 
 
 class SelfAskCodeLock(UnlockableMixin, DecodableMixin, Interactable, Unlockable, Decodable, Placeable):
+    """A lock that prompts the player to enter a numeric/text code.
+
+    When locked, interaction triggers an
+    :class:`~escapy.events.AskedForCodeEvent`.  If the submitted code
+    matches, the lock opens and ``on_unlock`` fires.
+
+    Args:
+        id: Unique object identifier.
+        on_unlock: Command to execute when decoded.
+        code: The correct code string.
+        width: Normalised width.
+        height: Normalised height.
+    """
+
     def __init__(self, id: str, on_unlock: Command, code: str, width: float, height: float):
         self.interact = cond((lambda: self.state == "locked", ask_for_code(id)))
         self.state = "locked"
@@ -87,6 +142,14 @@ class SelfAskCodeLock(UnlockableMixin, DecodableMixin, Interactable, Unlockable,
 
 
 class MoveToRoom(Interactable, Placeable):
+    """A clickable area that transports the player to another room.
+
+    Args:
+        room_id: Destination room identifier.
+        width: Normalised width.
+        height: Normalised height.
+    """
+
     def __init__(self, room_id: str, width: float, height: float):
         self.interact = move_to_room(room_id)
         self.width = width
@@ -94,6 +157,19 @@ class MoveToRoom(Interactable, Placeable):
 
 
 class WinMachine(DecodableMixin, InventoryInteractable, Decodable, Placeable):
+    """A special object that ends (wins) the game when the correct code is entered.
+
+    Interacting with it from the inventory triggers a code prompt.  A
+    correct code moves the player to the designated win room.
+
+    Args:
+        id: Unique object identifier.
+        code: The winning code string.
+        win_room_id: Room to transition to upon success.
+        width: Normalised width.
+        height: Normalised height.
+    """
+
     def __init__(self, id: str, code: str, win_room_id: str, width: float, height: float):
         self.interact_inventory = ask_for_code(id)
         self.code = code
@@ -103,6 +179,14 @@ class WinMachine(DecodableMixin, InventoryInteractable, Decodable, Placeable):
 
 
 class InspectableObject(Interactable, Placeable):
+    """An object that can be inspected (zoomed-in view) when clicked.
+
+    Args:
+        id: Unique object identifier.
+        width: Normalised width.
+        height: Normalised height.
+    """
+
     def __init__(self, id: str, width: float, height: float):
         self.interact = inspect(id)
         self.width = width
@@ -110,6 +194,14 @@ class InspectableObject(Interactable, Placeable):
 
 
 class PickableInspectableObject(Interactable, InventoryInteractable, Placeable):
+    """An object that can be picked up from a room and inspected from the inventory.
+
+    Args:
+        id: Unique object identifier.
+        width: Normalised width.
+        height: Normalised height.
+    """
+
     def __init__(self, id: str, width: float, height: float):
         self.interact = pick(id)
         self.interact_inventory = inspect(id)
@@ -118,6 +210,15 @@ class PickableInspectableObject(Interactable, InventoryInteractable, Placeable):
 
 
 class MoveToRoomAndAddToInventoryObject(Interactable, Placeable):
+    """A clickable area that moves the player to another room and adds an object to the inventory.
+
+    Args:
+        room_id: Destination room identifier.
+        object_id: Object to add to the inventory on interaction.
+        width: Normalised width.
+        height: Normalised height.
+    """
+
     def __init__(self, room_id: str, object_id: str, width: float, height: float):
         self.interact = combine(move_to_room(room_id), add_to_inventory(object_id))
         self.width = width

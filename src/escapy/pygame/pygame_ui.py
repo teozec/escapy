@@ -15,6 +15,14 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
+"""Pygame-based UI implementation for escapy.
+
+Provides :class:`PyGameUi`, a concrete implementation of
+:class:`~escapy.protocols.GameUiProtocol` that renders the game using
+*pygame*.  The UI is split into three screen regions: the main game
+area, an inventory sidebar, and a message bar.
+"""
+
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -59,6 +67,21 @@ type _UIState = _NormalState | _InsertCodeState | _InspectState
 
 
 class PyGameUi(GameUiProtocol):
+    """Pygame-based game UI.
+
+    Manages the display window, input handling, and rendering.  Three
+    distinct internal states control how input is interpreted:
+
+    * **Normal** – clicks on room objects or inventory items.
+    * **InsertCode** – keyboard input for a code prompt.
+    * **Inspect** – fullscreen view of an object image.
+
+    Args:
+        config: UI configuration dictionary (window size, asset paths,
+            layout fractions, etc.).
+        message_provider: Callable that maps events to display strings.
+    """
+
     def __init__(self, config: dict, message_provider: MessageProvider) -> None:
         pygame.init()
         pygame.display.set_caption(config["title"])
@@ -118,14 +141,17 @@ class PyGameUi(GameUiProtocol):
         self.inventory_object_size = available_width / self.inventory_columns
 
     def init(self, game: GameProtocol):
+        """Bind the UI to a :class:`~escapy.protocols.GameProtocol` and start running."""
         self.game = game
         self._update_objects()
         self.is_running = True
 
     def tick(self):
+        """Advance the clock to regulate the frame rate."""
         self.clock.tick(self.fps)
 
     def input(self) -> list[Event]:
+        """Process all pending pygame events and return game events."""
         events: list[Event] = []
 
         for event in pygame.event.get():
@@ -204,6 +230,7 @@ class PyGameUi(GameUiProtocol):
         return []
 
     def render(self):
+        """Draw the current frame (room, objects, inventory, overlays)."""
         self._update_objects()
 
         # Draw room
@@ -317,6 +344,7 @@ class PyGameUi(GameUiProtocol):
         self.screen.blit(self._state.surface, self._state.rect)
 
     def handle(self, events: list[Event]) -> None:
+        """React to game events by updating messages and UI state."""
         for event in events:
             # Get configured message for this event
             message = self._get_event_message(event)
@@ -336,6 +364,7 @@ class PyGameUi(GameUiProtocol):
                     pass
 
     def quit(self) -> None:
+        """Shut down the pygame display."""
         pygame.quit()
 
     def add_message(self, message: str) -> None:
@@ -343,12 +372,14 @@ class PyGameUi(GameUiProtocol):
         self.messages.append(message)
 
     def _get_repr(self, object_id: str) -> str:
+        """Return the image-lookup key for an object, accounting for lock state."""
         object = self.game.objects[object_id]
         if isinstance(object, Unlockable):
             return f"{object_id}:{object.state}"
         return object_id
 
     def _update_objects(self):
+        """Recalculate screen rects for room objects and inventory items."""
         self.objects: dict[str, pygame.Rect] = {}
         game_area_width = self.game_area.get_width()
         game_area_height = self.game_area.get_height()
@@ -381,6 +412,7 @@ class PyGameUi(GameUiProtocol):
             )
 
     def _show_inspect(self, object_id: str) -> None:
+        """Switch to the inspect overlay for the given object."""
         image = self.object_images[self._get_repr(object_id)]
         screen_w, screen_h = self.screen.get_size()
         max_w = int(screen_w * 0.8)

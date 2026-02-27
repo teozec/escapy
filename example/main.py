@@ -49,10 +49,10 @@ def main():
     ui = PyGameUi(config.ui, message_provider)
     game = Game(
         objects={
-            "a1-knife": PickableObject("a1-knife", 0.05, 0.05),
+            "a1-key": PickableObject("a1-key", 0.05, 0.05),
             "a2-poster": SelfKeyLock(
                 id="a2-poster",
-                key_id="a1-knife",
+                key_id="a1-key",
                 on_unlock=reveal("a2-key", "room1", Position(x=0.75, y=0.75)),
                 width=0.15,
                 height=0.25,
@@ -70,7 +70,7 @@ def main():
         },
         rooms={
             "room1": {
-                "a1-knife": Position(x=0.2, y=0.2),
+                "a1-key": Position(x=0.2, y=0.2),
                 "a2-poster": Position(x=0.7, y=0.7),
                 "a3-chest": Position(x=0.4, y=0.4),
                 "calendar-1": Position(x=0.85, y=0.05),

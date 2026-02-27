@@ -85,27 +85,6 @@ A clickable hotspot that **transports the player** to another room.
 ```python
 door = MoveToRoom(room_id="hallway", width=0.1, height=0.2)
 ```
-
-## WinMachine
-
-A special object that **ends the game** when the correct code is entered.  Interaction happens from the **inventory**.
-
-| Behaviour | Effect |
-|---|---|
-| Inventory click | `AskedForCodeEvent` |
-| Code correct | `MovedToRoomEvent(win_room_id)` |
-| Code wrong | `WrongCodeEvent` |
-
-```python
-machine = WinMachine(
-    id="machine",
-    code="42",
-    win_room_id="win_room",
-    width=0.15,
-    height=0.15,
-)
-```
-
 ## InspectableObject
 
 An object that shows a **zoomed-in view** when clicked.
@@ -125,19 +104,6 @@ An object that can be **picked up** from a room and **inspected** from the inven
 
 ```python
 note = PickableInspectableObject("note", width=0.08, height=0.08)
-```
-
-## MoveToRoomAndAddToInventoryObject
-
-A clickable hotspot that **moves** the player and **adds an item** to the inventory simultaneously.
-
-```python
-portal = MoveToRoomAndAddToInventoryObject(
-    room_id="garden",
-    object_id="flower",
-    width=0.1,
-    height=0.1,
-)
 ```
 
 ## Creating custom objects

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>escapy.events &mdash; escapy 0.0.1 documentation</title>
+  <title>escapy.objects &mdash; escapy 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
@@ -310,7 +310,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">escapy.events</li>
+      <li class="breadcrumb-item active">escapy.objects</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -319,7 +319,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for escapy.events</h1><div class="highlight"><pre>
+  <h1>Source code for escapy.objects</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (C) 2026 Matteo Zeccoli Marazzini</span>
 <span class="c1">#</span>
 <span class="c1"># This file is part of escapy.</span>
@@ -336,168 +336,195 @@
 <span class="c1">#</span>
 <span class="c1"># You should have received a copy of the GNU Lesser General Public License</span>
 <span class="c1"># along with escapy. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+<span class="sd">&quot;&quot;&quot;Ready-made game-object classes for common escape-room mechanics.</span>
 
-<span class="sd">&quot;&quot;&quot;Event types emitted by commands and consumed by the UI layer.</span>
-
-<span class="sd">Every player action or game state change is represented as an immutable</span>
-<span class="sd">event dataclass.  Commands return lists of events, and the UI layer</span>
-<span class="sd">reacts to them (e.g. showing a message, switching to code-input mode,</span>
-<span class="sd">or ending the game).</span>
+<span class="sd">Each class composes protocol implementations and mixin behaviour to</span>
+<span class="sd">provide a complete, reusable game object that can be placed in rooms,</span>
+<span class="sd">interacted with, and managed by the inventory system.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Position</span>
-
-
-<div class="viewcode-block" id="PickedUpEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.PickedUpEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">PickedUpEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object was removed from the room and added to the inventory.&quot;&quot;&quot;</span>
-
-    <span class="c1">#: Identifier of the picked-up object.</span>
-    <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<div class="viewcode-block" id="PutInHandEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.PutInHandEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">PutInHandEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The player selected an inventory object as the active hand item.&quot;&quot;&quot;</span>
-
-    <span class="c1">#: Identifier of the object now held in-hand.</span>
-    <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<div class="viewcode-block" id="PutOffHandEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.PutOffHandEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">PutOffHandEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The player deselected the active hand item (hand is now empty).&quot;&quot;&quot;</span>
-
-    <span class="o">...</span></div>
-
-
-
-<div class="viewcode-block" id="InteractedWithLockedEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.InteractedWithLockedEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">InteractedWithLockedEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The player tried to interact with a locked object without the right key.&quot;&quot;&quot;</span>
-
-    <span class="c1">#: Identifier of the locked object.</span>
-    <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<div class="viewcode-block" id="UnlockedEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.UnlockedEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">UnlockedEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A locked object was successfully unlocked.&quot;&quot;&quot;</span>
-
-    <span class="c1">#: Identifier of the now-unlocked object.</span>
-    <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<div class="viewcode-block" id="RevealedEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.RevealedEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">RevealedEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A hidden object was revealed and placed into a room.&quot;&quot;&quot;</span>
-
-    <span class="c1">#: Identifier of the revealed object.</span>
-    <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="c1">#: Room where the object was placed.</span>
-    <span class="n">room_id</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="c1">#: Position of the newly placed object.</span>
-    <span class="n">position</span><span class="p">:</span> <span class="n">Position</span></div>
-
-
-
-<div class="viewcode-block" id="MovedToRoomEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.MovedToRoomEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">MovedToRoomEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The active room changed.&quot;&quot;&quot;</span>
-
-    <span class="c1">#: Identifier of the new current room.</span>
-    <span class="n">room_id</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<div class="viewcode-block" id="AskedForCodeEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.AskedForCodeEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">AskedForCodeEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The UI should prompt the player to enter a code.&quot;&quot;&quot;</span>
-
-    <span class="c1">#: Identifier of the object awaiting the code.</span>
-    <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<div class="viewcode-block" id="WrongCodeEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.WrongCodeEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">WrongCodeEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The player entered an incorrect code.&quot;&quot;&quot;</span>
-
-    <span class="o">...</span></div>
-
-
-
-<div class="viewcode-block" id="InspectedEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.InspectedEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">InspectedEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The player inspected an object (e.g. zoomed in on it).&quot;&quot;&quot;</span>
-
-    <span class="c1">#: Identifier of the inspected object.</span>
-    <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<div class="viewcode-block" id="GameEndedEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.GameEndedEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">GameEndedEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The game has ended (player quit or won).&quot;&quot;&quot;</span>
-
-    <span class="o">...</span></div>
-
-
-
-<div class="viewcode-block" id="AddedToInventoryEvent">
-<a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.AddedToInventoryEvent">[docs]</a>
-<span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">AddedToInventoryEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object was added to the player&#39;s inventory without being picked up from the room.&quot;&quot;&quot;</span>
-
-    <span class="c1">#: Identifier of the added object.</span>
-    <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
-
-
-
-<span class="nb">type</span> <span class="n">Event</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">PickedUpEvent</span>
-    <span class="o">|</span> <span class="n">PutInHandEvent</span>
-    <span class="o">|</span> <span class="n">PutOffHandEvent</span>
-    <span class="o">|</span> <span class="n">InteractedWithLockedEvent</span>
-    <span class="o">|</span> <span class="n">UnlockedEvent</span>
-    <span class="o">|</span> <span class="n">RevealedEvent</span>
-    <span class="o">|</span> <span class="n">MovedToRoomEvent</span>
-    <span class="o">|</span> <span class="n">AskedForCodeEvent</span>
-    <span class="o">|</span> <span class="n">WrongCodeEvent</span>
-    <span class="o">|</span> <span class="n">InspectedEvent</span>
-    <span class="o">|</span> <span class="n">GameEndedEvent</span>
-    <span class="o">|</span> <span class="n">AddedToInventoryEvent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.commands</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Command</span><span class="p">,</span>
+    <span class="n">ask_for_code</span><span class="p">,</span>
+    <span class="n">chain</span><span class="p">,</span>
+    <span class="n">cond</span><span class="p">,</span>
+    <span class="n">inspect</span><span class="p">,</span>
+    <span class="n">key_lock</span><span class="p">,</span>
+    <span class="n">locked</span><span class="p">,</span>
+    <span class="n">move_to_room</span><span class="p">,</span>
+    <span class="n">pick</span><span class="p">,</span>
+    <span class="n">put_in_hand</span><span class="p">,</span>
+    <span class="n">simple_lock</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="sd">&quot;&quot;&quot;Union of all event types that can be emitted during gameplay.&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">UnlockedEvent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.mixins</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecodableMixin</span><span class="p">,</span> <span class="n">UnlockableMixin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decodable</span><span class="p">,</span> <span class="n">Interactable</span><span class="p">,</span> <span class="n">InventoryInteractable</span><span class="p">,</span> <span class="n">Placeable</span><span class="p">,</span> <span class="n">Unlockable</span>
+
+
+<div class="viewcode-block" id="PickableObject">
+<a class="viewcode-back" href="../../api/escapy.objects.html#escapy.objects.PickableObject">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PickableObject</span><span class="p">(</span><span class="n">Interactable</span><span class="p">,</span> <span class="n">InventoryInteractable</span><span class="p">,</span> <span class="n">Placeable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that can be picked up from a room and held in-hand.</span>
+
+<span class="sd">    Clicking the object in the room picks it up (removes it from the room</span>
+<span class="sd">    and adds it to inventory).  Clicking it in the inventory puts it</span>
+<span class="sd">    in-hand.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id: Unique object identifier.</span>
+<span class="sd">        width: Normalised width (fraction of the game area).</span>
+<span class="sd">        height: Normalised height (fraction of the game area).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="n">pick</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact_inventory</span> <span class="o">=</span> <span class="n">put_in_hand</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span></div>
+
+
+
+<div class="viewcode-block" id="SelfSimpleLock">
+<a class="viewcode-back" href="../../api/escapy.objects.html#escapy.objects.SelfSimpleLock">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SelfSimpleLock</span><span class="p">(</span><span class="n">UnlockableMixin</span><span class="p">,</span> <span class="n">Interactable</span><span class="p">,</span> <span class="n">Unlockable</span><span class="p">,</span> <span class="n">Placeable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A lock that can be opened with a simple click (no key required).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id: Unique object identifier.</span>
+<span class="sd">        on_unlock: Command to execute when the lock is opened.</span>
+<span class="sd">        width: Normalised width.</span>
+<span class="sd">        height: Normalised height.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">on_unlock</span><span class="p">:</span> <span class="n">Command</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="n">simple_lock</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;locked&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_unlock</span> <span class="o">=</span> <span class="n">on_unlock</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span></div>
+
+
+
+<div class="viewcode-block" id="SelfKeyLock">
+<a class="viewcode-back" href="../../api/escapy.objects.html#escapy.objects.SelfKeyLock">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SelfKeyLock</span><span class="p">(</span><span class="n">UnlockableMixin</span><span class="p">,</span> <span class="n">Interactable</span><span class="p">,</span> <span class="n">Unlockable</span><span class="p">,</span> <span class="n">Placeable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A lock that requires a specific key held in-hand to open.</span>
+
+<span class="sd">    If the player interacts without the correct key, an</span>
+<span class="sd">    :class:`~escapy.events.InteractedWithLockedEvent` is emitted instead.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id: Unique object identifier.</span>
+<span class="sd">        key_id: Identifier of the key object that opens this lock.</span>
+<span class="sd">        on_unlock: Command to execute when the lock is opened.</span>
+<span class="sd">        width: Normalised width.</span>
+<span class="sd">        height: Normalised height.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">on_unlock</span><span class="p">:</span> <span class="n">Command</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span>
+            <span class="p">(</span><span class="k">lambda</span> <span class="n">_events</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="n">key_lock</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">key_id</span><span class="o">=</span><span class="n">key_id</span><span class="p">)),</span>
+            <span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">events</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;locked&quot;</span>
+                    <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">UnlockedEvent</span><span class="p">)</span> <span class="ow">and</span> <span class="n">e</span><span class="o">.</span><span class="n">object_id</span> <span class="o">==</span> <span class="nb">id</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">events</span><span class="p">)</span>
+                <span class="p">),</span>
+                <span class="n">locked</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;locked&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_unlock</span> <span class="o">=</span> <span class="n">on_unlock</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span></div>
+
+
+
+<div class="viewcode-block" id="SelfAskCodeLock">
+<a class="viewcode-back" href="../../api/escapy.objects.html#escapy.objects.SelfAskCodeLock">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SelfAskCodeLock</span><span class="p">(</span><span class="n">UnlockableMixin</span><span class="p">,</span> <span class="n">DecodableMixin</span><span class="p">,</span> <span class="n">Interactable</span><span class="p">,</span> <span class="n">Unlockable</span><span class="p">,</span> <span class="n">Decodable</span><span class="p">,</span> <span class="n">Placeable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A lock that prompts the player to enter a numeric/text code.</span>
+
+<span class="sd">    When locked, interaction triggers an</span>
+<span class="sd">    :class:`~escapy.events.AskedForCodeEvent`.  If the submitted code</span>
+<span class="sd">    matches, the lock opens and ``on_unlock`` fires.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id: Unique object identifier.</span>
+<span class="sd">        on_unlock: Command to execute when decoded.</span>
+<span class="sd">        code: The correct code string.</span>
+<span class="sd">        width: Normalised width.</span>
+<span class="sd">        height: Normalised height.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">on_unlock</span><span class="p">:</span> <span class="n">Command</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="n">cond</span><span class="p">((</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;locked&quot;</span><span class="p">,</span> <span class="n">ask_for_code</span><span class="p">(</span><span class="nb">id</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;locked&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_unlock</span> <span class="o">=</span> <span class="n">on_unlock</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">on_decode</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">game</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">unlock</span><span class="p">()(</span><span class="n">game</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span></div>
+
+
+
+<div class="viewcode-block" id="MoveToRoom">
+<a class="viewcode-back" href="../../api/escapy.objects.html#escapy.objects.MoveToRoom">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MoveToRoom</span><span class="p">(</span><span class="n">Interactable</span><span class="p">,</span> <span class="n">Placeable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A clickable area that transports the player to another room.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        room_id: Destination room identifier.</span>
+<span class="sd">        width: Normalised width.</span>
+<span class="sd">        height: Normalised height.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="n">move_to_room</span><span class="p">(</span><span class="n">room_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span></div>
+
+
+
+<div class="viewcode-block" id="InspectableObject">
+<a class="viewcode-back" href="../../api/escapy.objects.html#escapy.objects.InspectableObject">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InspectableObject</span><span class="p">(</span><span class="n">Interactable</span><span class="p">,</span> <span class="n">Placeable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that can be inspected (zoomed-in view) when clicked.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id: Unique object identifier.</span>
+<span class="sd">        width: Normalised width.</span>
+<span class="sd">        height: Normalised height.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="n">inspect</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span></div>
+
+
+
+<div class="viewcode-block" id="PickableInspectableObject">
+<a class="viewcode-back" href="../../api/escapy.objects.html#escapy.objects.PickableInspectableObject">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PickableInspectableObject</span><span class="p">(</span><span class="n">Interactable</span><span class="p">,</span> <span class="n">InventoryInteractable</span><span class="p">,</span> <span class="n">Placeable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that can be picked up from a room and inspected from the inventory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        id: Unique object identifier.</span>
+<span class="sd">        width: Normalised width.</span>
+<span class="sd">        height: Normalised height.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="n">pick</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interact_inventory</span> <span class="o">=</span> <span class="n">inspect</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span></div>
+
 </pre></div>
 
            </div>

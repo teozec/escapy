@@ -76,10 +76,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#selfkeylock">SelfKeyLock</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#selfaskcodelock">SelfAskCodeLock</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#movetoroom">MoveToRoom</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#winmachine">WinMachine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#inspectableobject">InspectableObject</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pickableinspectableobject">PickableInspectableObject</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#movetoroomandaddtoinventoryobject">MoveToRoomAndAddToInventoryObject</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-custom-objects">Creating custom objects</a></li>
 </ul>
 </li>
@@ -273,15 +271,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/escapy.objects.html">escapy.objects</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.InspectableObject"><code class="docutils literal notranslate"><span class="pre">InspectableObject</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.MoveToRoom"><code class="docutils literal notranslate"><span class="pre">MoveToRoom</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.MoveToRoomAndAddToInventoryObject"><code class="docutils literal notranslate"><span class="pre">MoveToRoomAndAddToInventoryObject</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.PickableInspectableObject"><code class="docutils literal notranslate"><span class="pre">PickableInspectableObject</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.PickableObject"><code class="docutils literal notranslate"><span class="pre">PickableObject</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.SelfAskCodeLock"><code class="docutils literal notranslate"><span class="pre">SelfAskCodeLock</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.SelfKeyLock"><code class="docutils literal notranslate"><span class="pre">SelfKeyLock</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.SelfSimpleLock"><code class="docutils literal notranslate"><span class="pre">SelfSimpleLock</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.WinMachine"><code class="docutils literal notranslate"><span class="pre">WinMachine</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.SelfKeyLock"><code class="docutils literal notranslate"><span class="pre">SelfKeyLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.SelfAskCodeLock"><code class="docutils literal notranslate"><span class="pre">SelfAskCodeLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.MoveToRoom"><code class="docutils literal notranslate"><span class="pre">MoveToRoom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.InspectableObject"><code class="docutils literal notranslate"><span class="pre">InspectableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/escapy.objects.html#escapy.objects.PickableInspectableObject"><code class="docutils literal notranslate"><span class="pre">PickableInspectableObject</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api/escapy.mixins.html">escapy.mixins</a><ul>
@@ -454,37 +450,6 @@
 </pre></div>
 </div>
 </section>
-<section id="winmachine">
-<h2>WinMachine<a class="headerlink" href="#winmachine" title="Link to this heading"></a></h2>
-<p>A special object that <strong>ends the game</strong> when the correct code is entered.  Interaction happens from the <strong>inventory</strong>.</p>
-<table class="docutils align-default">
-<thead>
-<tr class="row-odd"><th class="head"><p>Behaviour</p></th>
-<th class="head"><p>Effect</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Inventory click</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Code correct</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent(win_room_id)</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Code wrong</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">WrongCodeEvent</span></code></p></td>
-</tr>
-</tbody>
-</table>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">machine</span> <span class="o">=</span> <span class="n">WinMachine</span><span class="p">(</span>
-    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;machine&quot;</span><span class="p">,</span>
-    <span class="n">code</span><span class="o">=</span><span class="s2">&quot;42&quot;</span><span class="p">,</span>
-    <span class="n">win_room_id</span><span class="o">=</span><span class="s2">&quot;win_room&quot;</span><span class="p">,</span>
-    <span class="n">width</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
-    <span class="n">height</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</section>
 <section id="inspectableobject">
 <h2>InspectableObject<a class="headerlink" href="#inspectableobject" title="Link to this heading"></a></h2>
 <p>An object that shows a <strong>zoomed-in view</strong> when clicked.</p>
@@ -511,18 +476,6 @@
 </tbody>
 </table>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">note</span> <span class="o">=</span> <span class="n">PickableInspectableObject</span><span class="p">(</span><span class="s2">&quot;note&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="movetoroomandaddtoinventoryobject">
-<h2>MoveToRoomAndAddToInventoryObject<a class="headerlink" href="#movetoroomandaddtoinventoryobject" title="Link to this heading"></a></h2>
-<p>A clickable hotspot that <strong>moves</strong> the player and <strong>adds an item</strong> to the inventory simultaneously.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">portal</span> <span class="o">=</span> <span class="n">MoveToRoomAndAddToInventoryObject</span><span class="p">(</span>
-    <span class="n">room_id</span><span class="o">=</span><span class="s2">&quot;garden&quot;</span><span class="p">,</span>
-    <span class="n">object_id</span><span class="o">=</span><span class="s2">&quot;flower&quot;</span><span class="p">,</span>
-    <span class="n">width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-    <span class="n">height</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-<span class="p">)</span>
 </pre></div>
 </div>
 </section>

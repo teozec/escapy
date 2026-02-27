@@ -18,6 +18,7 @@
 """Example runner showing how to use the escapy library.
 
 Copy this file and adapt `config.json` to run your own game.
+In order to work, you need to add your images to the `assets` directory.
 """
 
 import json
@@ -27,6 +28,8 @@ from pathlib import Path
 from escapy import Game, Position, dict_message_provider, no_op, reveal
 from escapy.objects import MoveToRoom, PickableObject, SelfKeyLock
 from escapy.pygame import PyGameUi
+
+from .objects import MoveToRoomAndAddToInventoryObject, WinMachine
 
 
 @dataclass
@@ -67,17 +70,19 @@ def main():
             ),
             "calendar-1": MoveToRoom("room2", 0.1, 0.1),
             "calendar-2": MoveToRoom("room1", 0.1, 0.1),
+            "win-machine": WinMachine("win-machine", "12345", "win-room", 0.2, 0.2),
+            "init-obj": MoveToRoomAndAddToInventoryObject("room1", "win-machine", width=1.0, height=1.0),
         },
         rooms={
+            "init-room": {"init-obj": Position(x=0.0, y=0.0)},
             "room1": {
                 "a1-key": Position(x=0.2, y=0.2),
                 "a2-poster": Position(x=0.7, y=0.7),
                 "a3-chest": Position(x=0.4, y=0.4),
                 "calendar-1": Position(x=0.85, y=0.05),
             },
-            "room2": {
-                "calendar-2": Position(x=0.85, y=0.05),
-            },
+            "room2": {"calendar-2": Position(x=0.85, y=0.05)},
+            "win-room": {},
         },
         inventory=[],
         first_room_id="room1",

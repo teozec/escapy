@@ -7,7 +7,8 @@
         "assets_dir": "assets",
         "rooms": {
             "room1": "study.png",
-            "room2": "room-2.jpg"
+            "room2": "room-2.jpg",
+            "win-room": "win-room.png"
         },
         "objects": {
             "a1-key": "a1-key.png",
@@ -23,7 +24,9 @@
             "calendar-3b": "calendar.png",
             "calendar-4": "calendar.png",
             "machine:locked": "door-closed.png",
-            "machine:unlocked": "door-open.png"
+            "machine:unlocked": "door-open.png",
+            "win-machine": "win-machine.png",
+            "init-obj": "init-obj.png"
         }
     },
     "messages": {

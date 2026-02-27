@@ -38,7 +38,7 @@ src/escapy/
 ├── game.py              # Game engine (state + dispatch)
 ├── messages.py          # MessageProvider utilities
 ├── mixins.py            # UnlockableMixin, DecodableMixin
-├── objects.py           # Ready-made game-object classes
+├── objects/             # Ready-made game-object classes
 ├── protocols/
 │   ├── __init__.py      # Protocol re-exports
 │   ├── game.py          # GameProtocol, Command type
@@ -54,7 +54,8 @@ src/escapy/
 1. **Define objects** — choose from the built-in classes or create your own:
 
 ```python
-from escapy import PickableObject, SelfKeyLock, MoveToRoom, Position, no_op, reveal
+from escapy import Position, no_op, reveal
+from escapy.objects import PickableObject, SelfKeyLock, MoveToRoom
 
 objects = {
     "knife": PickableObject("knife", width=0.05, height=0.05),

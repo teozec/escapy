@@ -15,14 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
-"""Ready-made game-object classes for common escape-room mechanics.
-
-Each class composes protocol implementations and mixin behaviour to
-provide a complete, reusable game object that can be placed in rooms,
-interacted with, and managed by the inventory system.
-"""
-
-from .commands import (
+from ..commands import (
     Command,
     add_to_inventory,
     ask_for_code,
@@ -37,9 +30,9 @@ from .commands import (
     put_in_hand,
     simple_lock,
 )
-from .events import UnlockedEvent
-from .mixins import DecodableMixin, UnlockableMixin
-from .protocols import Decodable, Interactable, InventoryInteractable, Placeable, Unlockable
+from ..events import UnlockedEvent
+from ..mixins import DecodableMixin, UnlockableMixin
+from ..protocols import Decodable, Interactable, InventoryInteractable, Placeable, Unlockable
 
 
 class PickableObject(Interactable, InventoryInteractable, Placeable):

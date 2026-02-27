@@ -56,17 +56,6 @@ from .commands import (
 )
 from .game import Game
 from .messages import dict_message_provider
-from .objects import (
-    InspectableObject,
-    MoveToRoom,
-    MoveToRoomAndAddToInventoryObject,
-    PickableInspectableObject,
-    PickableObject,
-    SelfAskCodeLock,
-    SelfKeyLock,
-    SelfSimpleLock,
-    WinMachine,
-)
 from .protocols import GameProtocol, GameUiProtocol
 from .types import Position
 
@@ -74,15 +63,6 @@ __all__ = [
     "Game",
     "Position",
     "dict_message_provider",
-    "PickableObject",
-    "SelfSimpleLock",
-    "SelfKeyLock",
-    "SelfAskCodeLock",
-    "MoveToRoom",
-    "WinMachine",
-    "InspectableObject",
-    "PickableInspectableObject",
-    "MoveToRoomAndAddToInventoryObject",
     "no_op",
     "pick",
     "put_in_hand",

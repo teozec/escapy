@@ -24,16 +24,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from escapy import (
-    Game,
-    MoveToRoom,
-    PickableObject,
-    Position,
-    SelfKeyLock,
-    dict_message_provider,
-    no_op,
-    reveal,
-)
+from escapy import Game, Position, dict_message_provider, no_op, reveal
+from escapy.objects import MoveToRoom, PickableObject, SelfKeyLock
 from escapy.pygame import PyGameUi
 
 

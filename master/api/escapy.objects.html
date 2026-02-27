@@ -273,15 +273,15 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">escapy.objects</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.PickableObject"><code class="docutils literal notranslate"><span class="pre">PickableObject</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.SelfSimpleLock"><code class="docutils literal notranslate"><span class="pre">SelfSimpleLock</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.SelfKeyLock"><code class="docutils literal notranslate"><span class="pre">SelfKeyLock</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.SelfAskCodeLock"><code class="docutils literal notranslate"><span class="pre">SelfAskCodeLock</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.MoveToRoom"><code class="docutils literal notranslate"><span class="pre">MoveToRoom</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.WinMachine"><code class="docutils literal notranslate"><span class="pre">WinMachine</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#escapy.objects.InspectableObject"><code class="docutils literal notranslate"><span class="pre">InspectableObject</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.PickableInspectableObject"><code class="docutils literal notranslate"><span class="pre">PickableInspectableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.MoveToRoom"><code class="docutils literal notranslate"><span class="pre">MoveToRoom</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#escapy.objects.MoveToRoomAndAddToInventoryObject"><code class="docutils literal notranslate"><span class="pre">MoveToRoomAndAddToInventoryObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.PickableInspectableObject"><code class="docutils literal notranslate"><span class="pre">PickableInspectableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.PickableObject"><code class="docutils literal notranslate"><span class="pre">PickableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.SelfAskCodeLock"><code class="docutils literal notranslate"><span class="pre">SelfAskCodeLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.SelfKeyLock"><code class="docutils literal notranslate"><span class="pre">SelfKeyLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.SelfSimpleLock"><code class="docutils literal notranslate"><span class="pre">SelfSimpleLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.objects.WinMachine"><code class="docutils literal notranslate"><span class="pre">WinMachine</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="escapy.mixins.html">escapy.mixins</a><ul>
@@ -333,8 +333,73 @@
 provide a complete, reusable game object that can be placed in rooms,
 interacted with, and managed by the inventory system.</p>
 <dl class="py class">
+<dt class="sig sig-object py" id="escapy.objects.InspectableObject">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">InspectableObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects/objects.html#InspectableObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.InspectableObject" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
+<p>An object that can be inspected (zoomed-in view) when clicked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Unique object identifier.</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.objects.MoveToRoom">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">MoveToRoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects/objects.html#MoveToRoom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.MoveToRoom" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
+<p>A clickable area that transports the player to another room.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Destination room identifier.</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.objects.MoveToRoomAndAddToInventoryObject">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">MoveToRoomAndAddToInventoryObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects/objects.html#MoveToRoomAndAddToInventoryObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.MoveToRoomAndAddToInventoryObject" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
+<p>A clickable area that moves the player to another room and adds an object to the inventory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Destination room identifier.</p></li>
+<li><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Object to add to the inventory on interaction.</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.objects.PickableInspectableObject">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">PickableInspectableObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects/objects.html#PickableInspectableObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.PickableInspectableObject" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">InventoryInteractable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
+<p>An object that can be picked up from a room and inspected from the inventory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Unique object identifier.</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="escapy.objects.PickableObject">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">PickableObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects.html#PickableObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.PickableObject" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">PickableObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects/objects.html#PickableObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.PickableObject" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">InventoryInteractable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
 <p>An object that can be picked up from a room and held in-hand.</p>
 <p>Clicking the object in the room picks it up (removes it from the room
@@ -352,45 +417,8 @@ in-hand.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="escapy.objects.SelfSimpleLock">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">SelfSimpleLock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_unlock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects.html#SelfSimpleLock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.SelfSimpleLock" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="escapy.mixins.html#escapy.mixins.UnlockableMixin" title="escapy.mixins.UnlockableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnlockableMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Unlockable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
-<p>A lock that can be opened with a simple click (no key required).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Unique object identifier.</p></li>
-<li><p><strong>on_unlock</strong> (<em>Command</em>) – Command to execute when the lock is opened.</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="escapy.objects.SelfKeyLock">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">SelfKeyLock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_unlock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects.html#SelfKeyLock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.SelfKeyLock" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="escapy.mixins.html#escapy.mixins.UnlockableMixin" title="escapy.mixins.UnlockableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnlockableMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Unlockable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
-<p>A lock that requires a specific key held in-hand to open.</p>
-<p>If the player interacts without the correct key, an
-<a class="reference internal" href="escapy.events.html#escapy.events.InteractedWithLockedEvent" title="escapy.events.InteractedWithLockedEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a> is emitted instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Unique object identifier.</p></li>
-<li><p><strong>key_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the key object that opens this lock.</p></li>
-<li><p><strong>on_unlock</strong> (<em>Command</em>) – Command to execute when the lock is opened.</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="escapy.objects.SelfAskCodeLock">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">SelfAskCodeLock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_unlock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects.html#SelfAskCodeLock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.SelfAskCodeLock" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">SelfAskCodeLock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_unlock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects/objects.html#SelfAskCodeLock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.SelfAskCodeLock" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="escapy.mixins.html#escapy.mixins.UnlockableMixin" title="escapy.mixins.UnlockableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnlockableMixin</span></code></a>, <a class="reference internal" href="escapy.mixins.html#escapy.mixins.DecodableMixin" title="escapy.mixins.DecodableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecodableMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Unlockable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Decodable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
 <p>A lock that prompts the player to enter a numeric/text code.</p>
 <p>When locked, interaction triggers an
@@ -410,14 +438,35 @@ matches, the lock opens and <code class="docutils literal notranslate"><span cla
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="escapy.objects.MoveToRoom">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">MoveToRoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects.html#MoveToRoom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.MoveToRoom" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
-<p>A clickable area that transports the player to another room.</p>
+<dt class="sig sig-object py" id="escapy.objects.SelfKeyLock">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">SelfKeyLock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_unlock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects/objects.html#SelfKeyLock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.SelfKeyLock" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="escapy.mixins.html#escapy.mixins.UnlockableMixin" title="escapy.mixins.UnlockableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnlockableMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Unlockable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
+<p>A lock that requires a specific key held in-hand to open.</p>
+<p>If the player interacts without the correct key, an
+<a class="reference internal" href="escapy.events.html#escapy.events.InteractedWithLockedEvent" title="escapy.events.InteractedWithLockedEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a> is emitted instead.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Destination room identifier.</p></li>
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Unique object identifier.</p></li>
+<li><p><strong>key_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the key object that opens this lock.</p></li>
+<li><p><strong>on_unlock</strong> (<em>Command</em>) – Command to execute when the lock is opened.</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="escapy.objects.SelfSimpleLock">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">SelfSimpleLock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_unlock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects/objects.html#SelfSimpleLock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.SelfSimpleLock" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="escapy.mixins.html#escapy.mixins.UnlockableMixin" title="escapy.mixins.UnlockableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnlockableMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Unlockable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
+<p>A lock that can be opened with a simple click (no key required).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Unique object identifier.</p></li>
+<li><p><strong>on_unlock</strong> (<em>Command</em>) – Command to execute when the lock is opened.</p></li>
 <li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
 <li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
 </ul>
@@ -427,7 +476,7 @@ matches, the lock opens and <code class="docutils literal notranslate"><span cla
 
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.objects.WinMachine">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">WinMachine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_room_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects.html#WinMachine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.WinMachine" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">WinMachine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_room_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects/objects.html#WinMachine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.WinMachine" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="escapy.mixins.html#escapy.mixins.DecodableMixin" title="escapy.mixins.DecodableMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">DecodableMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">InventoryInteractable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Decodable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
 <p>A special object that ends (wins) the game when the correct code is entered.</p>
 <p>Interacting with it from the inventory triggers a code prompt.  A
@@ -438,55 +487,6 @@ correct code moves the player to the designated win room.</p>
 <li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Unique object identifier.</p></li>
 <li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The winning code string.</p></li>
 <li><p><strong>win_room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Room to transition to upon success.</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="escapy.objects.InspectableObject">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">InspectableObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects.html#InspectableObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.InspectableObject" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
-<p>An object that can be inspected (zoomed-in view) when clicked.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Unique object identifier.</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="escapy.objects.PickableInspectableObject">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">PickableInspectableObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects.html#PickableInspectableObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.PickableInspectableObject" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">InventoryInteractable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
-<p>An object that can be picked up from a room and inspected from the inventory.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Unique object identifier.</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="escapy.objects.MoveToRoomAndAddToInventoryObject">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.objects.</span></span><span class="sig-name descname"><span class="pre">MoveToRoomAndAddToInventoryObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/objects.html#MoveToRoomAndAddToInventoryObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.objects.MoveToRoomAndAddToInventoryObject" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Interactable</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Placeable</span></code></p>
-<p>A clickable area that moves the player to another room and adds an object to the inventory.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Destination room identifier.</p></li>
-<li><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Object to add to the inventory on interaction.</p></li>
 <li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised width.</p></li>
 <li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – Normalised height.</p></li>
 </ul>

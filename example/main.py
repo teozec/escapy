@@ -34,6 +34,14 @@ from escapy.protocols import Decodable, Interactable, InventoryInteractable, Pla
 from escapy.pygame import PyGameUi
 from escapy.types import Position
 
+# A escapy game is made of a set of rooms, each containing a set of objects.
+# Objects are created composing behaviour, in the form or protocols (properties that an object has)
+# and mixins (predefined behaviour that can be added to an object).
+# The actual events that happen when interacting with an object are defined by commands,
+# which are executed depending on the protocol.
+# escapy provides a set of built-in objects for common use cases.
+# In addition to them, you can create custom objects by implementing the protocols and composing the desired behaviour.
+
 
 class MoveToRoomAndAddToInventoryObject(Interactable, Placeable):
     """A clickable area that moves the player to another room and adds an object to the inventory.
@@ -54,8 +62,8 @@ class MoveToRoomAndAddToInventoryObject(Interactable, Placeable):
 class WinMachine(DecodableMixin, InventoryInteractable, Decodable, Placeable):
     """A special object that ends (wins) the game when the correct code is entered.
 
-    Interacting with it from the inventory triggers a code prompt.  A
-    correct code moves the player to the designated win room.
+    Interacting with it from the inventory triggers a code prompt.
+    A correct code moves the player to the designated win room.
 
     Args:
         id: Unique object identifier.

@@ -51,6 +51,18 @@ pip install -e .[dev]
 pre-commit install
 ```
 
+Common tasks are wrapped in the `Makefile`:
+
+```bash
+make test          # run the test suite
+make lint          # run ruff linter
+make format        # auto-format code
+make docs          # build Sphinx documentation
+make build         # build wheel and sdist
+make clean         # remove build artefacts
+make help          # list all available targets
+```
+
 ## License
 
 This project is licensed under the GNU Lesser General Public License v3.0 or later (LGPL-3.0-or-later). See the [COPYING](COPYING) and [COPYING.LESSER](COPYING.LESSER) files for details.

@@ -17,7 +17,7 @@
 
 """Game-engine protocol and the Command type alias."""
 
-from typing import Callable, Protocol
+from typing import Any, Callable, Protocol
 
 from ..events import Event
 from ..types import Room
@@ -35,7 +35,7 @@ class GameProtocol(Protocol):
         in_hand_object_id: ID of the object currently held, or ``None``.
     """
 
-    objects: dict[str, object]
+    objects: dict[str, Any]
     rooms: dict[str, Room]
     current_room_id: str
     is_finished: bool

@@ -17,6 +17,8 @@
 
 """Core game engine that manages state and dispatches player actions."""
 
+from typing import Any
+
 from .events import (
     Event,
     GameEndedEvent,
@@ -41,7 +43,7 @@ class Game(GameProtocol):
 
     def __init__(
         self,
-        objects: dict[str, object],
+        objects: dict[str, Any],
         rooms: dict[str, Room],
         inventory: list[str],
         first_room_id: str,

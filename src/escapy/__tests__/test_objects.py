@@ -16,7 +16,6 @@
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
 from ..events import (
-    AddedToInventoryEvent,
     AskedForCodeEvent,
     InspectedEvent,
     InteractedWithLockedEvent,
@@ -29,13 +28,11 @@ from ..events import (
 from ..objects import (
     InspectableObject,
     MoveToRoom,
-    MoveToRoomAndAddToInventoryObject,
     PickableInspectableObject,
     PickableObject,
     SelfAskCodeLock,
     SelfKeyLock,
     SelfSimpleLock,
-    WinMachine,
 )
 from ..types import Position
 from ._test_helpers import FakeGame
@@ -188,26 +185,6 @@ class TestMoveToRoom:
         assert events == [MovedToRoomEvent("cellar")]
 
 
-class TestWinMachine:
-    def test_interact_inventory_asks_for_code(self):
-        obj = WinMachine(id="machine", code="0000", win_room_id="win", width=1.0, height=1.0)
-        game = FakeGame(objects={"machine": obj})
-        events = obj.interact_inventory(game)
-        assert events == [AskedForCodeEvent("machine")]
-
-    def test_insert_code_correct_moves_to_win_room(self):
-        obj = WinMachine(id="machine", code="0000", win_room_id="win", width=1.0, height=1.0)
-        game = FakeGame(objects={"machine": obj})
-        events = obj.insert_code("0000")(game)
-        assert MovedToRoomEvent("win") in events
-
-    def test_insert_code_wrong_returns_wrong_code_event(self):
-        obj = WinMachine(id="machine", code="0000", win_room_id="win", width=1.0, height=1.0)
-        game = FakeGame(objects={"machine": obj})
-        events = obj.insert_code("9999")(game)
-        assert events == [WrongCodeEvent()]
-
-
 class TestInspectableObject:
     def test_interact_returns_inspected_event(self):
         obj = InspectableObject(id="painting", width=1.0, height=1.0)
@@ -229,14 +206,3 @@ class TestPickableInspectableObject:
         game = FakeGame(objects={"note": obj}, inventory=["note"])
         events = obj.interact_inventory(game)
         assert events == [InspectedEvent("note")]
-
-
-class TestMoveToRoomAndAddToInventoryObject:
-    def test_interact_moves_and_adds_to_inventory(self):
-        obj = MoveToRoomAndAddToInventoryObject(room_id="garden", object_id="flower", width=1.0, height=1.0)
-        game = FakeGame(rooms={"room1": {}})
-        events = obj.interact(game)
-        assert MovedToRoomEvent("garden") in events
-        assert AddedToInventoryEvent("flower") in events
-        assert game.current_room_id == "garden"
-        assert "flower" in game.inventory

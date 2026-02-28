@@ -6,6 +6,13 @@ escapy ships several ready-made game-object classes in `escapy.objects`.  Each c
 
 All object classes accept **normalised dimensions** (`width`, `height`) expressed as fractions of the game area (e.g. `0.1` means 10 % of the game area).
 
+> **Imports for the examples below:**
+> ```python
+> from escapy.types import Position
+> from escapy.commands import reveal, no_op
+> ```
+
+
 ## PickableObject
 
 An object that can be **picked up** from a room and **held in-hand** from the inventory.

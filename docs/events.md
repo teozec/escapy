@@ -116,7 +116,7 @@ An object was added to the player's inventory directly (not picked up from a roo
 To display human-readable text for events, use `dict_message_provider`:
 
 ```python
-from escapy import dict_message_provider
+from escapy.messages import dict_message_provider
 from escapy.events import PickedUpEvent
 
 messages = {

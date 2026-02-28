@@ -7,7 +7,7 @@ Escapy is a small library to build simple escape-room style games using `pygame`
 Install from source (development):
 
 ```bash
-pyenv install   # or alternative way to install python 3.14
+pyenv install   # or alternative way to install python 3.12
 python -m venv .venv
 source .venv/bin/activate
 pip install -e .
@@ -18,7 +18,9 @@ pip install -e .
 Use `main.example.py` as a runnable example. A minimal usage looks like:
 
 ```python
-from escapy import Game, Position, dict_message_provider
+from escapy import Game
+from escapy.types import Position
+from escapy.messages import dict_message_provider
 from escapy.pygame import PyGameUi
 
 # create your game data (objects, rooms, inventory, first_room_id)
@@ -44,7 +46,7 @@ making it easier to implement alternative UI backends if needed.
 Run tests and linters using the editable dev extras.
 
 ```bash
-pyenv install   # or alternative way to install python 3.14
+pyenv install   # or alternative way to install python 3.12
 python -m venv .venv
 source .venv/bin/activate
 pip install -e .[dev]

@@ -7,9 +7,12 @@ help: ## Show this help message
 install: ## Install the package in editable mode
 	pip install -e .
 
-install-dev: ## Install with dev, docs, and pygame extras
-	pip install -e .[dev,docs,pygame]
+install-dev: ## Install with dev and pygame extras
+	pip install -e .[dev,pygame]
 	pre-commit install
+
+install-docs: ## Install with docs extra
+	pip install -e .[docs]
 
 lint: ## Run ruff linter
 	ruff check src/ example/ escape/

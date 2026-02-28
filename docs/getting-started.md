@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- **Python 3.14+** (uses `type` statement syntax)
+- **Python 3.12+** (uses `type` statement syntax)
 - **pygame 2.0+** (optional — only needed if you use `escapy.pygame`)
 
 ## Installation
@@ -10,7 +10,7 @@
 ### From source (development)
 
 ```bash
-pyenv install         # or any other way to install Python 3.14
+pyenv install         # or any other way to install Python 3.12
 python -m venv .venv
 source .venv/bin/activate
 
@@ -29,32 +29,47 @@ pip install escapy[pygame]              # core + pygame UI
 
 ## Project layout
 
+The repository uses a **src-layout** so that all importable code lives under `src/escapy`. A minimal overview of the tree is shown below — additional top‑level directories include tests, examples, and the documentation sources.
+
 ```
-src/escapy/
-├── __init__.py          # Public re-exports
-├── types.py             # Position, Room
-├── events.py            # All event dataclasses
-├── commands.py          # Command factory functions
-├── game.py              # Game engine (state + dispatch)
-├── messages.py          # MessageProvider utilities
-├── mixins.py            # UnlockableMixin, DecodableMixin
-├── objects.py           # Ready-made game-object classes
-├── protocols/
-│   ├── __init__.py      # Protocol re-exports
-│   ├── game.py          # GameProtocol, Command type
-│   ├── objects.py       # Interactable, Placeable, Unlockable, Decodable
-│   └── ui.py            # GameUiProtocol
-└── pygame/
-    ├── __init__.py      # Re-exports PyGameUi
-    └── pygame_ui.py     # Pygame-based UI implementation
+.
+├── docs/                 # Sphinx sources and _build output (see Makefile)
+├── example/              # simple demo game using escapy
+├── escape/               # alternate example which mirrors iOS asset layout
+├── src/
+│   └── escapy/           # library package
+│       ├── __init__.py          # Public re‑exports
+│       ├── types.py             # Position, Room
+│       ├── events.py            # All event dataclasses
+│       ├── commands.py          # Command factory functions
+│       ├── game.py              # Game engine (state + dispatch)
+│       ├── messages.py          # MessageProvider utilities
+│       ├── mixins.py            # UnlockableMixin, DecodableMixin
+│       ├── objects.py           # Ready‑made game‑object classes
+│       ├── protocols/           # protocol definitions used by consumers
+│       │   ├── __init__.py      # re‑exports
+│       │   ├── game.py          # GameProtocol, Command type
+│       │   ├── objects.py       # Interactable, Placeable, Unlockable, Decodable
+│       │   └── ui.py            # GameUiProtocol
+│       ├── pygame/             # optional pygame UI implementation
+│       │   ├── __init__.py      # re‑exports PyGameUi
+│       │   └── pygame_ui.py     # pygame‑based UI implementation
+│       └── __tests__/          # unit tests (used by pytest)
+├── pyproject.toml       # project metadata / dependencies
+├── Makefile             # helper commands (lint, test, docs, etc.)
+├── README.md            # overview & installation instructions
+└── CHANGELOG.md         # package changelog
 ```
+
+Using this layout keeps the import path clean (`import escapy`) and clearly separates the library source from ancillary files such as examples and documentation.
 
 ## Your first game
 
 1. **Define objects** — choose from the built-in classes or create your own:
 
 ```python
-from escapy import Position, no_op, reveal
+from escapy.types import Position
+from escapy.commands import no_op, reveal
 from escapy.objects import PickableObject, SelfKeyLock, MoveToRoom
 
 objects = {
@@ -95,7 +110,7 @@ game = Game(objects=objects, rooms=rooms, inventory=[], first_room_id="room1")
 4. **Set up messages** (optional — maps events to display text):
 
 ```python
-from escapy import dict_message_provider
+from escapy.messages import dict_message_provider
 from escapy.events import PickedUpEvent, InteractedWithLockedEvent
 
 messages = {

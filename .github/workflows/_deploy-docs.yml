@@ -26,13 +26,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.14"
+          python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install .[docs]
+        run: make install-docs
 
       - name: Build Sphinx docs
-        run: sphinx-build -b html docs docs/_build/html
+        run: make docs
 
       - name: Deploy to gh-pages
         env:

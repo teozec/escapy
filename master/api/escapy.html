@@ -329,8 +329,10 @@
 and interaction systems.  The <code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code> implementation is available as a
 separate submodule in <code class="docutils literal notranslate"><span class="pre">escapy.pygame</span></code>.</p>
 <p>Example usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Game</span><span class="p">,</span> <span class="n">Position</span><span class="p">,</span> <span class="n">dict_message_provider</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Game</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">escapy.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_message_provider</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">escapy.pygame</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyGameUi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">escapy.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Position</span>
 
 <span class="c1"># create your game data (objects, rooms, inventory, first_room_id)</span>
 <span class="c1"># then:</span>

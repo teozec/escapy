@@ -16,6 +16,8 @@
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
 
+import pytest
+
 from ..events import (
     GameEndedEvent,
     PutOffHandEvent,
@@ -75,6 +77,11 @@ class TestGameQuit:
 
 
 class TestGameInteract:
+    def test_raises_key_error_for_unknown_object_id(self):
+        game = make_game(objects={}, rooms={"room1": {}})
+        with pytest.raises(KeyError):
+            game.interact("nonexistent")
+
     def test_returns_empty_when_object_not_in_current_room(self):
         obj = _FakeInteractable(result_events=[object()])
         game = make_game(objects={"painting": obj}, rooms={"room1": {}})
@@ -100,6 +107,11 @@ class TestGameInteract:
 
 
 class TestGameInteractInventory:
+    def test_raises_key_error_for_unknown_object_id(self):
+        game = make_game(objects={}, inventory=[])
+        with pytest.raises(KeyError):
+            game.interact_inventory("nonexistent")
+
     def test_none_clears_in_hand_and_returns_put_off_hand_event(self):
         game = make_game(inventory=["sword"])
         game.in_hand_object_id = "sword"
@@ -127,6 +139,11 @@ class TestGameInteractInventory:
 
 
 class TestGameInsertCode:
+    def test_raises_key_error_for_unknown_object_id(self):
+        game = make_game(objects={})
+        with pytest.raises(KeyError):
+            game.insert_code("nonexistent", "1234")
+
     def test_delegates_to_decodable_object(self):
         sentinel = object()
         obj = _FakeDecodable(result_events=[sentinel])

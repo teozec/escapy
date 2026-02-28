@@ -72,7 +72,13 @@ class Game(GameProtocol):
 
         Returns:
             Events produced by the interaction, or an empty list.
+
+        Raises:
+            KeyError: If *object_id* is not a registered object.
         """
+        if object_id not in self.objects:
+            raise KeyError(f"Unknown object id: {object_id!r}")
+
         if object_id not in self.rooms[self.current_room_id]:
             return []
 
@@ -96,11 +102,18 @@ class Game(GameProtocol):
 
         Returns:
             Events produced by the interaction, or an empty list.
+
+        Raises:
+            KeyError: If *object_id* is not ``None`` and not a registered
+                object.
         """
         if object_id is None:
             self.in_hand_object_id = None
             return [PutOffHandEvent()]
-        elif object_id not in self.inventory:
+        if object_id not in self.objects:
+            raise KeyError(f"Unknown object id: {object_id!r}")
+
+        if object_id not in self.inventory:
             return []
         else:
             object = self.objects[object_id]
@@ -118,7 +131,13 @@ class Game(GameProtocol):
         Returns:
             Events produced by the decode action, or an empty list if the
             object does not implement :class:`~escapy.protocols.Decodable`.
+
+        Raises:
+            KeyError: If *object_id* is not a registered object.
         """
+        if object_id not in self.objects:
+            raise KeyError(f"Unknown object id: {object_id!r}")
+
         object = self.objects[object_id]
         if not isinstance(object, Decodable):
             return []

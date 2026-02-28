@@ -38,6 +38,16 @@ from .events import UnlockedEvent
 from .mixins import DecodableMixin, UnlockableMixin
 from .protocols import Decodable, Interactable, InventoryInteractable, Placeable, Unlockable
 
+__all__ = [
+    "PickableObject",
+    "SelfSimpleLock",
+    "SelfKeyLock",
+    "SelfAskCodeLock",
+    "MoveToRoom",
+    "InspectableObject",
+    "PickableInspectableObject",
+]
+
 
 class PickableObject(Interactable, InventoryInteractable, Placeable):
     """An object that can be picked up from a room and held in-hand.

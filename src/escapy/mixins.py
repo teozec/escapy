@@ -26,6 +26,8 @@ don't have to re-implement the same logic.
 from .events import WrongCodeEvent
 from .protocols import Command, Decodable, Unlockable
 
+__all__ = ["UnlockableMixin", "DecodableMixin"]
+
 
 class UnlockableMixin:
     """Mixin that implements :meth:`unlock` for :class:`~escapy.protocols.Unlockable`.

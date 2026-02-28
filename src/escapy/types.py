@@ -19,6 +19,8 @@
 
 from dataclasses import dataclass
 
+__all__ = ["Position", "Room"]
+
 
 @dataclass
 class Position:

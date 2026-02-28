@@ -27,6 +27,22 @@ from dataclasses import dataclass
 
 from .types import Position
 
+__all__ = [
+    "PickedUpEvent",
+    "PutInHandEvent",
+    "PutOffHandEvent",
+    "InteractedWithLockedEvent",
+    "UnlockedEvent",
+    "RevealedEvent",
+    "MovedToRoomEvent",
+    "AskedForCodeEvent",
+    "WrongCodeEvent",
+    "InspectedEvent",
+    "GameEndedEvent",
+    "AddedToInventoryEvent",
+    "Event",
+]
+
 
 @dataclass
 class PickedUpEvent:

@@ -8,7 +8,7 @@
 
 ```python
 from escapy.pygame import PyGameUi
-from escapy import dict_message_provider
+from escapy.messages import dict_message_provider
 
 config_ui = { ... }
 message_provider = dict_message_provider(messages)
@@ -92,7 +92,7 @@ Active when an `InspectedEvent` is received.  Displays a centred, scaled-up view
 `PyGameUi` uses a `MessageProvider` to convert events into display strings.  If the provider returns a non-`None` string for an event, it is appended to the message bar.
 
 ```python
-from escapy import dict_message_provider
+from escapy.messages import dict_message_provider
 from escapy.events import PickedUpEvent
 
 messages = {

@@ -329,7 +329,7 @@
 <h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code> accepts a configuration dictionary and a <code class="docutils literal notranslate"><span class="pre">MessageProvider</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy.pygame</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyGameUi</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">escapy</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_message_provider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">escapy.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_message_provider</span>
 
 <span class="n">config_ui</span> <span class="o">=</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
 <span class="n">message_provider</span> <span class="o">=</span> <span class="n">dict_message_provider</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
@@ -464,7 +464,7 @@
 <section id="messages">
 <h2>Messages<a class="headerlink" href="#messages" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code> uses a <code class="docutils literal notranslate"><span class="pre">MessageProvider</span></code> to convert events into display strings.  If the provider returns a non-<code class="docutils literal notranslate"><span class="pre">None</span></code> string for an event, it is appended to the message bar.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_message_provider</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_message_provider</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">escapy.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">PickedUpEvent</span>
 
 <span class="n">messages</span> <span class="o">=</span> <span class="p">{</span>

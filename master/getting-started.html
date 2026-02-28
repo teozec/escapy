@@ -327,7 +327,7 @@
 <section id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>Python 3.14+</strong> (uses <code class="docutils literal notranslate"><span class="pre">type</span></code> statement syntax)</p></li>
+<li><p><strong>Python 3.12+</strong> (uses <code class="docutils literal notranslate"><span class="pre">type</span></code> statement syntax)</p></li>
 <li><p><strong>pygame 2.0+</strong> (optional — only needed if you use <code class="docutils literal notranslate"><span class="pre">escapy.pygame</span></code>)</p></li>
 </ul>
 </section>
@@ -335,7 +335,7 @@
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <section id="from-source-development">
 <h3>From source (development)<a class="headerlink" href="#from-source-development" title="Link to this heading"></a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pyenv<span class="w"> </span>install<span class="w">         </span><span class="c1"># or any other way to install Python 3.14</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pyenv<span class="w"> </span>install<span class="w">         </span><span class="c1"># or any other way to install Python 3.12</span>
 python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
 <span class="nb">source</span><span class="w"> </span>.venv/bin/activate
 
@@ -356,32 +356,45 @@ pip<span class="w"> </span>install<span class="w"> </span>escapy<span class="o">
 </section>
 <section id="project-layout">
 <h2>Project layout<a class="headerlink" href="#project-layout" title="Link to this heading"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>src/escapy/
-├── __init__.py          # Public re-exports
-├── types.py             # Position, Room
-├── events.py            # All event dataclasses
-├── commands.py          # Command factory functions
-├── game.py              # Game engine (state + dispatch)
-├── messages.py          # MessageProvider utilities
-├── mixins.py            # UnlockableMixin, DecodableMixin
-├── objects.py           # Ready-made game-object classes
-├── protocols/
-│   ├── __init__.py      # Protocol re-exports
-│   ├── game.py          # GameProtocol, Command type
-│   ├── objects.py       # Interactable, Placeable, Unlockable, Decodable
-│   └── ui.py            # GameUiProtocol
-└── pygame/
-    ├── __init__.py      # Re-exports PyGameUi
-    └── pygame_ui.py     # Pygame-based UI implementation
+<p>The repository uses a <strong>src-layout</strong> so that all importable code lives under <code class="docutils literal notranslate"><span class="pre">src/escapy</span></code>. A minimal overview of the tree is shown below — additional top‑level directories include tests, examples, and the documentation sources.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.
+├── docs/                 # Sphinx sources and _build output (see Makefile)
+├── example/              # simple demo game using escapy
+├── escape/               # alternate example which mirrors iOS asset layout
+├── src/
+│   └── escapy/           # library package
+│       ├── __init__.py          # Public re‑exports
+│       ├── types.py             # Position, Room
+│       ├── events.py            # All event dataclasses
+│       ├── commands.py          # Command factory functions
+│       ├── game.py              # Game engine (state + dispatch)
+│       ├── messages.py          # MessageProvider utilities
+│       ├── mixins.py            # UnlockableMixin, DecodableMixin
+│       ├── objects.py           # Ready‑made game‑object classes
+│       ├── protocols/           # protocol definitions used by consumers
+│       │   ├── __init__.py      # re‑exports
+│       │   ├── game.py          # GameProtocol, Command type
+│       │   ├── objects.py       # Interactable, Placeable, Unlockable, Decodable
+│       │   └── ui.py            # GameUiProtocol
+│       ├── pygame/             # optional pygame UI implementation
+│       │   ├── __init__.py      # re‑exports PyGameUi
+│       │   └── pygame_ui.py     # pygame‑based UI implementation
+│       └── __tests__/          # unit tests (used by pytest)
+├── pyproject.toml       # project metadata / dependencies
+├── Makefile             # helper commands (lint, test, docs, etc.)
+├── README.md            # overview &amp; installation instructions
+└── CHANGELOG.md         # package changelog
 </pre></div>
 </div>
+<p>Using this layout keeps the import path clean (<code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">escapy</span></code>) and clearly separates the library source from ancillary files such as examples and documentation.</p>
 </section>
 <section id="your-first-game">
 <h2>Your first game<a class="headerlink" href="#your-first-game" title="Link to this heading"></a></h2>
 <ol class="arabic simple">
 <li><p><strong>Define objects</strong> — choose from the built-in classes or create your own:</p></li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Position</span><span class="p">,</span> <span class="n">no_op</span><span class="p">,</span> <span class="n">reveal</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Position</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">escapy.commands</span><span class="w"> </span><span class="kn">import</span> <span class="n">no_op</span><span class="p">,</span> <span class="n">reveal</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">escapy.objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">PickableObject</span><span class="p">,</span> <span class="n">SelfKeyLock</span><span class="p">,</span> <span class="n">MoveToRoom</span>
 
 <span class="n">objects</span> <span class="o">=</span> <span class="p">{</span>
@@ -422,7 +435,7 @@ pip<span class="w"> </span>install<span class="w"> </span>escapy<span class="o">
 <ol class="arabic simple" start="4">
 <li><p><strong>Set up messages</strong> (optional — maps events to display text):</p></li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_message_provider</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy.messages</span><span class="w"> </span><span class="kn">import</span> <span class="n">dict_message_provider</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">escapy.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">PickedUpEvent</span><span class="p">,</span> <span class="n">InteractedWithLockedEvent</span>
 
 <span class="n">messages</span> <span class="o">=</span> <span class="p">{</span>

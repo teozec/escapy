@@ -25,12 +25,14 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from escapy import Game, Position, dict_message_provider, no_op, reveal
-from escapy.commands import add_to_inventory, ask_for_code, combine, move_to_room
+from escapy import Game
+from escapy.commands import add_to_inventory, ask_for_code, combine, move_to_room, no_op, reveal
+from escapy.messages import dict_message_provider
 from escapy.mixins import DecodableMixin
 from escapy.objects import MoveToRoom, PickableObject, SelfKeyLock
 from escapy.protocols import Decodable, Interactable, InventoryInteractable, Placeable
 from escapy.pygame import PyGameUi
+from escapy.types import Position
 
 
 class MoveToRoomAndAddToInventoryObject(Interactable, Placeable):

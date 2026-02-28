@@ -23,8 +23,10 @@ separate submodule in ``escapy.pygame``.
 
 Example usage::
 
-    from escapy import Game, Position, dict_message_provider
+    from escapy import Game
+    from escapy.messages import dict_message_provider
     from escapy.pygame import PyGameUi
+    from escapy.types import Position
 
     # create your game data (objects, rooms, inventory, first_room_id)
     # then:
@@ -38,45 +40,11 @@ Example usage::
         ui.render()
 """
 
-from .commands import (
-    add_to_inventory,
-    ask_for_code,
-    chain,
-    combine,
-    cond,
-    inspect,
-    key_lock,
-    locked,
-    move_to_room,
-    no_op,
-    pick,
-    put_in_hand,
-    reveal,
-    simple_lock,
-)
 from .game import Game
-from .messages import dict_message_provider
 from .protocols import GameProtocol, GameUiProtocol
-from .types import Position
 
 __all__ = [
     "Game",
-    "Position",
-    "dict_message_provider",
-    "no_op",
-    "pick",
-    "put_in_hand",
-    "simple_lock",
-    "key_lock",
-    "ask_for_code",
-    "locked",
-    "inspect",
-    "combine",
-    "cond",
-    "chain",
-    "reveal",
-    "move_to_room",
-    "add_to_inventory",
     "GameUiProtocol",
     "GameProtocol",
 ]

@@ -17,7 +17,7 @@ autodoc_mock_imports = ["pygame"]
 project = "escapy"
 copyright = "2026, Matteo Zeccoli Marazzini"
 author = "Matteo Zeccoli Marazzini"
-release = "0.0.1"
+release = "0.1.0"
 
 # -- General configuration ---------------------------------------------------
 extensions = [

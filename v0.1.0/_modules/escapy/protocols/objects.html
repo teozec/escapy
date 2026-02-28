@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>escapy.protocols.objects &mdash; escapy 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            escapy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting-started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting-started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting-started.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../getting-started.html#from-source-development">From source (development)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../getting-started.html#as-a-dependency">As a dependency</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting-started.html#project-layout">Project layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting-started.html#your-first-game">Your first game</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting-started.html#running-tests">Running tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#key-design-decisions">Key design decisions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../architecture.html#commands-are-first-class-values">Commands are first-class values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../architecture.html#protocols-over-base-classes">Protocols over base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../architecture.html#events-decouple-logic-from-presentation">Events decouple logic from presentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../architecture.html#mixins-for-shared-behaviour">Mixins for shared behaviour</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#game-loop">Game loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../architecture.html#module-dependency-graph">Module dependency graph</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../game-objects.html">Game Objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../game-objects.html#common-parameters">Common parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../game-objects.html#pickableobject">PickableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../game-objects.html#selfsimplelock">SelfSimpleLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../game-objects.html#selfkeylock">SelfKeyLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../game-objects.html#selfaskcodelock">SelfAskCodeLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../game-objects.html#movetoroom">MoveToRoom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../game-objects.html#inspectableobject">InspectableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../game-objects.html#pickableinspectableobject">PickableInspectableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../game-objects.html#creating-custom-objects">Creating custom objects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../commands.html#basic-commands">Basic commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#no-op-command"><code class="docutils literal notranslate"><span class="pre">no_op()</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#pick-id-command"><code class="docutils literal notranslate"><span class="pre">pick(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#put-in-hand-id-command"><code class="docutils literal notranslate"><span class="pre">put_in_hand(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#inspect-id-command"><code class="docutils literal notranslate"><span class="pre">inspect(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#reveal-object-id-room-id-position-command"><code class="docutils literal notranslate"><span class="pre">reveal(object_id,</span> <span class="pre">room_id,</span> <span class="pre">position)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#move-to-room-room-id-command"><code class="docutils literal notranslate"><span class="pre">move_to_room(room_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#add-to-inventory-object-id-command"><code class="docutils literal notranslate"><span class="pre">add_to_inventory(object_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../commands.html#lock-commands">Lock commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#simple-lock-id-command"><code class="docutils literal notranslate"><span class="pre">simple_lock(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#key-lock-id-key-id-command"><code class="docutils literal notranslate"><span class="pre">key_lock(id,</span> <span class="pre">key_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#ask-for-code-id-command"><code class="docutils literal notranslate"><span class="pre">ask_for_code(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#locked-id-command"><code class="docutils literal notranslate"><span class="pre">locked(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../commands.html#combinators">Combinators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#combine-commands-command"><code class="docutils literal notranslate"><span class="pre">combine(*commands)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#cond-clauses-command"><code class="docutils literal notranslate"><span class="pre">cond(*clauses)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../commands.html#chain-clauses-command"><code class="docutils literal notranslate"><span class="pre">chain(*clauses)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../events.html">Events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../events.html#event-union-type">Event union type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../events.html#event-reference">Event reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#pickedupevent"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#putinhandevent"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#putoffhandevent"><code class="docutils literal notranslate"><span class="pre">PutOffHandEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#interactedwithlockedevent"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#unlockedevent"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#revealedevent"><code class="docutils literal notranslate"><span class="pre">RevealedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#movedtoroomevent"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#askedforcodeevent"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#wrongcodeevent"><code class="docutils literal notranslate"><span class="pre">WrongCodeEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#inspectedevent"><code class="docutils literal notranslate"><span class="pre">InspectedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#gameendedevent"><code class="docutils literal notranslate"><span class="pre">GameEndedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../events.html#addedtoinventoryevent"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../events.html#using-events-with-messages">Using events with messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../protocols.html">Protocols</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#gameprotocol">GameProtocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#command">Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#interactable">Interactable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#placeable">Placeable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#unlockable">Unlockable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#decodable">Decodable</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#gameuiprotocol">GameUiProtocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#runtime-checking">Runtime checking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pygame-ui.html">Pygame UI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../pygame-ui.html#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pygame-ui.html#required-keys">Required keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pygame-ui.html#optional-keys">Optional keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pygame-ui.html#object-image-keys">Object image keys</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pygame-ui.html#screen-layout">Screen layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pygame-ui.html#ui-states">UI states</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pygame-ui.html#normal">Normal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pygame-ui.html#insertcode">InsertCode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pygame-ui.html#inspect">Inspect</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pygame-ui.html#messages">Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pygame-ui.html#game-loop">Game loop</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/escapy.html">escapy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.protocols.html">escapy.protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.protocols.html#escapy-protocols-game">escapy.protocols.game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.protocols.html#escapy-protocols-objects">escapy.protocols.objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.protocols.html#escapy-protocols-ui">escapy.protocols.ui</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.pygame.html">escapy.pygame</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.pygame.html#escapy.pygame.PyGameUi"><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/escapy.pygame.html#escapy.pygame.PyGameUi.init"><code class="docutils literal notranslate"><span class="pre">PyGameUi.init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/escapy.pygame.html#escapy.pygame.PyGameUi.tick"><code class="docutils literal notranslate"><span class="pre">PyGameUi.tick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/escapy.pygame.html#escapy.pygame.PyGameUi.input"><code class="docutils literal notranslate"><span class="pre">PyGameUi.input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/escapy.pygame.html#escapy.pygame.PyGameUi.render"><code class="docutils literal notranslate"><span class="pre">PyGameUi.render()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/escapy.pygame.html#escapy.pygame.PyGameUi.handle"><code class="docutils literal notranslate"><span class="pre">PyGameUi.handle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/escapy.pygame.html#escapy.pygame.PyGameUi.quit"><code class="docutils literal notranslate"><span class="pre">PyGameUi.quit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/escapy.pygame.html#escapy.pygame.PyGameUi.add_message"><code class="docutils literal notranslate"><span class="pre">PyGameUi.add_message()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.pygame.html#module-escapy.pygame.pygame_ui">escapy.pygame.pygame_ui</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/escapy.pygame.html#escapy.pygame.pygame_ui.PyGameUi"><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/escapy.types.html">escapy.types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.types.html#escapy.types.Position"><code class="docutils literal notranslate"><span class="pre">Position</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.types.html#escapy.types.Position.x"><code class="docutils literal notranslate"><span class="pre">Position.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.types.html#escapy.types.Position.y"><code class="docutils literal notranslate"><span class="pre">Position.y</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.types.html#escapy.types.Room"><code class="docutils literal notranslate"><span class="pre">Room</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/escapy.events.html">escapy.events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.PickedUpEvent"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.PickedUpEvent.object_id"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.PutInHandEvent"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.PutInHandEvent.object_id"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.PutOffHandEvent"><code class="docutils literal notranslate"><span class="pre">PutOffHandEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.InteractedWithLockedEvent"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.InteractedWithLockedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.UnlockedEvent"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.UnlockedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.RevealedEvent"><code class="docutils literal notranslate"><span class="pre">RevealedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.RevealedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.object_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.RevealedEvent.room_id"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.room_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.RevealedEvent.position"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.position</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.MovedToRoomEvent"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.MovedToRoomEvent.room_id"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent.room_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.AskedForCodeEvent"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.AskedForCodeEvent.object_id"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.WrongCodeEvent"><code class="docutils literal notranslate"><span class="pre">WrongCodeEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.InspectedEvent"><code class="docutils literal notranslate"><span class="pre">InspectedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.InspectedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">InspectedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.GameEndedEvent"><code class="docutils literal notranslate"><span class="pre">GameEndedEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.AddedToInventoryEvent"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.AddedToInventoryEvent.object_id"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.events.html#escapy.events.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/escapy.commands.html">escapy.commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.no_op"><code class="docutils literal notranslate"><span class="pre">no_op()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.pick"><code class="docutils literal notranslate"><span class="pre">pick()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.put_in_hand"><code class="docutils literal notranslate"><span class="pre">put_in_hand()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.simple_lock"><code class="docutils literal notranslate"><span class="pre">simple_lock()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.key_lock"><code class="docutils literal notranslate"><span class="pre">key_lock()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.ask_for_code"><code class="docutils literal notranslate"><span class="pre">ask_for_code()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.locked"><code class="docutils literal notranslate"><span class="pre">locked()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.inspect"><code class="docutils literal notranslate"><span class="pre">inspect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.reveal"><code class="docutils literal notranslate"><span class="pre">reveal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.move_to_room"><code class="docutils literal notranslate"><span class="pre">move_to_room()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.add_to_inventory"><code class="docutils literal notranslate"><span class="pre">add_to_inventory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.combine"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.cond"><code class="docutils literal notranslate"><span class="pre">cond()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.commands.html#escapy.commands.chain"><code class="docutils literal notranslate"><span class="pre">chain()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/escapy.game.html">escapy.game</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.game.html#escapy.game.Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.game.html#escapy.game.Game.quit"><code class="docutils literal notranslate"><span class="pre">Game.quit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.game.html#escapy.game.Game.interact"><code class="docutils literal notranslate"><span class="pre">Game.interact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.game.html#escapy.game.Game.interact_inventory"><code class="docutils literal notranslate"><span class="pre">Game.interact_inventory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.game.html#escapy.game.Game.insert_code"><code class="docutils literal notranslate"><span class="pre">Game.insert_code()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/escapy.objects.html">escapy.objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.objects.html#escapy.objects.PickableObject"><code class="docutils literal notranslate"><span class="pre">PickableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.objects.html#escapy.objects.SelfSimpleLock"><code class="docutils literal notranslate"><span class="pre">SelfSimpleLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.objects.html#escapy.objects.SelfKeyLock"><code class="docutils literal notranslate"><span class="pre">SelfKeyLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.objects.html#escapy.objects.SelfAskCodeLock"><code class="docutils literal notranslate"><span class="pre">SelfAskCodeLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.objects.html#escapy.objects.MoveToRoom"><code class="docutils literal notranslate"><span class="pre">MoveToRoom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.objects.html#escapy.objects.InspectableObject"><code class="docutils literal notranslate"><span class="pre">InspectableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.objects.html#escapy.objects.PickableInspectableObject"><code class="docutils literal notranslate"><span class="pre">PickableInspectableObject</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/escapy.mixins.html">escapy.mixins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.mixins.html#escapy.mixins.UnlockableMixin"><code class="docutils literal notranslate"><span class="pre">UnlockableMixin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.mixins.html#escapy.mixins.UnlockableMixin.unlock"><code class="docutils literal notranslate"><span class="pre">UnlockableMixin.unlock()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.mixins.html#escapy.mixins.DecodableMixin"><code class="docutils literal notranslate"><span class="pre">DecodableMixin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/escapy.mixins.html#escapy.mixins.DecodableMixin.insert_code"><code class="docutils literal notranslate"><span class="pre">DecodableMixin.insert_code()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/escapy.messages.html">escapy.messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.messages.html#escapy.messages.MessageProvider"><code class="docutils literal notranslate"><span class="pre">MessageProvider</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/escapy.messages.html#escapy.messages.dict_message_provider"><code class="docutils literal notranslate"><span class="pre">dict_message_provider()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">escapy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">escapy.protocols.objects</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for escapy.protocols.objects</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2026 Matteo Zeccoli Marazzini</span>
+<span class="c1">#</span>
+<span class="c1"># This file is part of escapy.</span>
+<span class="c1">#</span>
+<span class="c1"># escapy is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># the terms of the GNU Lesser General Public License as published by the</span>
+<span class="c1"># Free Software Foundation, either version 3 of the License, or (at your</span>
+<span class="c1"># option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># escapy is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c1"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS</span>
+<span class="c1"># FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for</span>
+<span class="c1"># more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU Lesser General Public License</span>
+<span class="c1"># along with escapy. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
+
+<span class="sd">&quot;&quot;&quot;Protocol definitions for game-object capabilities.</span>
+
+<span class="sd">Each protocol represents a single capability (interacting, being placed,</span>
+<span class="sd">being unlocked, etc.) and may be composed via multiple inheritance.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.game</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span>
+
+
+<div class="viewcode-block" id="Interactable">
+<a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Interactable">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Interactable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that can be interacted with when clicked in a room.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        interact: Command executed on interaction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">interact</span><span class="p">:</span> <span class="n">Command</span></div>
+
+
+
+<div class="viewcode-block" id="InventoryInteractable">
+<a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.InventoryInteractable">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">InventoryInteractable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that can be interacted with from the inventory panel.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        interact_inventory: Command executed on inventory interaction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">interact_inventory</span><span class="p">:</span> <span class="n">Command</span></div>
+
+
+
+<div class="viewcode-block" id="Placeable">
+<a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Placeable">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Placeable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that occupies visual space in the game area.</span>
+
+<span class="sd">    Dimensions are expressed as normalised fractions of the game area</span>
+<span class="sd">    (same coordinate system as :class:`~escapy.types.Position`).</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        width: Normalised width.</span>
+<span class="sd">        height: Normalised height.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+
+<div class="viewcode-block" id="Unlockable">
+<a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Unlockable">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Unlockable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that has a locked/unlocked state.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        state: Current lock state.</span>
+<span class="sd">        on_unlock: Command to execute when unlocked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">state</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;locked&quot;</span><span class="p">,</span> <span class="s2">&quot;unlocked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;locked&quot;</span>
+    <span class="n">on_unlock</span><span class="p">:</span> <span class="n">Command</span>
+
+<div class="viewcode-block" id="Unlockable.unlock">
+<a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Unlockable.unlock">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unlock</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transition the object to the unlocked state and return ``on_unlock``.&quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Decodable">
+<a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Decodable">[docs]</a>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Decodable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that can be decoded with a text/numeric code.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        code: The correct code string.</span>
+<span class="sd">        on_decode: Command to execute on a correct code.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">code</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">on_decode</span><span class="p">:</span> <span class="n">Command</span>
+
+<div class="viewcode-block" id="Decodable.insert_code">
+<a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Decodable.insert_code">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insert_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate *code* and return the appropriate command.&quot;&quot;&quot;</span>
+        <span class="o">...</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Matteo Zeccoli Marazzini.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

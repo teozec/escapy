@@ -1,0 +1,624 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>escapy.commands &mdash; escapy 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="escapy.game" href="escapy.game.html" />
+    <link rel="prev" title="escapy.events" href="escapy.events.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            escapy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#from-source-development">From source (development)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../getting-started.html#as-a-dependency">As a dependency</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#project-layout">Project layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#your-first-game">Your first game</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#running-tests">Running tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html#key-design-decisions">Key design decisions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html#commands-are-first-class-values">Commands are first-class values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html#protocols-over-base-classes">Protocols over base classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html#events-decouple-logic-from-presentation">Events decouple logic from presentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture.html#mixins-for-shared-behaviour">Mixins for shared behaviour</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html#game-loop">Game loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture.html#module-dependency-graph">Module dependency graph</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../game-objects.html">Game Objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#common-parameters">Common parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#pickableobject">PickableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#selfsimplelock">SelfSimpleLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#selfkeylock">SelfKeyLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#selfaskcodelock">SelfAskCodeLock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#movetoroom">MoveToRoom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#inspectableobject">InspectableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#pickableinspectableobject">PickableInspectableObject</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../game-objects.html#creating-custom-objects">Creating custom objects</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../commands.html">Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#basic-commands">Basic commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#no-op-command"><code class="docutils literal notranslate"><span class="pre">no_op()</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#pick-id-command"><code class="docutils literal notranslate"><span class="pre">pick(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#put-in-hand-id-command"><code class="docutils literal notranslate"><span class="pre">put_in_hand(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#inspect-id-command"><code class="docutils literal notranslate"><span class="pre">inspect(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#reveal-object-id-room-id-position-command"><code class="docutils literal notranslate"><span class="pre">reveal(object_id,</span> <span class="pre">room_id,</span> <span class="pre">position)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#move-to-room-room-id-command"><code class="docutils literal notranslate"><span class="pre">move_to_room(room_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#add-to-inventory-object-id-command"><code class="docutils literal notranslate"><span class="pre">add_to_inventory(object_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#lock-commands">Lock commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#simple-lock-id-command"><code class="docutils literal notranslate"><span class="pre">simple_lock(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#key-lock-id-key-id-command"><code class="docutils literal notranslate"><span class="pre">key_lock(id,</span> <span class="pre">key_id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#ask-for-code-id-command"><code class="docutils literal notranslate"><span class="pre">ask_for_code(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#locked-id-command"><code class="docutils literal notranslate"><span class="pre">locked(id)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html#combinators">Combinators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#combine-commands-command"><code class="docutils literal notranslate"><span class="pre">combine(*commands)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#cond-clauses-command"><code class="docutils literal notranslate"><span class="pre">cond(*clauses)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../commands.html#chain-clauses-command"><code class="docutils literal notranslate"><span class="pre">chain(*clauses)</span> <span class="pre">→</span> <span class="pre">Command</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../events.html">Events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../events.html#event-union-type">Event union type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../events.html#event-reference">Event reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#pickedupevent"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#putinhandevent"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#putoffhandevent"><code class="docutils literal notranslate"><span class="pre">PutOffHandEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#interactedwithlockedevent"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#unlockedevent"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#revealedevent"><code class="docutils literal notranslate"><span class="pre">RevealedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#movedtoroomevent"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#askedforcodeevent"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#wrongcodeevent"><code class="docutils literal notranslate"><span class="pre">WrongCodeEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#inspectedevent"><code class="docutils literal notranslate"><span class="pre">InspectedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#gameendedevent"><code class="docutils literal notranslate"><span class="pre">GameEndedEvent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../events.html#addedtoinventoryevent"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../events.html#using-events-with-messages">Using events with messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../protocols.html">Protocols</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../protocols.html#gameprotocol">GameProtocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols.html#command">Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#interactable">Interactable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#placeable">Placeable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#unlockable">Unlockable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#decodable">Decodable</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols.html#gameuiprotocol">GameUiProtocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols.html#runtime-checking">Runtime checking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pygame-ui.html">Pygame UI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pygame-ui.html#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#required-keys">Required keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#optional-keys">Optional keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#object-image-keys">Object image keys</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pygame-ui.html#screen-layout">Screen layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pygame-ui.html#ui-states">UI states</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#normal">Normal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#insertcode">InsertCode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pygame-ui.html#inspect">Inspect</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pygame-ui.html#messages">Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pygame-ui.html#game-loop">Game loop</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="escapy.html">escapy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.protocols.html">escapy.protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.protocols.html#escapy-protocols-game">escapy.protocols.game</a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.protocols.html#escapy-protocols-objects">escapy.protocols.objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.protocols.html#escapy-protocols-ui">escapy.protocols.ui</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.pygame.html">escapy.pygame</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi"><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.init"><code class="docutils literal notranslate"><span class="pre">PyGameUi.init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.tick"><code class="docutils literal notranslate"><span class="pre">PyGameUi.tick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.input"><code class="docutils literal notranslate"><span class="pre">PyGameUi.input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.render"><code class="docutils literal notranslate"><span class="pre">PyGameUi.render()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.handle"><code class="docutils literal notranslate"><span class="pre">PyGameUi.handle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.quit"><code class="docutils literal notranslate"><span class="pre">PyGameUi.quit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.PyGameUi.add_message"><code class="docutils literal notranslate"><span class="pre">PyGameUi.add_message()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.pygame.html#module-escapy.pygame.pygame_ui">escapy.pygame.pygame_ui</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="escapy.pygame.html#escapy.pygame.pygame_ui.PyGameUi"><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.types.html">escapy.types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.types.html#escapy.types.Position"><code class="docutils literal notranslate"><span class="pre">Position</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.types.html#escapy.types.Position.x"><code class="docutils literal notranslate"><span class="pre">Position.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.types.html#escapy.types.Position.y"><code class="docutils literal notranslate"><span class="pre">Position.y</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.types.html#escapy.types.Room"><code class="docutils literal notranslate"><span class="pre">Room</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.events.html">escapy.events</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.PickedUpEvent"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.PickedUpEvent.object_id"><code class="docutils literal notranslate"><span class="pre">PickedUpEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.PutInHandEvent"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.PutInHandEvent.object_id"><code class="docutils literal notranslate"><span class="pre">PutInHandEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.PutOffHandEvent"><code class="docutils literal notranslate"><span class="pre">PutOffHandEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.InteractedWithLockedEvent"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.InteractedWithLockedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">InteractedWithLockedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.UnlockedEvent"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.UnlockedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">UnlockedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.RevealedEvent"><code class="docutils literal notranslate"><span class="pre">RevealedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.RevealedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.object_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.RevealedEvent.room_id"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.room_id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.RevealedEvent.position"><code class="docutils literal notranslate"><span class="pre">RevealedEvent.position</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.MovedToRoomEvent"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.MovedToRoomEvent.room_id"><code class="docutils literal notranslate"><span class="pre">MovedToRoomEvent.room_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.AskedForCodeEvent"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.AskedForCodeEvent.object_id"><code class="docutils literal notranslate"><span class="pre">AskedForCodeEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.WrongCodeEvent"><code class="docutils literal notranslate"><span class="pre">WrongCodeEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.InspectedEvent"><code class="docutils literal notranslate"><span class="pre">InspectedEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.InspectedEvent.object_id"><code class="docutils literal notranslate"><span class="pre">InspectedEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.GameEndedEvent"><code class="docutils literal notranslate"><span class="pre">GameEndedEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.AddedToInventoryEvent"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.events.html#escapy.events.AddedToInventoryEvent.object_id"><code class="docutils literal notranslate"><span class="pre">AddedToInventoryEvent.object_id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.events.html#escapy.events.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">escapy.commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.no_op"><code class="docutils literal notranslate"><span class="pre">no_op()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.pick"><code class="docutils literal notranslate"><span class="pre">pick()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.put_in_hand"><code class="docutils literal notranslate"><span class="pre">put_in_hand()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.simple_lock"><code class="docutils literal notranslate"><span class="pre">simple_lock()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.key_lock"><code class="docutils literal notranslate"><span class="pre">key_lock()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.ask_for_code"><code class="docutils literal notranslate"><span class="pre">ask_for_code()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.locked"><code class="docutils literal notranslate"><span class="pre">locked()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.inspect"><code class="docutils literal notranslate"><span class="pre">inspect()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.reveal"><code class="docutils literal notranslate"><span class="pre">reveal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.move_to_room"><code class="docutils literal notranslate"><span class="pre">move_to_room()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.add_to_inventory"><code class="docutils literal notranslate"><span class="pre">add_to_inventory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.combine"><code class="docutils literal notranslate"><span class="pre">combine()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.cond"><code class="docutils literal notranslate"><span class="pre">cond()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#escapy.commands.chain"><code class="docutils literal notranslate"><span class="pre">chain()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.game.html">escapy.game</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.game.html#escapy.game.Game"><code class="docutils literal notranslate"><span class="pre">Game</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.game.html#escapy.game.Game.quit"><code class="docutils literal notranslate"><span class="pre">Game.quit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.game.html#escapy.game.Game.interact"><code class="docutils literal notranslate"><span class="pre">Game.interact()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.game.html#escapy.game.Game.interact_inventory"><code class="docutils literal notranslate"><span class="pre">Game.interact_inventory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="escapy.game.html#escapy.game.Game.insert_code"><code class="docutils literal notranslate"><span class="pre">Game.insert_code()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.objects.html">escapy.objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.PickableObject"><code class="docutils literal notranslate"><span class="pre">PickableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.SelfSimpleLock"><code class="docutils literal notranslate"><span class="pre">SelfSimpleLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.SelfKeyLock"><code class="docutils literal notranslate"><span class="pre">SelfKeyLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.SelfAskCodeLock"><code class="docutils literal notranslate"><span class="pre">SelfAskCodeLock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.MoveToRoom"><code class="docutils literal notranslate"><span class="pre">MoveToRoom</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.InspectableObject"><code class="docutils literal notranslate"><span class="pre">InspectableObject</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.objects.html#escapy.objects.PickableInspectableObject"><code class="docutils literal notranslate"><span class="pre">PickableInspectableObject</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.mixins.html">escapy.mixins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.mixins.html#escapy.mixins.UnlockableMixin"><code class="docutils literal notranslate"><span class="pre">UnlockableMixin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.mixins.html#escapy.mixins.UnlockableMixin.unlock"><code class="docutils literal notranslate"><span class="pre">UnlockableMixin.unlock()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.mixins.html#escapy.mixins.DecodableMixin"><code class="docutils literal notranslate"><span class="pre">DecodableMixin</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="escapy.mixins.html#escapy.mixins.DecodableMixin.insert_code"><code class="docutils literal notranslate"><span class="pre">DecodableMixin.insert_code()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="escapy.messages.html">escapy.messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="escapy.messages.html#escapy.messages.MessageProvider"><code class="docutils literal notranslate"><span class="pre">MessageProvider</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="escapy.messages.html#escapy.messages.dict_message_provider"><code class="docutils literal notranslate"><span class="pre">dict_message_provider()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">escapy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">escapy.commands</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/escapy.commands.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-escapy.commands">
+<span id="escapy-commands"></span><h1>escapy.commands<a class="headerlink" href="#module-escapy.commands" title="Link to this heading"></a></h1>
+<p>Command factory functions that drive game-state mutations.</p>
+<p>A <em>command</em> is a callable <code class="docutils literal notranslate"><span class="pre">(GameProtocol)</span> <span class="pre">-&gt;</span> <span class="pre">list[Event]</span></code>.  Each factory
+function in this module returns a command that performs a single, composable
+action — for example picking up an object, unlocking a lock, or moving the
+player to another room.  Higher-order combinators such as <a class="reference internal" href="#escapy.commands.combine" title="escapy.commands.combine"><code class="xref py py-func docutils literal notranslate"><span class="pre">combine()</span></code></a>,
+<a class="reference internal" href="#escapy.commands.cond" title="escapy.commands.cond"><code class="xref py py-func docutils literal notranslate"><span class="pre">cond()</span></code></a>, and <a class="reference internal" href="#escapy.commands.chain" title="escapy.commands.chain"><code class="xref py py-func docutils literal notranslate"><span class="pre">chain()</span></code></a> allow commands to be composed.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.no_op">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">no_op</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#no_op"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.no_op" title="Link to this definition"></a></dt>
+<dd><p>Return a command that does nothing and emits no events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.pick">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">pick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#pick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.pick" title="Link to this definition"></a></dt>
+<dd><p>Return a command that picks up an object from the current room.</p>
+<p>The object is removed from the room and added to the player’s inventory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object to pick up.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A command that emits a <a class="reference internal" href="escapy.events.html#escapy.events.PickedUpEvent" title="escapy.events.PickedUpEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">PickedUpEvent</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.put_in_hand">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">put_in_hand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#put_in_hand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.put_in_hand" title="Link to this definition"></a></dt>
+<dd><p>Return a command that sets an object as the active hand item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object to hold.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A command that emits a <a class="reference internal" href="escapy.events.html#escapy.events.PutInHandEvent" title="escapy.events.PutInHandEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">PutInHandEvent</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.simple_lock">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">simple_lock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#simple_lock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.simple_lock" title="Link to this definition"></a></dt>
+<dd><p>Return a command that unlocks a locked object unconditionally.</p>
+<p>If the object implements <code class="xref py py-class docutils literal notranslate"><span class="pre">Unlockable</span></code> and its
+state is <code class="docutils literal notranslate"><span class="pre">&quot;locked&quot;</span></code>, it will be unlocked and its <code class="docutils literal notranslate"><span class="pre">on_unlock</span></code> command
+will be executed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the lockable object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A command that emits an <a class="reference internal" href="escapy.events.html#escapy.events.UnlockedEvent" title="escapy.events.UnlockedEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a>
+followed by the events from the object’s <code class="docutils literal notranslate"><span class="pre">on_unlock</span></code> command,
+or an empty list if the object is already unlocked.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.key_lock">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">key_lock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#key_lock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.key_lock" title="Link to this definition"></a></dt>
+<dd><p>Return a command that unlocks a locked object only if the player holds the right key.</p>
+<p>The object is unlocked when:</p>
+<ul class="simple">
+<li><p>it implements <code class="xref py py-class docutils literal notranslate"><span class="pre">Unlockable</span></code>,</p></li>
+<li><p>its state is <code class="docutils literal notranslate"><span class="pre">&quot;locked&quot;</span></code>, <strong>and</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">game.in_hand_object_id</span></code> matches <em>key_id</em>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the lockable object.</p></li>
+<li><p><strong>key_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the required key object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A command that emits an <a class="reference internal" href="escapy.events.html#escapy.events.UnlockedEvent" title="escapy.events.UnlockedEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a> (plus
+the <code class="docutils literal notranslate"><span class="pre">on_unlock</span></code> follow-up events), or an empty list on failure.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.ask_for_code">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">ask_for_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#ask_for_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.ask_for_code" title="Link to this definition"></a></dt>
+<dd><p>Return a command that requests the UI to prompt the player for a code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object awaiting the code.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A command that emits an <a class="reference internal" href="escapy.events.html#escapy.events.AskedForCodeEvent" title="escapy.events.AskedForCodeEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.locked">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">locked</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#locked"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.locked" title="Link to this definition"></a></dt>
+<dd><p>Return a command that signals the player interacted with a locked object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the locked object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A command that emits an
+<a class="reference internal" href="escapy.events.html#escapy.events.InteractedWithLockedEvent" title="escapy.events.InteractedWithLockedEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">InteractedWithLockedEvent</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.inspect">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">inspect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#inspect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.inspect" title="Link to this definition"></a></dt>
+<dd><p>Return a command that inspects an object (e.g. zoom-in view).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object to inspect.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A command that emits an <a class="reference internal" href="escapy.events.html#escapy.events.InspectedEvent" title="escapy.events.InspectedEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">InspectedEvent</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.reveal">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">reveal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">room_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#reveal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.reveal" title="Link to this definition"></a></dt>
+<dd><p>Return a command that reveals a hidden object by placing it in a room.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object to reveal.</p></li>
+<li><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Room in which the object should appear.</p></li>
+<li><p><strong>position</strong> (<a class="reference internal" href="escapy.types.html#escapy.types.Position" title="escapy.types.Position"><em>Position</em></a>) – Position within the room.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A command that emits a <a class="reference internal" href="escapy.events.html#escapy.events.RevealedEvent" title="escapy.events.RevealedEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">RevealedEvent</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.move_to_room">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">move_to_room</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#move_to_room"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.move_to_room" title="Link to this definition"></a></dt>
+<dd><p>Return a command that changes the current room.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the destination room.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A command that emits a <a class="reference internal" href="escapy.events.html#escapy.events.MovedToRoomEvent" title="escapy.events.MovedToRoomEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">MovedToRoomEvent</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.add_to_inventory">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">add_to_inventory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#add_to_inventory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.add_to_inventory" title="Link to this definition"></a></dt>
+<dd><p>Return a command that adds an object directly to the player’s inventory.</p>
+<p>Unlike <a class="reference internal" href="#escapy.commands.pick" title="escapy.commands.pick"><code class="xref py py-func docutils literal notranslate"><span class="pre">pick()</span></code></a>, this does <strong>not</strong> remove the object from a room.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object to add.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A command that emits an
+<a class="reference internal" href="escapy.events.html#escapy.events.AddedToInventoryEvent" title="escapy.events.AddedToInventoryEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AddedToInventoryEvent</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.combine">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">combine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">fns</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#combine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.combine" title="Link to this definition"></a></dt>
+<dd><p>Return a command that executes multiple commands in sequence.</p>
+<p>All events are collected in order and returned as a single flat list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*fns</strong> (<em>Command</em>) – Commands to execute sequentially.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.cond">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">cond</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">clauses</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#cond"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.cond" title="Link to this definition"></a></dt>
+<dd><p>Return a command that executes the first clause whose condition is true.</p>
+<p>Clauses are evaluated in order.  Only the command of the <strong>first</strong>
+matching clause is executed; the rest are skipped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*clauses</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><em>Callable</em></a><em>[</em><em>[</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>]</em><em>, </em><em>Command</em><em>]</em>) – <code class="docutils literal notranslate"><span class="pre">(condition,</span> <span class="pre">command)</span></code> pairs.  <em>condition</em> is a
+zero-argument callable returning a bool.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Command</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="escapy.commands.chain">
+<span class="sig-prename descclassname"><span class="pre">escapy.commands.</span></span><span class="sig-name descname"><span class="pre">chain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">clauses</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/commands.html#chain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.commands.chain" title="Link to this definition"></a></dt>
+<dd><p>Like combine, but allows conditional execution based on previously emitted events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*clauses</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a><em>]</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>]</em><em>, </em><em>Command</em><em>]</em>) – Tuple of <code class="docutils literal notranslate"><span class="pre">(condition,</span> <span class="pre">Command)</span></code> where <em>condition</em>
+receives the list of events emitted so far.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Command</em></p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chain</span><span class="p">(</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="n">key_lock</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">key_id</span><span class="p">)),</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="n">events</span><span class="p">:</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">UnlockedEvent</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">events</span><span class="p">),</span> <span class="n">locked</span><span class="p">(</span><span class="nb">id</span><span class="p">)),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="escapy.events.html" class="btn btn-neutral float-left" title="escapy.events" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="escapy.game.html" class="btn btn-neutral float-right" title="escapy.game" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Matteo Zeccoli Marazzini.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -10,12 +10,12 @@ Install from source (development):
 pyenv install   # or alternative way to install python 3.12
 python -m venv .venv
 source .venv/bin/activate
-pip install -e .
+make install
 ```
 
 ## Quick start
 
-Use `main.example.py` as a runnable example. A minimal usage looks like:
+Use `example/main.py` as an example. A minimal usage looks like:
 
 ```python
 from escapy import Game
@@ -49,8 +49,7 @@ Run tests and linters using the editable dev extras.
 pyenv install   # or alternative way to install python 3.12
 python -m venv .venv
 source .venv/bin/activate
-pip install -e .[dev]
-pre-commit install
+make install-dev
 ```
 
 Common tasks are wrapped in the `Makefile`:

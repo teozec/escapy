@@ -16,6 +16,12 @@ pygame = ["pygame>=2.0"]
 dev = ["pip-tools", "ruff", "pre-commit", "pytest>=8.0"]
 docs = ["sphinx>=9.0", "sphinx-rtd-theme>=3.0", "myst-parser>=5.0"]
 
+[project.urls]
+Homepage = "https://teozec.github.io/escapy"
+Documentation = "https://teozec.github.io/escapy"
+Repository = "https://github.com/teozec/escapy.git"
+Changelog = "https://github.com/teozec/escapy/blob/master/CHANGELOG.md"
+
 [tool.pytest.ini_options]
 testpaths = ["src/escapy/__tests__"]
 

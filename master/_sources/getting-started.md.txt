@@ -38,7 +38,7 @@ src/escapy/
 ├── game.py              # Game engine (state + dispatch)
 ├── messages.py          # MessageProvider utilities
 ├── mixins.py            # UnlockableMixin, DecodableMixin
-├── objects/             # Ready-made game-object classes
+├── objects.py           # Ready-made game-object classes
 ├── protocols/
 │   ├── __init__.py      # Protocol re-exports
 │   ├── game.py          # GameProtocol, Command type

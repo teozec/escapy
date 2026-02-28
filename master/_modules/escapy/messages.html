@@ -337,11 +337,21 @@
 <span class="c1"># You should have received a copy of the GNU Lesser General Public License</span>
 <span class="c1"># along with escapy. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">&quot;&quot;&quot;Message providers that map game events to human-readable strings.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Message providers that map game events to human-readable strings.</span>
+
+<span class="sd">.. warning::</span>
+
+<span class="sd">   The default :func:`dict_message_provider` keys messages by ``repr(event)``.</span>
+<span class="sd">   This means that adding, removing, or reordering fields on an event</span>
+<span class="sd">   dataclass will silently invalidate existing message dictionaries.  Users</span>
+<span class="sd">   must rebuild their message keys whenever the event schema changes.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">Event</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MessageProvider&quot;</span><span class="p">,</span> <span class="s2">&quot;dict_message_provider&quot;</span><span class="p">]</span>
 
 <span class="nb">type</span> <span class="n">MessageProvider</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Event</span><span class="p">],</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span>
 <span class="sd">&quot;&quot;&quot;A callable that returns a display string for an event, or ``None``.&quot;&quot;&quot;</span>
@@ -354,6 +364,21 @@
 
 <span class="sd">    Event instances are looked up by their ``repr()`` string.  If no</span>
 <span class="sd">    matching entry exists, ``None`` is returned.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">       Because keys are ``repr()`` strings, they are tightly coupled to the</span>
+<span class="sd">       exact field names and order of each event dataclass.  If the library</span>
+<span class="sd">       adds a field to an event in a future release, all dictionary entries</span>
+<span class="sd">       for that event type will stop matching.  Build your dictionaries by</span>
+<span class="sd">       using ``repr()`` on actual event instances rather than hand-writing</span>
+<span class="sd">       the strings::</span>
+
+<span class="sd">           from escapy.events import PickedUpEvent</span>
+
+<span class="sd">           messages = {</span>
+<span class="sd">               repr(PickedUpEvent(&quot;key&quot;)): &quot;You found a rusty key!&quot;,</span>
+<span class="sd">           }</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        messages: Mapping from ``repr(event)`` strings to message text.</span>

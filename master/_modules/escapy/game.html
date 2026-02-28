@@ -401,7 +401,13 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Events produced by the interaction, or an empty list.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: If *object_id* is not a registered object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">object_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objects</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown object id: </span><span class="si">{</span><span class="n">object_id</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">object_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">current_room_id</span><span class="p">]:</span>
             <span class="k">return</span> <span class="p">[]</span>
 
@@ -428,11 +434,18 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Events produced by the interaction, or an empty list.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: If *object_id* is not ``None`` and not a registered</span>
+<span class="sd">                object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">object_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">in_hand_object_id</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">PutOffHandEvent</span><span class="p">()]</span>
-        <span class="k">elif</span> <span class="n">object_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventory</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">object_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objects</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown object id: </span><span class="si">{</span><span class="n">object_id</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">object_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inventory</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objects</span><span class="p">[</span><span class="n">object_id</span><span class="p">]</span>
@@ -453,7 +466,13 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Events produced by the decode action, or an empty list if the</span>
 <span class="sd">            object does not implement :class:`~escapy.protocols.Decodable`.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: If *object_id* is not a registered object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">object_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objects</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown object id: </span><span class="si">{</span><span class="n">object_id</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
         <span class="nb">object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objects</span><span class="p">[</span><span class="n">object_id</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">Decodable</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">[]</span>

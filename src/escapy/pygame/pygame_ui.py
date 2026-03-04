@@ -371,6 +371,8 @@ class PyGameUi(GameUiProtocol):
         """Add a message to the message list."""
         self.messages.append(message)
 
+    # TODO: add a Representable protocol to objects and use that to gt the representation key
+    # instead of hardcoding the Unlockable logic here
     def _get_repr(self, object_id: str) -> str:
         """Return the image-lookup key for an object, accounting for lock state."""
         object = self.game.objects[object_id]

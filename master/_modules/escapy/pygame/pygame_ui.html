@@ -716,6 +716,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
 
 
+    <span class="c1"># TODO: add a Representable protocol to objects and use that to gt the representation key</span>
+    <span class="c1"># instead of hardcoding the Unlockable logic here</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the image-lookup key for an object, accounting for lock state.&quot;&quot;&quot;</span>
         <span class="nb">object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">game</span><span class="o">.</span><span class="n">objects</span><span class="p">[</span><span class="n">object_id</span><span class="p">]</span>

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The `pygame` extra now installs `pygame-ce` instead of `pygame`. The import name is unchanged (`import pygame`), but the two packages cannot be installed together: uninstall `pygame` before upgrading.
+
 ### Fixed
 
 - The example is now runnable: `example/make_assets.py` generates placeholder images, the config only references objects of the example game, and the game starts from the intro room so the win machine is reachable.

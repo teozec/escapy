@@ -53,7 +53,7 @@ autodoc_default_options = {
 # Intersphinx mapping
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    "pygame": ("https://www.pygame.org/docs", None),
+    "pygame": ("https://pyga.me/docs", None),
 }
 
 # -- Options for HTML output -------------------------------------------------

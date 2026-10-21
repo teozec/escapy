@@ -24,7 +24,7 @@ pre-commit install
 
 ```bash
 pip install escapy                      # core only
-pip install escapy[pygame]              # core + pygame UI
+pip install escapy[pygame]              # core + pygame UI (installs pygame-ce)
 ```
 
 ## Project layout

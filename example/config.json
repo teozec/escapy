@@ -6,36 +6,33 @@
         "title": "Escape Room",
         "assets_dir": "assets",
         "rooms": {
+            "init-room": "init-room.png",
             "room1": "study.png",
             "room2": "room-2.jpg",
             "win-room": "win-room.png"
         },
         "objects": {
+            "init-obj": "init-obj.png",
             "a1-key": "a1-key.png",
             "a2-poster:locked": "door-closed.png",
             "a2-poster:unlocked": "door-open.png",
             "a2-key": "a2-key.png",
             "a3-chest:locked": "a3-chest.png",
-            "a3-chest:unlocked": "a3-chest.png",
+            "a3-chest:unlocked": "a3-chest-open.png",
             "calendar-1": "calendar.png",
-            "calendar-2a": "calendar.png",
-            "calendar-2b": "calendar.png",
-            "calendar-3a": "calendar.png",
-            "calendar-3b": "calendar.png",
-            "calendar-4": "calendar.png",
-            "machine:locked": "door-closed.png",
-            "machine:unlocked": "door-open.png",
-            "win-machine": "win-machine.png",
-            "init-obj": "init-obj.png"
+            "calendar-2": "calendar.png",
+            "win-machine": "win-machine.png"
         }
     },
     "messages": {
-        "AskedForCodeEvent(object_id='c2-alarm')": "Inserisci un orario",
-        "AskedForCodeEvent(object_id='d2-safe')": "Inserisci il codice della cassaforte",
-        "InteractedWithLockedEvent(object_id='a3-chest')": "Il forziere è chiuso a chiave",
-        "InteractedWithLockedEvent(object_id='b2-safe')": "La cassaforte è chiusa a chiave",
-        "InteractedWithLockedEvent(object_id='b3-chest')": "Il forziere è chiuso a chiave",
-        "InteractedWithLockedEvent(object_id='c3-chest')": "Il forziere è chiuso a chiave",
-        "InteractedWithLockedEvent(object_id='d3-chest')": "Il forziere è chiuso a chiave"
+        "AddedToInventoryEvent(object_id='win-machine')": "You received a mysterious machine: it needs a code to activate",
+        "PickedUpEvent(object_id='a1-key')": "You found a key",
+        "PickedUpEvent(object_id='a2-key')": "You found a small key",
+        "InteractedWithLockedEvent(object_id='a2-poster')": "The door is locked",
+        "UnlockedEvent(object_id='a2-poster')": "The door opens: there is something behind it",
+        "InteractedWithLockedEvent(object_id='a3-chest')": "The chest is locked",
+        "UnlockedEvent(object_id='a3-chest')": "Inside the chest there is a sheet of paper that reads 12345",
+        "AskedForCodeEvent(object_id='win-machine')": "Enter the code",
+        "WrongCodeEvent()": "Wrong code"
     }
 }

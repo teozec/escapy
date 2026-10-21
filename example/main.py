@@ -18,7 +18,8 @@
 """Example runner showing how to use the escapy library.
 
 Copy this file and adapt `config.json` to run your own game.
-In order to work, you need to add your images to the `assets` directory.
+In order to work, you need to add your images to the `assets` directory:
+run `make_assets.py` to generate placeholder images.
 """
 
 import json
@@ -134,7 +135,7 @@ def main():
             "win-room": {},
         },
         inventory=[],
-        first_room_id="room1",
+        first_room_id="init-room",
     )
 
     debug = False

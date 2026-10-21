@@ -58,6 +58,7 @@ Common tasks are wrapped in the `Makefile`:
 make test          # run the test suite
 make lint          # run ruff linter
 make format        # auto-format code
+make example       # generate placeholder assets and run the example game
 make docs          # build Sphinx documentation
 make build         # build wheel and sdist
 make clean         # remove build artefacts

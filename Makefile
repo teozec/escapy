@@ -1,4 +1,4 @@
-.PHONY: help install install-dev lint format test docs docs-serve build clean
+.PHONY: help install install-dev install-docs lint format test example docs docs-serve build clean
 
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -24,6 +24,9 @@ format: ## Auto-format code with ruff
 test: ## Run the test suite
 	pytest -q
 
+example: ## Generate placeholder assets (if missing) and run the example game
+	cd example && python make_assets.py && python main.py
+
 docs: ## Build Sphinx documentation
 	sphinx-build -b html docs docs/_build/html
 
@@ -34,4 +37,4 @@ build: ## Build wheel and sdist
 	python -m build
 
 clean: ## Remove build artefacts
-	rm -rf build/ dist/ docs/_build/ src/*.egg-info
+	rm -rf build/ dist/ docs/_build/ src/*.egg-info example/assets/

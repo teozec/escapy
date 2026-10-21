@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#placeable">Placeable</a></li>
@@ -342,7 +343,7 @@ distinct internal states control how input is interpreted:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – UI configuration dictionary (window size, asset paths,
+<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a>) – UI configuration dictionary (window size, asset paths,
 layout fractions, etc.).</p></li>
 <li><p><strong>message_provider</strong> (<a class="reference internal" href="escapy.messages.html#escapy.messages.MessageProvider" title="escapy.messages.MessageProvider"><em>MessageProvider</em></a>) – Callable that maps events to display strings.</p></li>
 </ul>
@@ -371,7 +372,7 @@ layout fractions, etc.).</p></li>
 <dd><p>Process all pending pygame events and return game events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a>[<a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a>[<a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -388,7 +389,7 @@ layout fractions, etc.).</p></li>
 <dd><p>React to game events by updating messages and UI state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>events</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a><em>]</em>)</p>
+<dd class="field-odd"><p><strong>events</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><em>list</em></a><em>[</em><a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a><em>]</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -413,7 +414,7 @@ layout fractions, etc.).</p></li>
 <dd><p>Add a message to the message list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -446,7 +447,7 @@ distinct internal states control how input is interpreted:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – UI configuration dictionary (window size, asset paths,
+<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><em>dict</em></a>) – UI configuration dictionary (window size, asset paths,
 layout fractions, etc.).</p></li>
 <li><p><strong>message_provider</strong> (<a class="reference internal" href="escapy.messages.html#escapy.messages.MessageProvider" title="escapy.messages.MessageProvider"><em>MessageProvider</em></a>) – Callable that maps events to display strings.</p></li>
 </ul>
@@ -475,7 +476,7 @@ layout fractions, etc.).</p></li>
 <dd><p>Process all pending pygame events and return game events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a>[<a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)">list</a>[<a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -492,7 +493,7 @@ layout fractions, etc.).</p></li>
 <dd><p>React to game events by updating messages and UI state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>events</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a><em>]</em>)</p>
+<dd class="field-odd"><p><strong>events</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><em>list</em></a><em>[</em><a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a><em>]</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -517,7 +518,7 @@ layout fractions, etc.).</p></li>
 <dd><p>Add a message to the message list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>

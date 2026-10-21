@@ -24,7 +24,7 @@ pre-commit install
 
 ```bash
 pip install escapy                      # core only
-pip install escapy[pygame]              # core + pygame UI
+pip install escapy[pygame]              # core + pygame UI (installs pygame-ce)
 ```
 
 ## Project layout
@@ -72,18 +72,18 @@ from escapy.types import Position
 from escapy.commands import no_op, reveal
 from escapy.objects import PickableObject, SelfKeyLock, MoveToRoom
 
-objects = {
-    "knife": PickableObject("knife", width=0.05, height=0.05),
-    "poster": SelfKeyLock(
+objects = [
+    PickableObject("knife", width=0.05, height=0.05),
+    SelfKeyLock(
         id="poster",
         key_id="knife",
         on_unlock=reveal("hidden-key", "room1", Position(x=0.75, y=0.75)),
         width=0.15,
         height=0.25,
     ),
-    "hidden-key": PickableObject("hidden-key", width=0.03, height=0.03),
-    "door": MoveToRoom(room_id="room2", width=0.1, height=0.2),
-}
+    PickableObject("hidden-key", width=0.03, height=0.03),
+    MoveToRoom("door", room_id="room2", width=0.1, height=0.2),
+]
 ```
 
 2. **Define rooms** — a room maps object IDs to positions:

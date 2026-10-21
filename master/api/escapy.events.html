@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#placeable">Placeable</a></li>
@@ -332,16 +333,16 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.PickedUpEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">PickedUpEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#PickedUpEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.PickedUpEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An object was removed from the room and added to the inventory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="escapy.events.PickedUpEvent.object_id">
-<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.PickedUpEvent.object_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.PickedUpEvent.object_id" title="Link to this definition"></a></dt>
 <dd><p>Identifier of the picked-up object.</p>
 </dd></dl>
 
@@ -350,16 +351,16 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.PutInHandEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">PutInHandEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#PutInHandEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.PutInHandEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The player selected an inventory object as the active hand item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="escapy.events.PutInHandEvent.object_id">
-<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.PutInHandEvent.object_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.PutInHandEvent.object_id" title="Link to this definition"></a></dt>
 <dd><p>Identifier of the object now held in-hand.</p>
 </dd></dl>
 
@@ -368,7 +369,7 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.PutOffHandEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">PutOffHandEvent</span></span><a class="reference internal" href="../_modules/escapy/events.html#PutOffHandEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.PutOffHandEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The player deselected the active hand item (hand is now empty).</p>
 <dl class="field-list simple">
 </dl>
@@ -377,16 +378,16 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.InteractedWithLockedEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">InteractedWithLockedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#InteractedWithLockedEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.InteractedWithLockedEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The player tried to interact with a locked object without the right key.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="escapy.events.InteractedWithLockedEvent.object_id">
-<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.InteractedWithLockedEvent.object_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.InteractedWithLockedEvent.object_id" title="Link to this definition"></a></dt>
 <dd><p>Identifier of the locked object.</p>
 </dd></dl>
 
@@ -395,16 +396,16 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.UnlockedEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">UnlockedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#UnlockedEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.UnlockedEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A locked object was successfully unlocked.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="escapy.events.UnlockedEvent.object_id">
-<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.UnlockedEvent.object_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.UnlockedEvent.object_id" title="Link to this definition"></a></dt>
 <dd><p>Identifier of the now-unlocked object.</p>
 </dd></dl>
 
@@ -413,26 +414,26 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.RevealedEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">RevealedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">room_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#RevealedEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.RevealedEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A hidden object was revealed and placed into a room.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
-<li><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p></li>
+<li><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p></li>
+<li><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p></li>
 <li><p><strong>position</strong> (<a class="reference internal" href="escapy.types.html#escapy.types.Position" title="escapy.types.Position"><em>Position</em></a>)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="escapy.events.RevealedEvent.object_id">
-<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.RevealedEvent.object_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.RevealedEvent.object_id" title="Link to this definition"></a></dt>
 <dd><p>Identifier of the revealed object.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="escapy.events.RevealedEvent.room_id">
-<span class="sig-name descname"><span class="pre">room_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.RevealedEvent.room_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">room_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.RevealedEvent.room_id" title="Link to this definition"></a></dt>
 <dd><p>Room where the object was placed.</p>
 </dd></dl>
 
@@ -447,16 +448,16 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.MovedToRoomEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">MovedToRoomEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">room_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#MovedToRoomEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.MovedToRoomEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The active room changed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="escapy.events.MovedToRoomEvent.room_id">
-<span class="sig-name descname"><span class="pre">room_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.MovedToRoomEvent.room_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">room_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.MovedToRoomEvent.room_id" title="Link to this definition"></a></dt>
 <dd><p>Identifier of the new current room.</p>
 </dd></dl>
 
@@ -465,16 +466,16 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.AskedForCodeEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">AskedForCodeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#AskedForCodeEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.AskedForCodeEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The UI should prompt the player to enter a code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="escapy.events.AskedForCodeEvent.object_id">
-<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.AskedForCodeEvent.object_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.AskedForCodeEvent.object_id" title="Link to this definition"></a></dt>
 <dd><p>Identifier of the object awaiting the code.</p>
 </dd></dl>
 
@@ -483,7 +484,7 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.WrongCodeEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">WrongCodeEvent</span></span><a class="reference internal" href="../_modules/escapy/events.html#WrongCodeEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.WrongCodeEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The player entered an incorrect code.</p>
 <dl class="field-list simple">
 </dl>
@@ -492,16 +493,16 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.InspectedEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">InspectedEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#InspectedEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.InspectedEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The player inspected an object (e.g. zoomed in on it).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="escapy.events.InspectedEvent.object_id">
-<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.InspectedEvent.object_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.InspectedEvent.object_id" title="Link to this definition"></a></dt>
 <dd><p>Identifier of the inspected object.</p>
 </dd></dl>
 
@@ -510,7 +511,7 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.GameEndedEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">GameEndedEvent</span></span><a class="reference internal" href="../_modules/escapy/events.html#GameEndedEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.GameEndedEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The game has ended (player quit or won).</p>
 <dl class="field-list simple">
 </dl>
@@ -519,16 +520,16 @@ or ending the game).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.events.AddedToInventoryEvent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.events.</span></span><span class="sig-name descname"><span class="pre">AddedToInventoryEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/escapy/events.html#AddedToInventoryEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.events.AddedToInventoryEvent" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An object was added to the player’s inventory without being picked up from the room.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>)</p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="escapy.events.AddedToInventoryEvent.object_id">
-<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.AddedToInventoryEvent.object_id" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">object_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#escapy.events.AddedToInventoryEvent.object_id" title="Link to this definition"></a></dt>
 <dd><p>Identifier of the added object.</p>
 </dd></dl>
 

@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="protocols.html#placeable">Placeable</a></li>
@@ -396,8 +397,8 @@
 <h3><code class="docutils literal notranslate"><span class="pre">combine(*commands)</span> <span class="pre">→</span> <span class="pre">Command</span></code><a class="headerlink" href="#combine-commands-command" title="Link to this heading"></a></h3>
 <p>Executes all commands <strong>in sequence</strong> and returns their events as a flat list.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cmd</span> <span class="o">=</span> <span class="n">combine</span><span class="p">(</span>
-    <span class="n">move_to_room</span><span class="p">(</span><span class="s2">&quot;cellar&quot;</span><span class="p">),</span>
-    <span class="n">add_to_inventory</span><span class="p">(</span><span class="s2">&quot;torch&quot;</span><span class="p">),</span>
+    <span class="n">move_to_room</span><span class="p">(</span><span class="s2">"cellar"</span><span class="p">),</span>
+    <span class="n">add_to_inventory</span><span class="p">(</span><span class="s2">"torch"</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -406,7 +407,7 @@
 <h3><code class="docutils literal notranslate"><span class="pre">cond(*clauses)</span> <span class="pre">→</span> <span class="pre">Command</span></code><a class="headerlink" href="#cond-clauses-command" title="Link to this heading"></a></h3>
 <p>Evaluates conditions in order and executes only the <strong>first matching</strong> clause.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cmd</span> <span class="o">=</span> <span class="n">cond</span><span class="p">(</span>
-    <span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;locked&quot;</span><span class="p">,</span> <span class="n">ask_for_code</span><span class="p">(</span><span class="s2">&quot;safe&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">"locked"</span><span class="p">,</span> <span class="n">ask_for_code</span><span class="p">(</span><span class="s2">"safe"</span><span class="p">)),</span>
     <span class="c1"># implicit: no match → empty list</span>
 <span class="p">)</span>
 </pre></div>
@@ -417,10 +418,10 @@
 <h3><code class="docutils literal notranslate"><span class="pre">chain(*clauses)</span> <span class="pre">→</span> <span class="pre">Command</span></code><a class="headerlink" href="#chain-clauses-command" title="Link to this heading"></a></h3>
 <p>Like <code class="docutils literal notranslate"><span class="pre">combine</span></code>, but each clause’s condition receives the <strong>events emitted so far</strong>, enabling conditional follow-ups.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cmd</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span>
-    <span class="p">(</span><span class="k">lambda</span> <span class="n">_events</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="n">key_lock</span><span class="p">(</span><span class="s2">&quot;door&quot;</span><span class="p">,</span> <span class="n">key_id</span><span class="o">=</span><span class="s2">&quot;gold_key&quot;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="k">lambda</span> <span class="n">_events</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="n">key_lock</span><span class="p">(</span><span class="s2">"door"</span><span class="p">,</span> <span class="n">key_id</span><span class="o">=</span><span class="s2">"gold_key"</span><span class="p">)),</span>
     <span class="p">(</span>
         <span class="k">lambda</span> <span class="n">events</span><span class="p">:</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">UnlockedEvent</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">events</span><span class="p">),</span>
-        <span class="n">locked</span><span class="p">(</span><span class="s2">&quot;door&quot;</span><span class="p">),</span>
+        <span class="n">locked</span><span class="p">(</span><span class="s2">"door"</span><span class="p">),</span>
     <span class="p">),</span>
 <span class="p">)</span>
 </pre></div>

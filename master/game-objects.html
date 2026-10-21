@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="protocols.html#placeable">Placeable</a></li>
@@ -327,6 +328,7 @@
 <p>escapy ships several ready-made game-object classes in <code class="docutils literal notranslate"><span class="pre">escapy.objects</span></code>.  Each class composes one or more protocols and mixins to provide a complete, reusable behaviour.</p>
 <section id="common-parameters">
 <h2>Common parameters<a class="headerlink" href="#common-parameters" title="Link to this heading"></a></h2>
+<p>All object classes take a unique <strong><code class="docutils literal notranslate"><span class="pre">id</span></code></strong> as first argument: <code class="docutils literal notranslate"><span class="pre">Game</span></code> indexes objects by it, and rooms, inventory, events and UI configuration refer to objects by id.</p>
 <p>All object classes accept <strong>normalised dimensions</strong> (<code class="docutils literal notranslate"><span class="pre">width</span></code>, <code class="docutils literal notranslate"><span class="pre">height</span></code>) expressed as fractions of the game area (e.g. <code class="docutils literal notranslate"><span class="pre">0.1</span></code> means 10 % of the game area).</p>
 <blockquote>
 <div><p><strong>Imports for the examples below:</strong></p>
@@ -354,7 +356,7 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">knife</span> <span class="o">=</span> <span class="n">PickableObject</span><span class="p">(</span><span class="s2">&quot;knife&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">knife</span> <span class="o">=</span> <span class="n">PickableObject</span><span class="p">(</span><span class="s2">"knife"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -377,8 +379,8 @@
 </tbody>
 </table>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chest</span> <span class="o">=</span> <span class="n">SelfSimpleLock</span><span class="p">(</span>
-    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;chest&quot;</span><span class="p">,</span>
-    <span class="n">on_unlock</span><span class="o">=</span><span class="n">reveal</span><span class="p">(</span><span class="s2">&quot;gem&quot;</span><span class="p">,</span> <span class="s2">&quot;room1&quot;</span><span class="p">,</span> <span class="n">Position</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)),</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">"chest"</span><span class="p">,</span>
+    <span class="n">on_unlock</span><span class="o">=</span><span class="n">reveal</span><span class="p">(</span><span class="s2">"gem"</span><span class="p">,</span> <span class="s2">"room1"</span><span class="p">,</span> <span class="n">Position</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)),</span>
     <span class="n">width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
     <span class="n">height</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
 <span class="p">)</span>
@@ -407,8 +409,8 @@
 </tbody>
 </table>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">door</span> <span class="o">=</span> <span class="n">SelfKeyLock</span><span class="p">(</span>
-    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;door&quot;</span><span class="p">,</span>
-    <span class="n">key_id</span><span class="o">=</span><span class="s2">&quot;gold_key&quot;</span><span class="p">,</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">"door"</span><span class="p">,</span>
+    <span class="n">key_id</span><span class="o">=</span><span class="s2">"gold_key"</span><span class="p">,</span>
     <span class="n">on_unlock</span><span class="o">=</span><span class="n">no_op</span><span class="p">(),</span>
     <span class="n">width</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
     <span class="n">height</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
@@ -441,9 +443,9 @@
 </tbody>
 </table>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">safe</span> <span class="o">=</span> <span class="n">SelfAskCodeLock</span><span class="p">(</span>
-    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;safe&quot;</span><span class="p">,</span>
-    <span class="n">on_unlock</span><span class="o">=</span><span class="n">reveal</span><span class="p">(</span><span class="s2">&quot;diamond&quot;</span><span class="p">,</span> <span class="s2">&quot;room1&quot;</span><span class="p">,</span> <span class="n">Position</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)),</span>
-    <span class="n">code</span><span class="o">=</span><span class="s2">&quot;1234&quot;</span><span class="p">,</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">"safe"</span><span class="p">,</span>
+    <span class="n">on_unlock</span><span class="o">=</span><span class="n">reveal</span><span class="p">(</span><span class="s2">"diamond"</span><span class="p">,</span> <span class="s2">"room1"</span><span class="p">,</span> <span class="n">Position</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)),</span>
+    <span class="n">code</span><span class="o">=</span><span class="s2">"1234"</span><span class="p">,</span>
     <span class="n">width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
     <span class="n">height</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
 <span class="p">)</span>
@@ -453,14 +455,14 @@
 <section id="movetoroom">
 <h2>MoveToRoom<a class="headerlink" href="#movetoroom" title="Link to this heading"></a></h2>
 <p>A clickable hotspot that <strong>transports the player</strong> to another room.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">door</span> <span class="o">=</span> <span class="n">MoveToRoom</span><span class="p">(</span><span class="n">room_id</span><span class="o">=</span><span class="s2">&quot;hallway&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">door</span> <span class="o">=</span> <span class="n">MoveToRoom</span><span class="p">(</span><span class="s2">"door"</span><span class="p">,</span> <span class="n">room_id</span><span class="o">=</span><span class="s2">"hallway"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="inspectableobject">
 <h2>InspectableObject<a class="headerlink" href="#inspectableobject" title="Link to this heading"></a></h2>
 <p>An object that shows a <strong>zoomed-in view</strong> when clicked.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">painting</span> <span class="o">=</span> <span class="n">InspectableObject</span><span class="p">(</span><span class="s2">&quot;painting&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">painting</span> <span class="o">=</span> <span class="n">InspectableObject</span><span class="p">(</span><span class="s2">"painting"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -482,18 +484,19 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">note</span> <span class="o">=</span> <span class="n">PickableInspectableObject</span><span class="p">(</span><span class="s2">&quot;note&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">note</span> <span class="o">=</span> <span class="n">PickableInspectableObject</span><span class="p">(</span><span class="s2">"note"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="creating-custom-objects">
 <h2>Creating custom objects<a class="headerlink" href="#creating-custom-objects" title="Link to this heading"></a></h2>
-<p>You can create your own objects by composing the available protocols and assigning command instances:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">Interactable</span><span class="p">,</span> <span class="n">Placeable</span>
+<p>You can create your own objects by composing the available protocols and assigning command instances.  Every object must satisfy <code class="docutils literal notranslate"><span class="pre">GameObject</span></code>, i.e. have an <code class="docutils literal notranslate"><span class="pre">id</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">escapy.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">GameObject</span><span class="p">,</span> <span class="n">Interactable</span><span class="p">,</span> <span class="n">Placeable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">escapy.commands</span><span class="w"> </span><span class="kn">import</span> <span class="n">combine</span><span class="p">,</span> <span class="n">pick</span><span class="p">,</span> <span class="n">inspect</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">PickAndInspect</span><span class="p">(</span><span class="n">Interactable</span><span class="p">,</span> <span class="n">Placeable</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PickAndInspect</span><span class="p">(</span><span class="n">GameObject</span><span class="p">,</span> <span class="n">Interactable</span><span class="p">,</span> <span class="n">Placeable</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">interact</span> <span class="o">=</span> <span class="n">combine</span><span class="p">(</span><span class="n">pick</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span> <span class="n">inspect</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>

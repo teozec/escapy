@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#placeable">Placeable</a></li>
@@ -348,7 +349,7 @@ player to another room.  Higher-order combinators such as <a class="reference in
 <p>The object is removed from the room and added to the player’s inventory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object to pick up.</p>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the object to pick up.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A command that emits a <a class="reference internal" href="escapy.events.html#escapy.events.PickedUpEvent" title="escapy.events.PickedUpEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">PickedUpEvent</span></code></a>.</p>
@@ -365,7 +366,7 @@ player to another room.  Higher-order combinators such as <a class="reference in
 <dd><p>Return a command that sets an object as the active hand item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object to hold.</p>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the object to hold.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A command that emits a <a class="reference internal" href="escapy.events.html#escapy.events.PutInHandEvent" title="escapy.events.PutInHandEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">PutInHandEvent</span></code></a>.</p>
@@ -385,7 +386,7 @@ state is <code class="docutils literal notranslate"><span class="pre">&quot;lock
 will be executed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the lockable object.</p>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the lockable object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A command that emits an <a class="reference internal" href="escapy.events.html#escapy.events.UnlockedEvent" title="escapy.events.UnlockedEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnlockedEvent</span></code></a>
@@ -411,8 +412,8 @@ or an empty list if the object is already unlocked.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the lockable object.</p></li>
-<li><p><strong>key_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the required key object.</p></li>
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the lockable object.</p></li>
+<li><p><strong>key_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the required key object.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -431,7 +432,7 @@ the <code class="docutils literal notranslate"><span class="pre">on_unlock</span
 <dd><p>Return a command that requests the UI to prompt the player for a code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object awaiting the code.</p>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the object awaiting the code.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A command that emits an <a class="reference internal" href="escapy.events.html#escapy.events.AskedForCodeEvent" title="escapy.events.AskedForCodeEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">AskedForCodeEvent</span></code></a>.</p>
@@ -448,7 +449,7 @@ the <code class="docutils literal notranslate"><span class="pre">on_unlock</span
 <dd><p>Return a command that signals the player interacted with a locked object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the locked object.</p>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the locked object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A command that emits an
@@ -466,7 +467,7 @@ the <code class="docutils literal notranslate"><span class="pre">on_unlock</span
 <dd><p>Return a command that inspects an object (e.g. zoom-in view).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object to inspect.</p>
+<dd class="field-odd"><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the object to inspect.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A command that emits an <a class="reference internal" href="escapy.events.html#escapy.events.InspectedEvent" title="escapy.events.InspectedEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">InspectedEvent</span></code></a>.</p>
@@ -484,8 +485,8 @@ the <code class="docutils literal notranslate"><span class="pre">on_unlock</span
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object to reveal.</p></li>
-<li><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Room in which the object should appear.</p></li>
+<li><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the object to reveal.</p></li>
+<li><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Room in which the object should appear.</p></li>
 <li><p><strong>position</strong> (<a class="reference internal" href="escapy.types.html#escapy.types.Position" title="escapy.types.Position"><em>Position</em></a>) – Position within the room.</p></li>
 </ul>
 </dd>
@@ -504,7 +505,7 @@ the <code class="docutils literal notranslate"><span class="pre">on_unlock</span
 <dd><p>Return a command that changes the current room.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the destination room.</p>
+<dd class="field-odd"><p><strong>room_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the destination room.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A command that emits a <a class="reference internal" href="escapy.events.html#escapy.events.MovedToRoomEvent" title="escapy.events.MovedToRoomEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">MovedToRoomEvent</span></code></a>.</p>
@@ -522,7 +523,7 @@ the <code class="docutils literal notranslate"><span class="pre">on_unlock</span
 <p>Unlike <a class="reference internal" href="#escapy.commands.pick" title="escapy.commands.pick"><code class="xref py py-func docutils literal notranslate"><span class="pre">pick()</span></code></a>, this does <strong>not</strong> remove the object from a room.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Identifier of the object to add.</p>
+<dd class="field-odd"><p><strong>object_id</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – Identifier of the object to add.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A command that emits an
@@ -557,7 +558,7 @@ the <code class="docutils literal notranslate"><span class="pre">on_unlock</span
 matching clause is executed; the rest are skipped.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>*clauses</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><em>Callable</em></a><em>[</em><em>[</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>]</em><em>, </em><em>Command</em><em>]</em>) – <code class="docutils literal notranslate"><span class="pre">(condition,</span> <span class="pre">command)</span></code> pairs.  <em>condition</em> is a
+<dd class="field-odd"><p><strong>*clauses</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.15)"><em>Callable</em></a><em>[</em><em>[</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><em>bool</em></a><em>]</em><em>, </em><em>Command</em><em>]</em>) – <code class="docutils literal notranslate"><span class="pre">(condition,</span> <span class="pre">command)</span></code> pairs.  <em>condition</em> is a
 zero-argument callable returning a bool.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -572,7 +573,7 @@ zero-argument callable returning a bool.</p>
 <dd><p>Like combine, but allows conditional execution based on previously emitted events.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>*clauses</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a><em>]</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>]</em><em>, </em><em>Command</em><em>]</em>) – Tuple of <code class="docutils literal notranslate"><span class="pre">(condition,</span> <span class="pre">Command)</span></code> where <em>condition</em>
+<dd class="field-odd"><p><strong>*clauses</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.15)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.15)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><em>list</em></a><em>[</em><a class="reference internal" href="escapy.events.html#escapy.events.Event" title="escapy.events.Event"><em>Event</em></a><em>]</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><em>bool</em></a><em>]</em><em>, </em><em>Command</em><em>]</em>) – Tuple of <code class="docutils literal notranslate"><span class="pre">(condition,</span> <span class="pre">Command)</span></code> where <em>condition</em>
 receives the list of events emitted so far.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

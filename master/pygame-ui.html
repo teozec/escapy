@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="protocols.html#placeable">Placeable</a></li>
@@ -324,7 +325,7 @@
              
   <section id="pygame-ui">
 <h1>Pygame UI<a class="headerlink" href="#pygame-ui" title="Link to this heading"></a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">escapy.pygame.PyGameUi</span></code> is the included UI backend.  It renders the game using <a class="reference external" href="https://www.pygame.org/">pygame</a> and handles player input (mouse clicks for room/inventory interaction, keyboard input for code prompts).</p>
+<p><code class="docutils literal notranslate"><span class="pre">escapy.pygame.PyGameUi</span></code> is the included UI backend.  It renders the game using <a class="reference external" href="https://pyga.me/">pygame-ce</a>, the community edition of pygame (same <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pygame</span></code> API), and handles player input (mouse clicks for room/inventory interaction, keyboard input for code prompts).</p>
 <section id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">PyGameUi</span></code> accepts a configuration dictionary and a <code class="docutils literal notranslate"><span class="pre">MessageProvider</span></code>:</p>
@@ -414,13 +415,13 @@
 <section id="object-image-keys">
 <h3>Object image keys<a class="headerlink" href="#object-image-keys" title="Link to this heading"></a></h3>
 <p>For most objects, the image key is simply the object ID:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;knife&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;knife.png&quot;</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"> </span><span class="nt">"knife"</span><span class="p">:</span><span class="w"> </span><span class="s2">"knife.png"</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
 </div>
 <p>For <code class="docutils literal notranslate"><span class="pre">Unlockable</span></code> objects, the UI looks up images by <code class="docutils literal notranslate"><span class="pre">&quot;id:state&quot;</span></code>:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;safe:locked&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;safe-locked.png&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;safe:unlocked&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;safe-unlocked.png&quot;</span>
+<span class="w">    </span><span class="nt">"safe:locked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"safe-locked.png"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"safe:unlocked"</span><span class="p">:</span><span class="w"> </span><span class="s2">"safe-unlocked.png"</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -468,7 +469,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">escapy.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">PickedUpEvent</span>
 
 <span class="n">messages</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nb">repr</span><span class="p">(</span><span class="n">PickedUpEvent</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">)):</span> <span class="s2">&quot;You found a rusty key!&quot;</span><span class="p">,</span>
+    <span class="nb">repr</span><span class="p">(</span><span class="n">PickedUpEvent</span><span class="p">(</span><span class="s2">"key"</span><span class="p">)):</span> <span class="s2">"You found a rusty key!"</span><span class="p">,</span>
 <span class="p">}</span>
 <span class="n">provider</span> <span class="o">=</span> <span class="n">dict_message_provider</span><span class="p">(</span><span class="n">messages</span><span class="p">)</span>
 </pre></div>

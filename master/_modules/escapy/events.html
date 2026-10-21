@@ -128,6 +128,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../protocols.html#placeable">Placeable</a></li>
@@ -337,32 +338,32 @@
 <span class="c1"># You should have received a copy of the GNU Lesser General Public License</span>
 <span class="c1"># along with escapy. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">&quot;&quot;&quot;Event types emitted by commands and consumed by the UI layer.</span>
+<span class="sd">"""Event types emitted by commands and consumed by the UI layer.</span>
 
 <span class="sd">Every player action or game state change is represented as an immutable</span>
 <span class="sd">event dataclass.  Commands return lists of events, and the UI layer</span>
 <span class="sd">reacts to them (e.g. showing a message, switching to code-input mode,</span>
 <span class="sd">or ending the game).</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Position</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;PickedUpEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PutInHandEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PutOffHandEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;InteractedWithLockedEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;UnlockedEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RevealedEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MovedToRoomEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;AskedForCodeEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;WrongCodeEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;InspectedEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GameEndedEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;AddedToInventoryEvent&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;Event&quot;</span><span class="p">,</span>
+    <span class="s2">"PickedUpEvent"</span><span class="p">,</span>
+    <span class="s2">"PutInHandEvent"</span><span class="p">,</span>
+    <span class="s2">"PutOffHandEvent"</span><span class="p">,</span>
+    <span class="s2">"InteractedWithLockedEvent"</span><span class="p">,</span>
+    <span class="s2">"UnlockedEvent"</span><span class="p">,</span>
+    <span class="s2">"RevealedEvent"</span><span class="p">,</span>
+    <span class="s2">"MovedToRoomEvent"</span><span class="p">,</span>
+    <span class="s2">"AskedForCodeEvent"</span><span class="p">,</span>
+    <span class="s2">"WrongCodeEvent"</span><span class="p">,</span>
+    <span class="s2">"InspectedEvent"</span><span class="p">,</span>
+    <span class="s2">"GameEndedEvent"</span><span class="p">,</span>
+    <span class="s2">"AddedToInventoryEvent"</span><span class="p">,</span>
+    <span class="s2">"Event"</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -370,7 +371,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.PickedUpEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PickedUpEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object was removed from the room and added to the inventory.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""An object was removed from the room and added to the inventory."""</span>
 
     <span class="c1">#: Identifier of the picked-up object.</span>
     <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -381,7 +382,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.PutInHandEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PutInHandEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The player selected an inventory object as the active hand item.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The player selected an inventory object as the active hand item."""</span>
 
     <span class="c1">#: Identifier of the object now held in-hand.</span>
     <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -392,7 +393,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.PutOffHandEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PutOffHandEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The player deselected the active hand item (hand is now empty).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The player deselected the active hand item (hand is now empty)."""</span>
 
     <span class="o">...</span></div>
 
@@ -402,7 +403,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.InteractedWithLockedEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">InteractedWithLockedEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The player tried to interact with a locked object without the right key.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The player tried to interact with a locked object without the right key."""</span>
 
     <span class="c1">#: Identifier of the locked object.</span>
     <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -413,7 +414,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.UnlockedEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">UnlockedEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A locked object was successfully unlocked.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A locked object was successfully unlocked."""</span>
 
     <span class="c1">#: Identifier of the now-unlocked object.</span>
     <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -424,7 +425,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.RevealedEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">RevealedEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A hidden object was revealed and placed into a room.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A hidden object was revealed and placed into a room."""</span>
 
     <span class="c1">#: Identifier of the revealed object.</span>
     <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span>
@@ -439,7 +440,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.MovedToRoomEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MovedToRoomEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The active room changed.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The active room changed."""</span>
 
     <span class="c1">#: Identifier of the new current room.</span>
     <span class="n">room_id</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -450,7 +451,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.AskedForCodeEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">AskedForCodeEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The UI should prompt the player to enter a code.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The UI should prompt the player to enter a code."""</span>
 
     <span class="c1">#: Identifier of the object awaiting the code.</span>
     <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -461,7 +462,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.WrongCodeEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">WrongCodeEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The player entered an incorrect code.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The player entered an incorrect code."""</span>
 
     <span class="o">...</span></div>
 
@@ -471,7 +472,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.InspectedEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">InspectedEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The player inspected an object (e.g. zoomed in on it).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The player inspected an object (e.g. zoomed in on it)."""</span>
 
     <span class="c1">#: Identifier of the inspected object.</span>
     <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -482,7 +483,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.GameEndedEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">GameEndedEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The game has ended (player quit or won).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The game has ended (player quit or won)."""</span>
 
     <span class="o">...</span></div>
 
@@ -492,7 +493,7 @@
 <a class="viewcode-back" href="../../api/escapy.events.html#escapy.events.AddedToInventoryEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">AddedToInventoryEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object was added to the player&#39;s inventory without being picked up from the room.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""An object was added to the player's inventory without being picked up from the room."""</span>
 
     <span class="c1">#: Identifier of the added object.</span>
     <span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span></div>
@@ -513,7 +514,7 @@
     <span class="o">|</span> <span class="n">GameEndedEvent</span>
     <span class="o">|</span> <span class="n">AddedToInventoryEvent</span>
 <span class="p">)</span>
-<span class="sd">&quot;&quot;&quot;Union of all event types that can be emitted during gameplay.&quot;&quot;&quot;</span>
+<span class="sd">"""Union of all event types that can be emitted during gameplay."""</span>
 </pre></div>
 
            </div>

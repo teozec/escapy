@@ -10,7 +10,7 @@ The main game-engine interface.
 
 ```python
 class GameProtocol(Protocol):
-    objects: dict[str, object]
+    objects: Mapping[str, GameObject]
     rooms: dict[str, Room]
     current_room_id: str
     is_finished: bool
@@ -27,7 +27,7 @@ class GameProtocol(Protocol):
 
 | Attribute | Description |
 |---|---|
-| `objects` | All game objects, keyed by ID |
+| `objects` | All game objects, keyed by ID (read-only) |
 | `rooms` | Room layouts (`dict[str, Room]`) |
 | `current_room_id` | Currently displayed room |
 | `is_finished` | `True` after `quit()` |
@@ -45,6 +45,17 @@ type Command = Callable[[GameProtocol], list[Event]]
 A callable that takes a `GameProtocol`, optionally mutates game state, and returns the list of events that occurred.
 
 ## Object protocols
+
+### GameObject
+
+```python
+class GameObject(Protocol):
+    id: str
+```
+
+The base contract of every game object: an identifier, unique in the whole game.  `Game` receives a list of objects and indexes them by `id`; at construction it raises `TypeError` if an object has no `id` or the id is not a string, and `ValueError` if an id is empty or duplicated.
+
+The other object protocols describe optional capabilities and are combined with `GameObject`.
 
 ### Interactable
 

@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../protocols.html#placeable">Placeable</a></li>
@@ -332,7 +333,7 @@ don’t have to re-implement the same logic.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.mixins.UnlockableMixin">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.mixins.</span></span><span class="sig-name descname"><span class="pre">UnlockableMixin</span></span><a class="reference internal" href="../_modules/escapy/mixins.html#UnlockableMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.mixins.UnlockableMixin" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Mixin that implements <a class="reference internal" href="#escapy.mixins.UnlockableMixin.unlock" title="escapy.mixins.UnlockableMixin.unlock"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unlock()</span></code></a> for <code class="xref py py-class docutils literal notranslate"><span class="pre">Unlockable</span></code>.</p>
 <p>Sets <code class="xref py py-attr docutils literal notranslate"><span class="pre">state</span></code> to <code class="docutils literal notranslate"><span class="pre">&quot;unlocked&quot;</span></code> and returns the stored
 <code class="docutils literal notranslate"><span class="pre">on_unlock</span></code> command so that follow-up effects can be executed.</p>
@@ -355,7 +356,7 @@ don’t have to re-implement the same logic.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="escapy.mixins.DecodableMixin">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">escapy.mixins.</span></span><span class="sig-name descname"><span class="pre">DecodableMixin</span></span><a class="reference internal" href="../_modules/escapy/mixins.html#DecodableMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#escapy.mixins.DecodableMixin" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Mixin that implements <a class="reference internal" href="#escapy.mixins.DecodableMixin.insert_code" title="escapy.mixins.DecodableMixin.insert_code"><code class="xref py py-meth docutils literal notranslate"><span class="pre">insert_code()</span></code></a> for <code class="xref py py-class docutils literal notranslate"><span class="pre">Decodable</span></code>.</p>
 <p>Compares the supplied code against <code class="xref py py-attr docutils literal notranslate"><span class="pre">code</span></code>.  On a match the
 <code class="docutils literal notranslate"><span class="pre">on_decode</span></code> command is returned; otherwise a
@@ -367,7 +368,7 @@ don’t have to re-implement the same logic.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The code string entered by the player.</p></li>
+<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><em>str</em></a>) – The code string entered by the player.</p></li>
 <li><p><strong>self</strong> (<em>Decodable</em>)</p></li>
 </ul>
 </dd>

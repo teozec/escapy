@@ -128,6 +128,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../protocols.html#placeable">Placeable</a></li>
@@ -337,14 +338,14 @@
 <span class="c1"># You should have received a copy of the GNU Lesser General Public License</span>
 <span class="c1"># along with escapy. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">&quot;&quot;&quot;Command factory functions that drive game-state mutations.</span>
+<span class="sd">"""Command factory functions that drive game-state mutations.</span>
 
 <span class="sd">A *command* is a callable ``(GameProtocol) -&gt; list[Event]``.  Each factory</span>
 <span class="sd">function in this module returns a command that performs a single, composable</span>
 <span class="sd">action — for example picking up an object, unlocking a lock, or moving the</span>
 <span class="sd">player to another room.  Higher-order combinators such as :func:`combine`,</span>
 <span class="sd">:func:`cond`, and :func:`chain` allow commands to be composed.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 
@@ -368,7 +369,7 @@
 <div class="viewcode-block" id="no_op">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.no_op">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">no_op</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that does nothing and emits no events.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return a command that does nothing and emits no events."""</span>
     <span class="k">return</span> <span class="k">lambda</span> <span class="n">_game</span><span class="p">:</span> <span class="p">[]</span></div>
 
 
@@ -376,16 +377,16 @@
 <div class="viewcode-block" id="pick">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.pick">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pick</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that picks up an object from the current room.</span>
+<span class="w">    </span><span class="sd">"""Return a command that picks up an object from the current room.</span>
 
-<span class="sd">    The object is removed from the room and added to the player&#39;s inventory.</span>
+<span class="sd">    The object is removed from the room and added to the player's inventory.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        id: Identifier of the object to pick up.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A command that emits a :class:`~escapy.events.PickedUpEvent`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
         <span class="k">del</span> <span class="n">game</span><span class="o">.</span><span class="n">rooms</span><span class="p">[</span><span class="n">game</span><span class="o">.</span><span class="n">current_room_id</span><span class="p">][</span><span class="nb">id</span><span class="p">]</span>
@@ -399,14 +400,14 @@
 <div class="viewcode-block" id="put_in_hand">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.put_in_hand">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">put_in_hand</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that sets an object as the active hand item.</span>
+<span class="w">    </span><span class="sd">"""Return a command that sets an object as the active hand item.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        id: Identifier of the object to hold.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A command that emits a :class:`~escapy.events.PutInHandEvent`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
         <span class="n">game</span><span class="o">.</span><span class="n">in_hand_object_id</span> <span class="o">=</span> <span class="nb">id</span>
@@ -419,10 +420,10 @@
 <div class="viewcode-block" id="simple_lock">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.simple_lock">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">simple_lock</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that unlocks a locked object unconditionally.</span>
+<span class="w">    </span><span class="sd">"""Return a command that unlocks a locked object unconditionally.</span>
 
 <span class="sd">    If the object implements :class:`~escapy.protocols.Unlockable` and its</span>
-<span class="sd">    state is ``&quot;locked&quot;``, it will be unlocked and its ``on_unlock`` command</span>
+<span class="sd">    state is ``"locked"``, it will be unlocked and its ``on_unlock`` command</span>
 <span class="sd">    will be executed.</span>
 
 <span class="sd">    Args:</span>
@@ -430,13 +431,13 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A command that emits an :class:`~escapy.events.UnlockedEvent`</span>
-<span class="sd">        followed by the events from the object&#39;s ``on_unlock`` command,</span>
+<span class="sd">        followed by the events from the object's ``on_unlock`` command,</span>
 <span class="sd">        or an empty list if the object is already unlocked.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">unlock</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">objects</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Unlockable</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;locked&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Unlockable</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">"locked"</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">UnlockedEvent</span><span class="p">(</span><span class="n">object_id</span><span class="o">=</span><span class="nb">id</span><span class="p">)]</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">unlock</span><span class="p">()(</span><span class="n">game</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[]</span>
 
@@ -447,12 +448,12 @@
 <div class="viewcode-block" id="key_lock">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.key_lock">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">key_lock</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that unlocks a locked object only if the player holds the right key.</span>
+<span class="w">    </span><span class="sd">"""Return a command that unlocks a locked object only if the player holds the right key.</span>
 
 <span class="sd">    The object is unlocked when:</span>
 
 <span class="sd">    * it implements :class:`~escapy.protocols.Unlockable`,</span>
-<span class="sd">    * its state is ``&quot;locked&quot;``, **and**</span>
+<span class="sd">    * its state is ``"locked"``, **and**</span>
 <span class="sd">    * ``game.in_hand_object_id`` matches *key_id*.</span>
 
 <span class="sd">    Args:</span>
@@ -462,11 +463,11 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A command that emits an :class:`~escapy.events.UnlockedEvent` (plus</span>
 <span class="sd">        the ``on_unlock`` follow-up events), or an empty list on failure.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">unlock</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">objects</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Unlockable</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;locked&quot;</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">in_hand_object_id</span> <span class="o">==</span> <span class="n">key_id</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Unlockable</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">"locked"</span> <span class="ow">and</span> <span class="n">game</span><span class="o">.</span><span class="n">in_hand_object_id</span> <span class="o">==</span> <span class="n">key_id</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">UnlockedEvent</span><span class="p">(</span><span class="n">object_id</span><span class="o">=</span><span class="nb">id</span><span class="p">)]</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">unlock</span><span class="p">()(</span><span class="n">game</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[]</span>
 
@@ -477,14 +478,14 @@
 <div class="viewcode-block" id="ask_for_code">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.ask_for_code">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ask_for_code</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that requests the UI to prompt the player for a code.</span>
+<span class="w">    </span><span class="sd">"""Return a command that requests the UI to prompt the player for a code.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        id: Identifier of the object awaiting the code.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A command that emits an :class:`~escapy.events.AskedForCodeEvent`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="k">lambda</span> <span class="n">_game</span><span class="p">:</span> <span class="p">[</span><span class="n">AskedForCodeEvent</span><span class="p">(</span><span class="n">object_id</span><span class="o">=</span><span class="nb">id</span><span class="p">)]</span></div>
 
 
@@ -492,7 +493,7 @@
 <div class="viewcode-block" id="locked">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.locked">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">locked</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that signals the player interacted with a locked object.</span>
+<span class="w">    </span><span class="sd">"""Return a command that signals the player interacted with a locked object.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        id: Identifier of the locked object.</span>
@@ -500,7 +501,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A command that emits an</span>
 <span class="sd">        :class:`~escapy.events.InteractedWithLockedEvent`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="k">lambda</span> <span class="n">_game</span><span class="p">:</span> <span class="p">[</span><span class="n">InteractedWithLockedEvent</span><span class="p">(</span><span class="n">object_id</span><span class="o">=</span><span class="nb">id</span><span class="p">)]</span></div>
 
 
@@ -508,14 +509,14 @@
 <div class="viewcode-block" id="inspect">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.inspect">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">inspect</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that inspects an object (e.g. zoom-in view).</span>
+<span class="w">    </span><span class="sd">"""Return a command that inspects an object (e.g. zoom-in view).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        id: Identifier of the object to inspect.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A command that emits an :class:`~escapy.events.InspectedEvent`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="k">lambda</span> <span class="n">_game</span><span class="p">:</span> <span class="p">[</span><span class="n">InspectedEvent</span><span class="p">(</span><span class="n">object_id</span><span class="o">=</span><span class="nb">id</span><span class="p">)]</span></div>
 
 
@@ -523,7 +524,7 @@
 <div class="viewcode-block" id="reveal">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.reveal">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">reveal</span><span class="p">(</span><span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">room_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="n">Position</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that reveals a hidden object by placing it in a room.</span>
+<span class="w">    </span><span class="sd">"""Return a command that reveals a hidden object by placing it in a room.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        object_id: Identifier of the object to reveal.</span>
@@ -532,7 +533,7 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A command that emits a :class:`~escapy.events.RevealedEvent`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
         <span class="n">game</span><span class="o">.</span><span class="n">rooms</span><span class="p">[</span><span class="n">room_id</span><span class="p">][</span><span class="n">object_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">position</span>
@@ -545,14 +546,14 @@
 <div class="viewcode-block" id="move_to_room">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.move_to_room">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">move_to_room</span><span class="p">(</span><span class="n">room_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that changes the current room.</span>
+<span class="w">    </span><span class="sd">"""Return a command that changes the current room.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        room_id: Identifier of the destination room.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A command that emits a :class:`~escapy.events.MovedToRoomEvent`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
         <span class="n">game</span><span class="o">.</span><span class="n">current_room_id</span> <span class="o">=</span> <span class="n">room_id</span>
@@ -565,7 +566,7 @@
 <div class="viewcode-block" id="add_to_inventory">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.add_to_inventory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_to_inventory</span><span class="p">(</span><span class="n">object_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that adds an object directly to the player&#39;s inventory.</span>
+<span class="w">    </span><span class="sd">"""Return a command that adds an object directly to the player's inventory.</span>
 
 <span class="sd">    Unlike :func:`pick`, this does **not** remove the object from a room.</span>
 
@@ -575,7 +576,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A command that emits an</span>
 <span class="sd">        :class:`~escapy.events.AddedToInventoryEvent`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
         <span class="n">game</span><span class="o">.</span><span class="n">inventory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">object_id</span><span class="p">)</span>
@@ -588,13 +589,13 @@
 <div class="viewcode-block" id="combine">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.combine">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">combine</span><span class="p">(</span><span class="o">*</span><span class="n">fns</span><span class="p">:</span> <span class="n">Command</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that executes multiple commands in sequence.</span>
+<span class="w">    </span><span class="sd">"""Return a command that executes multiple commands in sequence.</span>
 
 <span class="sd">    All events are collected in order and returned as a single flat list.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        *fns: Commands to execute sequentially.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">combined</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
         <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -609,7 +610,7 @@
 <div class="viewcode-block" id="cond">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.cond">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cond</span><span class="p">(</span><span class="o">*</span><span class="n">clauses</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[],</span> <span class="nb">bool</span><span class="p">],</span> <span class="n">Command</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a command that executes the first clause whose condition is true.</span>
+<span class="w">    </span><span class="sd">"""Return a command that executes the first clause whose condition is true.</span>
 
 <span class="sd">    Clauses are evaluated in order.  Only the command of the **first**</span>
 <span class="sd">    matching clause is executed; the rest are skipped.</span>
@@ -617,7 +618,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        *clauses: ``(condition, command)`` pairs.  *condition* is a</span>
 <span class="sd">            zero-argument callable returning a bool.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">conditional</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">condition</span><span class="p">,</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">clauses</span><span class="p">:</span>
@@ -632,7 +633,7 @@
 <div class="viewcode-block" id="chain">
 <a class="viewcode-back" href="../../api/escapy.commands.html#escapy.commands.chain">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">chain</span><span class="p">(</span><span class="o">*</span><span class="n">clauses</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]],</span> <span class="nb">bool</span><span class="p">],</span> <span class="n">Command</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Like combine, but allows conditional execution based on previously emitted events.</span>
+<span class="w">    </span><span class="sd">"""Like combine, but allows conditional execution based on previously emitted events.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        *clauses: Tuple of ``(condition, Command)`` where *condition*</span>
@@ -644,7 +645,7 @@
 <span class="sd">            (lambda _: True, key_lock(id, key_id)),</span>
 <span class="sd">            (lambda events: not any(isinstance(e, UnlockedEvent) for e in events), locked(id)),</span>
 <span class="sd">        )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">chained</span><span class="p">(</span><span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
         <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>

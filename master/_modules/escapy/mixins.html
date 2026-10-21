@@ -128,6 +128,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../protocols.html#placeable">Placeable</a></li>
@@ -337,34 +338,34 @@
 <span class="c1"># You should have received a copy of the GNU Lesser General Public License</span>
 <span class="c1"># along with escapy. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">&quot;&quot;&quot;Mixin classes providing reusable unlock and decode behaviour.</span>
+<span class="sd">"""Mixin classes providing reusable unlock and decode behaviour.</span>
 
 <span class="sd">These mixins are designed to be composed with protocol classes via</span>
 <span class="sd">multiple inheritance.  They supply concrete implementations of</span>
 <span class="sd">:meth:`unlock` and :meth:`insert_code` so that game-object classes</span>
-<span class="sd">don&#39;t have to re-implement the same logic.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">don't have to re-implement the same logic.</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">WrongCodeEvent</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">Command</span><span class="p">,</span> <span class="n">Decodable</span><span class="p">,</span> <span class="n">Unlockable</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;UnlockableMixin&quot;</span><span class="p">,</span> <span class="s2">&quot;DecodableMixin&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"UnlockableMixin"</span><span class="p">,</span> <span class="s2">"DecodableMixin"</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="UnlockableMixin">
 <a class="viewcode-back" href="../../api/escapy.mixins.html#escapy.mixins.UnlockableMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UnlockableMixin</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mixin that implements :meth:`unlock` for :class:`~escapy.protocols.Unlockable`.</span>
+<span class="w">    </span><span class="sd">"""Mixin that implements :meth:`unlock` for :class:`~escapy.protocols.Unlockable`.</span>
 
-<span class="sd">    Sets :attr:`state` to ``&quot;unlocked&quot;`` and returns the stored</span>
+<span class="sd">    Sets :attr:`state` to ``"unlocked"`` and returns the stored</span>
 <span class="sd">    ``on_unlock`` command so that follow-up effects can be executed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="UnlockableMixin.unlock">
 <a class="viewcode-back" href="../../api/escapy.mixins.html#escapy.mixins.UnlockableMixin.unlock">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">unlock</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Unlockable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unlock the object and return its ``on_unlock`` command.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;unlocked&quot;</span>
+<span class="w">        </span><span class="sd">"""Unlock the object and return its ``on_unlock`` command."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="s2">"unlocked"</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_unlock</span></div>
 </div>
@@ -374,17 +375,17 @@
 <div class="viewcode-block" id="DecodableMixin">
 <a class="viewcode-back" href="../../api/escapy.mixins.html#escapy.mixins.DecodableMixin">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DecodableMixin</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mixin that implements :meth:`insert_code` for :class:`~escapy.protocols.Decodable`.</span>
+<span class="w">    </span><span class="sd">"""Mixin that implements :meth:`insert_code` for :class:`~escapy.protocols.Decodable`.</span>
 
 <span class="sd">    Compares the supplied code against :attr:`code`.  On a match the</span>
 <span class="sd">    ``on_decode`` command is returned; otherwise a</span>
 <span class="sd">    :class:`~escapy.events.WrongCodeEvent` is emitted.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="DecodableMixin.insert_code">
 <a class="viewcode-back" href="../../api/escapy.mixins.html#escapy.mixins.DecodableMixin.insert_code">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">insert_code</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Decodable</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check *code* and return the appropriate command.</span>
+<span class="w">        </span><span class="sd">"""Check *code* and return the appropriate command.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            code: The code string entered by the player.</span>
@@ -392,7 +393,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            The ``on_decode`` command if the code is correct, or a</span>
 <span class="sd">            command that emits :class:`~escapy.events.WrongCodeEvent`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_decode</span>
         <span class="k">else</span><span class="p">:</span>

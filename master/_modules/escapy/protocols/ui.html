@@ -128,6 +128,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#placeable">Placeable</a></li>
@@ -337,7 +338,7 @@
 <span class="c1"># You should have received a copy of the GNU Lesser General Public License</span>
 <span class="c1"># along with escapy. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">&quot;&quot;&quot;Protocol definition for the game UI layer.&quot;&quot;&quot;</span>
+<span class="sd">"""Protocol definition for the game UI layer."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Protocol</span>
 
@@ -348,7 +349,7 @@
 <div class="viewcode-block" id="GameUiProtocol">
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.ui.GameUiProtocol">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GameUiProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Structural interface that every UI backend must implement.</span>
+<span class="w">    </span><span class="sd">"""Structural interface that every UI backend must implement.</span>
 
 <span class="sd">    The game loop calls these methods in order::</span>
 
@@ -362,47 +363,47 @@
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        is_running: ``True`` while the UI is active.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="GameUiProtocol.init">
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.ui.GameUiProtocol.init">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">GameProtocol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialise the UI with the given game instance.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Initialise the UI with the given game instance."""</span>
         <span class="o">...</span></div>
 
 
 <div class="viewcode-block" id="GameUiProtocol.tick">
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.ui.GameUiProtocol.tick">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">tick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Regulate the frame rate / perform per-frame bookkeeping.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Regulate the frame rate / perform per-frame bookkeeping."""</span>
         <span class="o">...</span></div>
 
 
 <div class="viewcode-block" id="GameUiProtocol.input">
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.ui.GameUiProtocol.input">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">input</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Poll user input and return resulting events.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Poll user input and return resulting events."""</span>
         <span class="o">...</span></div>
 
 
 <div class="viewcode-block" id="GameUiProtocol.handle">
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.ui.GameUiProtocol.handle">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Event</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;React to game events (e.g. display messages, switch states).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""React to game events (e.g. display messages, switch states)."""</span>
         <span class="o">...</span></div>
 
 
 <div class="viewcode-block" id="GameUiProtocol.render">
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.ui.GameUiProtocol.render">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw the current frame.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Draw the current frame."""</span>
         <span class="o">...</span></div>
 
 
 <div class="viewcode-block" id="GameUiProtocol.quit">
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.ui.GameUiProtocol.quit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">quit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Tear down the UI and release resources.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Tear down the UI and release resources."""</span>
         <span class="o">...</span></div>
 
 

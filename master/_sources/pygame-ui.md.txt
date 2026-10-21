@@ -1,6 +1,6 @@
 # Pygame UI
 
-`escapy.pygame.PyGameUi` is the included UI backend.  It renders the game using [pygame](https://www.pygame.org/) and handles player input (mouse clicks for room/inventory interaction, keyboard input for code prompts).
+`escapy.pygame.PyGameUi` is the included UI backend.  It renders the game using [pygame-ce](https://pyga.me/), the community edition of pygame (same `import pygame` API), and handles player input (mouse clicks for room/inventory interaction, keyboard input for code prompts).
 
 ## Configuration
 

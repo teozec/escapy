@@ -131,6 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#placeable">Placeable</a></li>
@@ -330,7 +331,7 @@
 <h2>GameProtocol<a class="headerlink" href="#gameprotocol" title="Link to this heading"></a></h2>
 <p>The main game-engine interface.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">GameProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-    <span class="n">objects</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span>
+    <span class="n">objects</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GameObject</span><span class="p">]</span>
     <span class="n">rooms</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Room</span><span class="p">]</span>
     <span class="n">current_room_id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">is_finished</span><span class="p">:</span> <span class="nb">bool</span>
@@ -352,7 +353,7 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">objects</span></code></p></td>
-<td><p>All game objects, keyed by ID</p></td>
+<td><p>All game objects, keyed by ID (read-only)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rooms</span></code></p></td>
 <td><p>Room layouts (<code class="docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">Room]</span></code>)</p></td>
@@ -382,6 +383,15 @@
 </section>
 <section id="object-protocols">
 <h2>Object protocols<a class="headerlink" href="#object-protocols" title="Link to this heading"></a></h2>
+<section id="gameobject">
+<h3>GameObject<a class="headerlink" href="#gameobject" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">GameObject</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+</pre></div>
+</div>
+<p>The base contract of every game object: an identifier, unique in the whole game.  <code class="docutils literal notranslate"><span class="pre">Game</span></code> receives a list of objects and indexes them by <code class="docutils literal notranslate"><span class="pre">id</span></code>; at construction it raises <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> if an object has no <code class="docutils literal notranslate"><span class="pre">id</span></code> or the id is not a string, and <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> if an id is empty or duplicated.</p>
+<p>The other object protocols describe optional capabilities and are combined with <code class="docutils literal notranslate"><span class="pre">GameObject</span></code>.</p>
+</section>
 <section id="interactable">
 <h3>Interactable<a class="headerlink" href="#interactable" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Interactable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
@@ -410,7 +420,7 @@
 <section id="unlockable">
 <h3>Unlockable<a class="headerlink" href="#unlockable" title="Link to this heading"></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Unlockable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-    <span class="n">state</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;locked&quot;</span><span class="p">,</span> <span class="s2">&quot;unlocked&quot;</span><span class="p">]</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"locked"</span><span class="p">,</span> <span class="s2">"unlocked"</span><span class="p">]</span>
     <span class="n">on_unlock</span><span class="p">:</span> <span class="n">Command</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">unlock</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span> <span class="o">...</span>

@@ -4,6 +4,8 @@ escapy ships several ready-made game-object classes in `escapy.objects`.  Each c
 
 ## Common parameters
 
+All object classes take a unique **`id`** as first argument: `Game` indexes objects by it, and rooms, inventory, events and UI configuration refer to objects by id.
+
 All object classes accept **normalised dimensions** (`width`, `height`) expressed as fractions of the game area (e.g. `0.1` means 10 % of the game area).
 
 > **Imports for the examples below:**
@@ -90,7 +92,7 @@ safe = SelfAskCodeLock(
 A clickable hotspot that **transports the player** to another room.
 
 ```python
-door = MoveToRoom(room_id="hallway", width=0.1, height=0.2)
+door = MoveToRoom("door", room_id="hallway", width=0.1, height=0.2)
 ```
 ## InspectableObject
 
@@ -115,14 +117,15 @@ note = PickableInspectableObject("note", width=0.08, height=0.08)
 
 ## Creating custom objects
 
-You can create your own objects by composing the available protocols and assigning command instances:
+You can create your own objects by composing the available protocols and assigning command instances.  Every object must satisfy `GameObject`, i.e. have an `id`:
 
 ```python
-from escapy.protocols import Interactable, Placeable
+from escapy.protocols import GameObject, Interactable, Placeable
 from escapy.commands import combine, pick, inspect
 
-class PickAndInspect(Interactable, Placeable):
+class PickAndInspect(GameObject, Interactable, Placeable):
     def __init__(self, id: str, width: float, height: float):
+        self.id = id
         self.interact = combine(pick(id), inspect(id))
         self.width = width
         self.height = height

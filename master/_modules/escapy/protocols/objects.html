@@ -128,6 +128,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#gameprotocol">GameProtocol</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#command">Command</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../protocols.html#object-protocols">Object protocols</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#gameobject">GameObject</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#interactable">Interactable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#inventoryinteractable">InventoryInteractable</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../protocols.html#placeable">Placeable</a></li>
@@ -337,11 +338,11 @@
 <span class="c1"># You should have received a copy of the GNU Lesser General Public License</span>
 <span class="c1"># along with escapy. If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
 
-<span class="sd">&quot;&quot;&quot;Protocol definitions for game-object capabilities.</span>
+<span class="sd">"""Protocol definitions for game-object capabilities.</span>
 
 <span class="sd">Each protocol represents a single capability (interacting, being placed,</span>
 <span class="sd">being unlocked, etc.) and may be composed via multiple inheritance.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
 
@@ -352,11 +353,11 @@
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Interactable">[docs]</a>
 <span class="nd">@runtime_checkable</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Interactable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that can be interacted with when clicked in a room.</span>
+<span class="w">    </span><span class="sd">"""An object that can be interacted with when clicked in a room.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        interact: Command executed on interaction.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">interact</span><span class="p">:</span> <span class="n">Command</span></div>
 
@@ -366,11 +367,11 @@
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.InventoryInteractable">[docs]</a>
 <span class="nd">@runtime_checkable</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">InventoryInteractable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that can be interacted with from the inventory panel.</span>
+<span class="w">    </span><span class="sd">"""An object that can be interacted with from the inventory panel.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        interact_inventory: Command executed on inventory interaction.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">interact_inventory</span><span class="p">:</span> <span class="n">Command</span></div>
 
@@ -380,7 +381,7 @@
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Placeable">[docs]</a>
 <span class="nd">@runtime_checkable</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Placeable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that occupies visual space in the game area.</span>
+<span class="w">    </span><span class="sd">"""An object that occupies visual space in the game area.</span>
 
 <span class="sd">    Dimensions are expressed as normalised fractions of the game area</span>
 <span class="sd">    (same coordinate system as :class:`~escapy.types.Position`).</span>
@@ -388,7 +389,7 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        width: Normalised width.</span>
 <span class="sd">        height: Normalised height.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span></div>
@@ -399,20 +400,20 @@
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Unlockable">[docs]</a>
 <span class="nd">@runtime_checkable</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Unlockable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that has a locked/unlocked state.</span>
+<span class="w">    </span><span class="sd">"""An object that has a locked/unlocked state.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        state: Current lock state.</span>
 <span class="sd">        on_unlock: Command to execute when unlocked.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">state</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;locked&quot;</span><span class="p">,</span> <span class="s2">&quot;unlocked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;locked&quot;</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"locked"</span><span class="p">,</span> <span class="s2">"unlocked"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"locked"</span>
     <span class="n">on_unlock</span><span class="p">:</span> <span class="n">Command</span>
 
 <div class="viewcode-block" id="Unlockable.unlock">
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Unlockable.unlock">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">unlock</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transition the object to the unlocked state and return ``on_unlock``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Transition the object to the unlocked state and return ``on_unlock``."""</span>
         <span class="o">...</span></div>
 </div>
 
@@ -422,12 +423,12 @@
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Decodable">[docs]</a>
 <span class="nd">@runtime_checkable</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Decodable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;An object that can be decoded with a text/numeric code.</span>
+<span class="w">    </span><span class="sd">"""An object that can be decoded with a text/numeric code.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        code: The correct code string.</span>
 <span class="sd">        on_decode: Command to execute on a correct code.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">code</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">on_decode</span><span class="p">:</span> <span class="n">Command</span>
@@ -435,7 +436,7 @@
 <div class="viewcode-block" id="Decodable.insert_code">
 <a class="viewcode-back" href="../../../api/escapy.protocols.html#escapy.protocols.objects.Decodable.insert_code">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">insert_code</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Command</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate *code* and return the appropriate command.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Validate *code* and return the appropriate command."""</span>
         <span class="o">...</span></div>
 </div>
 

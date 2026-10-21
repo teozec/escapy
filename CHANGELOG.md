@@ -7,8 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `GameObject` protocol: every game object declares its own `id`.
+
 ### Changed
 
+- **Breaking:** `Game` takes `objects` as a list of `GameObject`s and indexes them by `id`, instead of a dict keyed by id. `Game` raises `TypeError` or `ValueError` at construction if an object has no `id`, the id is not a non-empty string, or an id is duplicated.
+- **Breaking:** `MoveToRoom` takes an `id` as first argument, like the other built-in objects.
+- `GameProtocol.objects` is a read-only `Mapping[str, GameObject]`; `Game.objects` can no longer be modified after construction.
 - The `pygame` extra now installs `pygame-ce` instead of `pygame`. The import name is unchanged (`import pygame`), but the two packages cannot be installed together: uninstall `pygame` before upgrading.
 
 ### Fixed

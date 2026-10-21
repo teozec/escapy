@@ -23,7 +23,7 @@ game objects, and UI implementations must satisfy.  Using
 forcing concrete inheritance.
 """
 
-from .game import Command, GameProtocol
+from .game import Command, GameObject, GameProtocol
 from .objects import Decodable, Interactable, InventoryInteractable, Placeable, Unlockable
 from .ui import GameUiProtocol
 
@@ -31,6 +31,7 @@ __all__ = [
     "Command",
     "GameProtocol",
     "Decodable",
+    "GameObject",
     "Interactable",
     "InventoryInteractable",
     "Placeable",

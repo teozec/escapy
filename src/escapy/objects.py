@@ -36,7 +36,7 @@ from .commands import (
 )
 from .events import UnlockedEvent
 from .mixins import DecodableMixin, UnlockableMixin
-from .protocols import Decodable, Interactable, InventoryInteractable, Placeable, Unlockable
+from .protocols import Decodable, GameObject, Interactable, InventoryInteractable, Placeable, Unlockable
 
 __all__ = [
     "PickableObject",
@@ -49,7 +49,7 @@ __all__ = [
 ]
 
 
-class PickableObject(Interactable, InventoryInteractable, Placeable):
+class PickableObject(GameObject, Interactable, InventoryInteractable, Placeable):
     """An object that can be picked up from a room and held in-hand.
 
     Clicking the object in the room picks it up (removes it from the room
@@ -68,13 +68,14 @@ class PickableObject(Interactable, InventoryInteractable, Placeable):
         width: float,
         height: float,
     ):
+        self.id = id
         self.interact = pick(id)
         self.interact_inventory = put_in_hand(id)
         self.width = width
         self.height = height
 
 
-class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
+class SelfSimpleLock(GameObject, UnlockableMixin, Interactable, Unlockable, Placeable):
     """A lock that can be opened with a simple click (no key required).
 
     Args:
@@ -85,6 +86,7 @@ class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
     """
 
     def __init__(self, id: str, on_unlock: Command, width: float, height: float):
+        self.id = id
         self.interact = simple_lock(id)
         self.state = "locked"
         self.on_unlock = on_unlock
@@ -92,7 +94,7 @@ class SelfSimpleLock(UnlockableMixin, Interactable, Unlockable, Placeable):
         self.height = height
 
 
-class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
+class SelfKeyLock(GameObject, UnlockableMixin, Interactable, Unlockable, Placeable):
     """A lock that requires a specific key held in-hand to open.
 
     If the player interacts without the correct key, an
@@ -107,6 +109,7 @@ class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
     """
 
     def __init__(self, id: str, key_id: str, on_unlock: Command, width: float, height: float):
+        self.id = id
         self.interact = chain(
             (lambda _events: True, key_lock(id, key_id=key_id)),
             (
@@ -123,7 +126,7 @@ class SelfKeyLock(UnlockableMixin, Interactable, Unlockable, Placeable):
         self.height = height
 
 
-class SelfAskCodeLock(UnlockableMixin, DecodableMixin, Interactable, Unlockable, Decodable, Placeable):
+class SelfAskCodeLock(GameObject, UnlockableMixin, DecodableMixin, Interactable, Unlockable, Decodable, Placeable):
     """A lock that prompts the player to enter a numeric/text code.
 
     When locked, interaction triggers an
@@ -139,6 +142,7 @@ class SelfAskCodeLock(UnlockableMixin, DecodableMixin, Interactable, Unlockable,
     """
 
     def __init__(self, id: str, on_unlock: Command, code: str, width: float, height: float):
+        self.id = id
         self.interact = cond((lambda: self.state == "locked", ask_for_code(id)))
         self.state = "locked"
         self.on_unlock = on_unlock
@@ -148,7 +152,7 @@ class SelfAskCodeLock(UnlockableMixin, DecodableMixin, Interactable, Unlockable,
         self.height = height
 
 
-class MoveToRoom(Interactable, Placeable):
+class MoveToRoom(GameObject, Interactable, Placeable):
     """A clickable area that transports the player to another room.
 
     Args:
@@ -157,13 +161,14 @@ class MoveToRoom(Interactable, Placeable):
         height: Normalised height.
     """
 
-    def __init__(self, room_id: str, width: float, height: float):
+    def __init__(self, id: str, room_id: str, width: float, height: float):
+        self.id = id
         self.interact = move_to_room(room_id)
         self.width = width
         self.height = height
 
 
-class InspectableObject(Interactable, Placeable):
+class InspectableObject(GameObject, Interactable, Placeable):
     """An object that can be inspected (zoomed-in view) when clicked.
 
     Args:
@@ -173,12 +178,13 @@ class InspectableObject(Interactable, Placeable):
     """
 
     def __init__(self, id: str, width: float, height: float):
+        self.id = id
         self.interact = inspect(id)
         self.width = width
         self.height = height
 
 
-class PickableInspectableObject(Interactable, InventoryInteractable, Placeable):
+class PickableInspectableObject(GameObject, Interactable, InventoryInteractable, Placeable):
     """An object that can be picked up from a room and inspected from the inventory.
 
     Args:
@@ -188,6 +194,7 @@ class PickableInspectableObject(Interactable, InventoryInteractable, Placeable):
     """
 
     def __init__(self, id: str, width: float, height: float):
+        self.id = id
         self.interact = pick(id)
         self.interact_inventory = inspect(id)
         self.width = width

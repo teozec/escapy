@@ -49,7 +49,8 @@ from ._test_helpers import FakeGame
 class _FakeUnlockable:
     """Minimal stub satisfying the Unlockable protocol for command tests."""
 
-    def __init__(self, on_unlock=None):
+    def __init__(self, id, on_unlock=None):
+        self.id = id
         self.state = "locked"
         self.on_unlock = on_unlock or (lambda _: [])
 
@@ -101,16 +102,16 @@ class TestPutInHand:
 
 class TestSimpleLock:
     def test_unlocks_when_locked(self):
-        obj = _FakeUnlockable()
-        game = FakeGame(objects={"chest": obj})
+        obj = _FakeUnlockable("chest")
+        game = FakeGame(objects=[obj])
         events = simple_lock("chest")(game)
         assert any(isinstance(e, UnlockedEvent) for e in events)
         assert obj.state == "unlocked"
 
     def test_no_events_when_already_unlocked(self):
-        obj = _FakeUnlockable()
+        obj = _FakeUnlockable("chest")
         obj.state = "unlocked"
-        game = FakeGame(objects={"chest": obj})
+        game = FakeGame(objects=[obj])
         events = simple_lock("chest")(game)
         assert events == []
 
@@ -121,35 +122,35 @@ class TestSimpleLock:
             called.append(True)
             return []
 
-        obj = _FakeUnlockable(on_unlock=on_unlock_cmd)
-        game = FakeGame(objects={"chest": obj})
+        obj = _FakeUnlockable("chest", on_unlock=on_unlock_cmd)
+        game = FakeGame(objects=[obj])
         simple_lock("chest")(game)
         assert called == [True]
 
 
 class TestKeyLock:
     def test_unlocks_when_key_in_hand(self):
-        obj = _FakeUnlockable()
-        game = FakeGame(objects={"door": obj}, in_hand_object_id="gold_key")
+        obj = _FakeUnlockable("door")
+        game = FakeGame(objects=[obj], in_hand_object_id="gold_key")
         events = key_lock("door", key_id="gold_key")(game)
         assert any(isinstance(e, UnlockedEvent) for e in events)
 
     def test_no_unlock_without_key(self):
-        obj = _FakeUnlockable()
-        game = FakeGame(objects={"door": obj}, in_hand_object_id=None)
+        obj = _FakeUnlockable("door")
+        game = FakeGame(objects=[obj], in_hand_object_id=None)
         events = key_lock("door", key_id="gold_key")(game)
         assert not any(isinstance(e, UnlockedEvent) for e in events)
 
     def test_no_unlock_with_wrong_key(self):
-        obj = _FakeUnlockable()
-        game = FakeGame(objects={"door": obj}, in_hand_object_id="silver_key")
+        obj = _FakeUnlockable("door")
+        game = FakeGame(objects=[obj], in_hand_object_id="silver_key")
         events = key_lock("door", key_id="gold_key")(game)
         assert not any(isinstance(e, UnlockedEvent) for e in events)
 
     def test_no_unlock_when_already_unlocked(self):
-        obj = _FakeUnlockable()
+        obj = _FakeUnlockable("door")
         obj.state = "unlocked"
-        game = FakeGame(objects={"door": obj}, in_hand_object_id="gold_key")
+        game = FakeGame(objects=[obj], in_hand_object_id="gold_key")
         events = key_lock("door", key_id="gold_key")(game)
         assert not any(isinstance(e, UnlockedEvent) for e in events)
 
@@ -285,8 +286,8 @@ class TestChain:
         assert MovedToRoomEvent("room2") in events
 
     def test_later_condition_sees_earlier_events(self):
-        obj = _FakeUnlockable()
-        game = FakeGame(objects={"box": obj})
+        obj = _FakeUnlockable("box")
+        game = FakeGame(objects=[obj])
 
         # Second clause fires only if no UnlockedEvent was produced
         cmd = chain(

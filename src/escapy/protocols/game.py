@@ -15,19 +15,31 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with escapy. If not, see <https://www.gnu.org/licenses/>.
 
-"""Game-engine protocol and the Command type alias."""
+"""Game-engine protocols and the Command type alias."""
 
-from typing import Any, Callable, Protocol
+from collections.abc import Mapping
+from typing import Callable, Protocol, runtime_checkable
 
 from ..events import Event
 from ..types import Room
+
+
+@runtime_checkable
+class GameObject(Protocol):
+    """An object identifiable by a id.
+
+    Attributes:
+        id: String that identifies the object. Should be univoque in the whole game.
+    """
+
+    id: str
 
 
 class GameProtocol(Protocol):
     """Structural interface that every game-engine implementation must satisfy.
 
     Attributes:
-        objects: Mapping of object IDs to their game-object instances.
+        objects: Read-only mapping of object IDs to their game objects.
         rooms: Mapping of room IDs to :data:`~escapy.types.Room` dicts.
         current_room_id: ID of the room currently displayed.
         is_finished: ``True`` after the game has ended.
@@ -35,7 +47,7 @@ class GameProtocol(Protocol):
         in_hand_object_id: ID of the object currently held, or ``None``.
     """
 
-    objects: dict[str, Any]
+    objects: Mapping[str, GameObject]
     rooms: dict[str, Room]
     current_room_id: str
     is_finished: bool

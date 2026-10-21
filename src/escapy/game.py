@@ -17,14 +17,16 @@
 
 """Core game engine that manages state and dispatches player actions."""
 
-from typing import Any
+from collections import Counter
+from collections.abc import Mapping
+from types import MappingProxyType
 
 from .events import (
     Event,
     GameEndedEvent,
     PutOffHandEvent,
 )
-from .protocols import Decodable, GameProtocol, Interactable, InventoryInteractable
+from .protocols import Decodable, GameObject, GameProtocol, Interactable, InventoryInteractable
 from .types import Room
 
 
@@ -35,20 +37,25 @@ class Game(GameProtocol):
     routes player actions to the appropriate object behaviours.
 
     Args:
-        objects: Mapping of object IDs to their game-object instances.
+        objects: All the game objects; they are indexed by their ``id``.
         rooms: Mapping of room IDs to :data:`~escapy.types.Room` dicts.
         inventory: Initial list of object IDs the player carries.
         first_room_id: ID of the room the game starts in.
+
+    Raises:
+        TypeError: If an object is not a :class:`~escapy.protocols.GameObject`
+            or its ``id`` is not a string.
+        ValueError: If an ``id`` is empty or used by more than one object.
     """
 
     def __init__(
         self,
-        objects: dict[str, Any],
+        objects: list[GameObject],
         rooms: dict[str, Room],
         inventory: list[str],
         first_room_id: str,
     ):
-        self.objects = objects
+        self.objects = _index_objects(objects)
         self.rooms = rooms
         self.current_room_id = first_room_id
         self.is_finished = False
@@ -143,3 +150,26 @@ class Game(GameProtocol):
             return []
 
         return object.insert_code(code)(self)
+
+
+def _index_objects(objects: list[GameObject]) -> Mapping[str, GameObject]:
+    """Index *objects* by id, checking that every id is a unique non-empty string.
+
+    The result is a read-only view: the set of game objects is fixed after construction.
+    """
+    for index, object in enumerate(objects):
+        if not isinstance(object, GameObject):
+            raise TypeError(f"Object at index {index} ({type(object).__name__}) has no 'id' attribute")
+        if not isinstance(object.id, str):
+            raise TypeError(
+                f"Object at index {index} ({type(object).__name__}) has an id of type "
+                f"{type(object.id).__name__}, expected str"
+            )
+        if not object.id:
+            raise ValueError(f"Object at index {index} ({type(object).__name__}) has an empty id")
+
+    duplicates = [id for id, count in Counter(object.id for object in objects).items() if count > 1]
+    if duplicates:
+        raise ValueError(f"Duplicate object ids: {duplicates}")
+
+    return MappingProxyType({object.id: object for object in objects})

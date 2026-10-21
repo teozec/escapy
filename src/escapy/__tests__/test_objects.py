@@ -45,7 +45,7 @@ def _noop(_):
 def _room_game(object_id: str, obj, position: Position | None = None) -> FakeGame:
     pos = position or Position(x=0.0, y=0.0)
     return FakeGame(
-        objects={object_id: obj},
+        objects=[obj],
         rooms={"room1": {object_id: pos}},
         current_room_id="room1",
     )
@@ -63,7 +63,7 @@ class TestPickableObject:
 
     def test_interact_inventory_puts_in_hand(self):
         obj = PickableObject(id="coin", width=1.0, height=1.0)
-        game = FakeGame(objects={"coin": obj}, inventory=["coin"])
+        game = FakeGame(objects=[obj], inventory=["coin"])
         events = obj.interact_inventory(game)
         assert events == [PutInHandEvent("coin")]
         assert game.in_hand_object_id == "coin"
@@ -81,7 +81,7 @@ class TestSelfSimpleLock:
 
     def test_interact_unlocks_when_locked(self):
         obj = SelfSimpleLock(id="chest", on_unlock=_noop, width=1.0, height=1.0)
-        game = FakeGame(objects={"chest": obj})
+        game = FakeGame(objects=[obj])
         events = obj.interact(game)
         assert UnlockedEvent("chest") in events
         assert obj.state == "unlocked"
@@ -89,7 +89,7 @@ class TestSelfSimpleLock:
     def test_interact_does_nothing_when_already_unlocked(self):
         obj = SelfSimpleLock(id="chest", on_unlock=_noop, width=1.0, height=1.0)
         obj.state = "unlocked"
-        game = FakeGame(objects={"chest": obj})
+        game = FakeGame(objects=[obj])
         events = obj.interact(game)
         assert events == []
 
@@ -100,7 +100,7 @@ class TestSelfSimpleLock:
             width=1.0,
             height=1.0,
         )
-        game = FakeGame(objects={"chest": obj}, rooms={"room1": {}})
+        game = FakeGame(objects=[obj], rooms={"room1": {}})
         events = obj.interact(game)
         assert MovedToRoomEvent("vault") in events
 
@@ -112,28 +112,28 @@ class TestSelfKeyLock:
 
     def test_interact_unlocks_with_correct_key_in_hand(self):
         obj = SelfKeyLock(id="door", key_id="gold_key", on_unlock=_noop, width=1.0, height=1.0)
-        game = FakeGame(objects={"door": obj}, in_hand_object_id="gold_key")
+        game = FakeGame(objects=[obj], in_hand_object_id="gold_key")
         events = obj.interact(game)
         assert UnlockedEvent("door") in events
         assert obj.state == "unlocked"
 
     def test_interact_returns_locked_event_without_key(self):
         obj = SelfKeyLock(id="door", key_id="gold_key", on_unlock=_noop, width=1.0, height=1.0)
-        game = FakeGame(objects={"door": obj}, in_hand_object_id=None)
+        game = FakeGame(objects=[obj], in_hand_object_id=None)
         events = obj.interact(game)
         assert InteractedWithLockedEvent("door") in events
         assert not any(isinstance(e, UnlockedEvent) for e in events)
 
     def test_interact_returns_locked_event_with_wrong_key(self):
         obj = SelfKeyLock(id="door", key_id="gold_key", on_unlock=_noop, width=1.0, height=1.0)
-        game = FakeGame(objects={"door": obj}, in_hand_object_id="silver_key")
+        game = FakeGame(objects=[obj], in_hand_object_id="silver_key")
         events = obj.interact(game)
         assert InteractedWithLockedEvent("door") in events
 
     def test_interact_locked_when_already_unlocked_with_key(self):
         obj = SelfKeyLock(id="door", key_id="gold_key", on_unlock=_noop, width=1.0, height=1.0)
         obj.state = "unlocked"
-        game = FakeGame(objects={"door": obj}, in_hand_object_id="gold_key")
+        game = FakeGame(objects=[obj], in_hand_object_id="gold_key")
         events = obj.interact(game)
         # key_lock returns nothing when already unlocked, locked() does not fire because
         # the chain condition checks state != unlocked
@@ -147,39 +147,39 @@ class TestSelfAskCodeLock:
 
     def test_interact_asks_for_code_when_locked(self):
         obj = SelfAskCodeLock(id="safe", on_unlock=_noop, code="1234", width=1.0, height=1.0)
-        game = FakeGame(objects={"safe": obj})
+        game = FakeGame(objects=[obj])
         events = obj.interact(game)
         assert events == [AskedForCodeEvent("safe")]
 
     def test_interact_returns_empty_when_unlocked(self):
         obj = SelfAskCodeLock(id="safe", on_unlock=_noop, code="1234", width=1.0, height=1.0)
         obj.state = "unlocked"
-        game = FakeGame(objects={"safe": obj})
+        game = FakeGame(objects=[obj])
         events = obj.interact(game)
         assert events == []
 
     def test_insert_code_correct_unlocks(self):
         obj = SelfAskCodeLock(id="safe", on_unlock=_noop, code="1234", width=1.0, height=1.0)
-        game = FakeGame(objects={"safe": obj})
+        game = FakeGame(objects=[obj])
         obj.insert_code("1234")(game)
         assert obj.state == "unlocked"
 
     def test_insert_code_wrong_returns_wrong_code_event(self):
         obj = SelfAskCodeLock(id="safe", on_unlock=_noop, code="1234", width=1.0, height=1.0)
-        game = FakeGame(objects={"safe": obj})
+        game = FakeGame(objects=[obj])
         events = obj.insert_code("9999")(game)
         assert events == [WrongCodeEvent()]
 
 
 class TestMoveToRoom:
     def test_interact_changes_current_room(self):
-        obj = MoveToRoom(room_id="cellar", width=1.0, height=1.0)
+        obj = MoveToRoom(id="trapdoor", room_id="cellar", width=1.0, height=1.0)
         game = FakeGame(current_room_id="room1")
         obj.interact(game)
         assert game.current_room_id == "cellar"
 
     def test_interact_returns_moved_event(self):
-        obj = MoveToRoom(room_id="cellar", width=1.0, height=1.0)
+        obj = MoveToRoom(id="trapdoor", room_id="cellar", width=1.0, height=1.0)
         game = FakeGame()
         events = obj.interact(game)
         assert events == [MovedToRoomEvent("cellar")]
@@ -203,6 +203,6 @@ class TestPickableInspectableObject:
 
     def test_interact_inventory_inspects(self):
         obj = PickableInspectableObject(id="note", width=1.0, height=1.0)
-        game = FakeGame(objects={"note": obj}, inventory=["note"])
+        game = FakeGame(objects=[obj], inventory=["note"])
         events = obj.interact_inventory(game)
         assert events == [InspectedEvent("note")]

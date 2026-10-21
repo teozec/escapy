@@ -31,7 +31,7 @@ from escapy.commands import add_to_inventory, ask_for_code, combine, move_to_roo
 from escapy.messages import dict_message_provider
 from escapy.mixins import DecodableMixin
 from escapy.objects import MoveToRoom, PickableObject, SelfKeyLock
-from escapy.protocols import Decodable, Interactable, InventoryInteractable, Placeable
+from escapy.protocols import Decodable, GameObject, Interactable, InventoryInteractable, Placeable
 from escapy.pygame import PyGameUi
 from escapy.types import Position
 
@@ -44,23 +44,25 @@ from escapy.types import Position
 # In addition to them, you can create custom objects by implementing the protocols and composing the desired behaviour.
 
 
-class MoveToRoomAndAddToInventoryObject(Interactable, Placeable):
+class MoveToRoomAndAddToInventoryObject(GameObject, Interactable, Placeable):
     """A clickable area that moves the player to another room and adds an object to the inventory.
 
     Args:
+        id: Unique object identifier.
         room_id: Destination room identifier.
         object_id: Object to add to the inventory on interaction.
         width: Normalised width.
         height: Normalised height.
     """
 
-    def __init__(self, room_id: str, object_id: str, width: float, height: float):
+    def __init__(self, id: str, room_id: str, object_id: str, width: float, height: float):
+        self.id = id
         self.interact = combine(move_to_room(room_id), add_to_inventory(object_id))
         self.width = width
         self.height = height
 
 
-class WinMachine(DecodableMixin, InventoryInteractable, Decodable, Placeable):
+class WinMachine(GameObject, DecodableMixin, InventoryInteractable, Decodable, Placeable):
     """A special object that ends (wins) the game when the correct code is entered.
 
     Interacting with it from the inventory triggers a code prompt.
@@ -75,6 +77,7 @@ class WinMachine(DecodableMixin, InventoryInteractable, Decodable, Placeable):
     """
 
     def __init__(self, id: str, code: str, win_room_id: str, width: float, height: float):
+        self.id = id
         self.interact_inventory = ask_for_code(id)
         self.code = code
         self.on_decode = move_to_room(win_room_id)
@@ -101,28 +104,28 @@ def main():
     message_provider = dict_message_provider(config.messages)
     ui = PyGameUi(config.ui, message_provider)
     game = Game(
-        objects={
-            "a1-key": PickableObject("a1-key", 0.05, 0.05),
-            "a2-poster": SelfKeyLock(
+        objects=[
+            PickableObject("a1-key", 0.05, 0.05),
+            SelfKeyLock(
                 id="a2-poster",
                 key_id="a1-key",
                 on_unlock=reveal("a2-key", "room1", Position(x=0.75, y=0.75)),
                 width=0.15,
                 height=0.25,
             ),
-            "a2-key": PickableObject("a2-key", 0.03, 0.03),
-            "a3-chest": SelfKeyLock(
+            PickableObject("a2-key", 0.03, 0.03),
+            SelfKeyLock(
                 id="a3-chest",
                 key_id="a2-key",
                 on_unlock=no_op(),
                 width=0.2,
                 height=0.15,
             ),
-            "calendar-1": MoveToRoom("room2", 0.1, 0.1),
-            "calendar-2": MoveToRoom("room1", 0.1, 0.1),
-            "win-machine": WinMachine("win-machine", "12345", "win-room", 0.2, 0.2),
-            "init-obj": MoveToRoomAndAddToInventoryObject("room1", "win-machine", width=1.0, height=1.0),
-        },
+            MoveToRoom("calendar-1", "room2", 0.1, 0.1),
+            MoveToRoom("calendar-2", "room1", 0.1, 0.1),
+            WinMachine("win-machine", "12345", "win-room", 0.2, 0.2),
+            MoveToRoomAndAddToInventoryObject("init-obj", "room1", "win-machine", width=1.0, height=1.0),
+        ],
         rooms={
             "init-room": {"init-obj": Position(x=0.0, y=0.0)},
             "room1": {

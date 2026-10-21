@@ -15,11 +15,11 @@ install-docs: ## Install with docs extra
 	pip install -e .[docs]
 
 lint: ## Run ruff linter
-	ruff check src/ example/ escape/
+	ruff check src/ example/
 
 format: ## Auto-format code with ruff
-	ruff format src/ example/ escape/
-	ruff check --fix src/ example/ escape/
+	ruff format src/ example/
+	ruff check --fix src/ example/
 
 test: ## Run the test suite
 	pytest -q

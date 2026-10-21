@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Clicking overlapping objects in the pygame UI interacts only with the topmost one, instead of running the interaction of every object under the cursor.
 - The example is now runnable: `example/make_assets.py` generates placeholder images, the config only references objects of the example game, and the game starts from the intro room so the win machine is reachable.
 
 ## [0.1.0] - 2026-02-28

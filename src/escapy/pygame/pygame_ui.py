@@ -181,11 +181,12 @@ class PyGameUi(GameUiProtocol):
             inventory_abs_rect = self.inventory_area.get_rect(topleft=inventory_offset)
 
             if game_area_abs_rect.collidepoint(click_pos):
-                # Click in game area - check objects
-                for object_id, object_rect in self.objects.items():
+                # Click in game area - check objects, topmost first (reverse drawing order)
+                for object_id, object_rect in reversed(self.objects.items()):
                     abs_rect = object_rect.move(game_area_offset)
                     if abs_rect.collidepoint(click_pos):
                         events = self.game.interact(object_id)
+                        break
 
             elif inventory_abs_rect.collidepoint(click_pos):
                 # Click in inventory area - check inventory objects

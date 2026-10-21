@@ -96,7 +96,7 @@ def get_config(path: Path) -> Config:
 
 
 def main():
-    config = get_config(Path("config.json"))
+    config = get_config(Path(__file__).parent / "config.json")
 
     message_provider = dict_message_provider(config.messages)
     ui = PyGameUi(config.ui, message_provider)
